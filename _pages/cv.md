@@ -9,6 +9,8 @@ redirect_from:
 
 {% include base_path %}
 
+<div align='center' ><font size='70'>ZHONGQI XIU</font></div>
+
 # ZHONGQI XIU
 
 **Email:** xzqtelux@mail.ustc.edu.cn | **Phone:** +86 19805675505 | **Homepage:** [k-telux.github.io](http://k-telux.github.io)
@@ -17,9 +19,9 @@ redirect_from:
 
 ## Education
 
-**University of Science and Technology of China**  
+<span style="color:blue">University of Science and Technology of China</span>  
 *Anhui, China*  
-**Bachelor of Optics and Optical Engineering**  
+<span style="color:blue">Bachelor of Optics and Optical Engineering</span>  
 *2021 - 2025*  
 - Overall GPA: 3.88/4.3  
 - Rank:  
@@ -28,28 +30,24 @@ redirect_from:
 
 ## Honors
 
-- **Chung-Yao Chao Talent Program Scholarship** (2023)
-- **Outstanding Student Scholarship, Silver Prize (Top 10%)** (2022, 2023)
-- **Endeavor Scholarship (Top 5%)** (2022)
-- **First Prize in the electromagnetism course essay competition (IYPT 2022)** (2022)
+- <span style="color:blue">Chung-Yao Chao Talent Program Scholarship</span> (2023)
+- Outstanding Student Scholarship, Silver Prize (Top 10%) (2022, 2023)
+- Endeavor Scholarship (Top 5%) (2022)
+- First Prize in the electromagnetism course essay competition (IYPT 2022) (2022)
 
 ---
 
 ## Research Experience
 
 ### Single atom trapping technique based on movable optical lattices
-**USTC**  
-*Advisors: Prof. First Name Last Name (Dept, xxx University)*  
-*2022 - 2024*  
-- The core contribution of the Research Project 1
+*2022 - Present*  
+Supervisors: [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [Prof. Chuanfeng Li](http://lqcc.ustc.edu.cn/cfli/)  
+[CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/)
 
 ### Single photon emission in 2D materials
-**Rice University**  
-*Advisors: Dr. First Name Last Name (Dept, xxx University)*  
 *2024 - Present*  
-- The core contribution of the Research Project 1
-- Propose xxx Algorithm, prove xxx theoretically
-- Empirically demonstrate xxx, achieving the SOTA performance on various benchmarks of xxx
+Supervisors: [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ&hl=en) and [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang)  
+[SCOPE Lab](https://scopelab.rice.edu/)
 
 ---
 
@@ -57,11 +55,10 @@ redirect_from:
 
 ### Optics B (Fall 2023)
 *2023*  
-- **Instructor:** Prof. Zheng Xi
-- **Credit:** 3
-- **Class:** 58 juniors
-- **Course Website:** [icourse.club/course/22022](http://icourse.club/course/22022)
-
+- Instructor: Prof. Zheng Xi
+- Credit: 3
+- Class: 58 juniors
+- Course Website: [icourse.club/course/22022](http://icourse.club/course/22022)
 ---
 
 ## Extracurricular Activities & Interests
