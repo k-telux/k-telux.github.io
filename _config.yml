@@ -181,9 +181,6 @@ collections:
   resource:
     output: true
     permalink: /:collection/:path/
-  publications:
-    output: true
-    permalink: /:collection/:path/
 
 
 # Defaults
@@ -219,15 +216,6 @@ defaults:
   - scope:
       path: ""
       type: resource
-    values:
-      layout: single
-      author_profile: true
-      share: true
-      comments: true
-  # _publications
-  - scope:
-      path: ""
-      type: publications
     values:
       layout: single
       author_profile: true
