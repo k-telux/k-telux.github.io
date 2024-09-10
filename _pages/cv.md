@@ -60,9 +60,6 @@ Lab: [SCOPE Lab](https://scopelab.rice.edu/)
 ## Extracurricular Activities & Interests
 
 - **Member of the Student Union** (Sep. 2018 - Mar. 2020)
-- **xxxxx** (Sep. 2018 - Present)
-- **Volunteer A** (Sep. 2018)
-- **Volunteer B** (Jan. 2020)
 
 ---
 
