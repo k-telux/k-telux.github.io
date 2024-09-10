@@ -7,21 +7,22 @@ author_profile: true
 
 {% include base_path %}
 
-Education
+Physics
 ======
-* B.S. in GitHub, GitHub University, 2012
-* M.S. in Jekyll, GitHub University, 2014
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
+* 1
+* 2
+* 3
 
-Work experience
+Math
 ======
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+* 1
+  * 1
+  * 1
+  * 1
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
- 
+Research
+======
+* 2
+  * 2
+  * 2
+  * 2
