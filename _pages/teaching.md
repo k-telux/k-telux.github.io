@@ -7,8 +7,12 @@ author_profile: true
 
 {% include base_path %}
 
-I'm a third year undergraduate student from [School of Physical Sciences](https://en.physics.ustc.edu.cn/), [University of Science and Technology of China](https://en.ustc.edu.cn/). My research interest includes optics,optics and optics.
+# Optics B(Fall 2023)
 
-You can find my CV here: [Zhongqi Xiu's Curriculum Vitae](../assets/Curriculum_Vitae.pdf).
+Instructor: [Prof. Zheng Xi](https://opt.ustc.edu.cn/2022/0327/c30405a550323/page.htm)
 
-[Email](mailto:xzqtelux@mail.ustc.edu.cn) / [Github](https://github.com/k-telux) / [Wechat](../images/wechat.jpg)
+Credit 3; Class 58 juniors; 
+
+Course Information: [To pksq](https://icourse.club/course/22022/#review-77240)
+
+Course resources: [Rec disk](https://rec.ustc.edu.cn/share/069d0bf0-4ada-11ee-9a14-639039fbf8d8)

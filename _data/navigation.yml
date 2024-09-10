@@ -1,11 +1,11 @@
 # main links links
 main:
 
-  - title: "Resources"
-    url: /resource/ 
+  - title: "CV"
+    url: /cv/
 
   - title: "Teaching assistant"
     url: /teaching/ 
 
-  - title: "CV"
-    url: /cv/
+  - title: "Resources"
+    url: /resource/ 
