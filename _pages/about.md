@@ -7,7 +7,7 @@ redirect_from:
   - /about/
   - /about.html
 ---
-I'm a third year undergraduate student from [School of Physical Sciences](https://en.physics.ustc.edu.cn/), [University of Science and Technology of China](https://en.ustc.edu.cn/). My research interest includes optics,optics and optics.
+I'm a forth year undergraduate student from [School of Physical Sciences](https://en.physics.ustc.edu.cn/), [University of Science and Technology of China](https://en.ustc.edu.cn/), major in Optics and Optical Engineering. My research interests include optical instrument, fiber cavity, quantum optics and single photon emission from TMDs.
 
 You can find my CV here: [Zhongqi Xiu's Curriculum Vitae](../assets/Curriculum_Vitae.pdf).
 
