@@ -8,11 +8,11 @@ redirect_from:
   - /about.html
 ---
 
-<link rel="stylesheet" type="text/css" href="/style.css">
+<link rel="stylesheet" type="text/css" href="../style.css">
 
 I'm a fourth-year undergraduate student from the [School of Physical Sciences](https://en.physics.ustc.edu.cn/), [University of Science and Technology of China](https://en.ustc.edu.cn/), majoring in Optics and Optical Engineering.
 
-Now I'm doing research about single photon emission from WSe2/WS2, which is supported by the [SCOPE lab](https://scopelab.rice.edu/), led by Prof. Shengxi Huang and Dr. Wenjing Wu at Rice University.
+Now I'm doing research about single photon emission from WSe2/WS2, which is supported by the [SCOPE lab](https://scopelab.rice.edu/), led by [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang) and [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ) at Rice University.
 
 ## Research Interests
 
