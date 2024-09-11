@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "Self-Introduction (under construction)"
+title: "Self-Introduction "
 excerpt: "About me"
 author_profile: true
 redirect_from: 
@@ -24,10 +24,10 @@ My research interests include:
 
 ## Contact
 
-You can find my CV here: [Zhongqi Xiu's Curriculum Vitae](../assets/Curriculum_Vitae.pdf).
+You can find my CV here: [Zhongqi Xiu's Curriculum Vitae](../assets/Curriculum_Vitae.pdf).<br>
+Here are my contact informations:
 
-
-- [Email](mailto:xzqtelux@mail.ustc.edu.cn)
+- [Email](xzqtelux@mail.ustc.edu.cn)
 - [Github](https://github.com/k-telux)
 - [Wechat](../images/wechat.jpg)
 
