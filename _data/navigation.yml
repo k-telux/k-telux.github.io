@@ -3,6 +3,9 @@ main:
 
   - title: "CV"
     url: /cv/
+  
+  - title: "Projects"
+    url: /projects/ 
 
   - title: "Teaching assistant"
     url: /teaching/ 
@@ -10,5 +13,4 @@ main:
   - title: "Resources"
     url: /resource/ 
 
-  - title: "Test Page"
-    url: /test/ 
+
