@@ -17,7 +17,7 @@ _Place two electrodes into water, supply a safe voltage and use a voltmeter to d
 * Investigated the equipotential lines in pure water and salt water, constructing the influence of electrodes on the potential distribution in water through different models.
   *  According to the comparison of measured data and theoretical fitting models (using COMSOL), the formula analysis of electric double layer capacitance theory, bubble theory, alternating current substitution theory and ion concentration theory is carried out. 
 * Summary of the work: [Paper](../assets/equipotential_lines.pdf) 
-<font color=Red>_Lack of presentation slides_</font>
+<font color=Red>Lack of presentation slides</font>
 
 ## Simulation and review of light field modes in Fabry–Pérot cavity(2022)
 ****
@@ -35,3 +35,12 @@ _RoboGame Robotics Competition is a major brand activity of students' scientific
   * Wrote and fine-tuned the PID for wheel movement.
 * Finally we successfully finished the tasks and won third prize in the finals.
 * Codes and PCBs in [github repositories](https://github.com/k-telux/RoboGame2023)
+
+## Heatmap plotter & Spectrum fitting plotter(2024)
+****
+_Served for SCOPE Lab, you can find original codes on my github_
+* [Heatmap plotter](../assets/Heatmap_plotter.exe):
+  * This application is designed to generate heatmaps from Renishaw map data files. Also, it can plot the specific points' spectrum to know how to choose the range. Users can fit the spectrum of specifc points by just clicking the points on the plot.
+
+* [Spectrum fitting plotter](../assets/Justplot.exe):
+  * This application is designed to plot Raman/PL spectrum and draw fitted curves on it. Users need to fit the curves with Origin to get the parameters first.
