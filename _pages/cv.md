@@ -35,7 +35,7 @@ redirect_from:
 
 ## Research Experience
 
-### Single atom trapping technique based on movable optical lattices in
+### Single atom trapping technique based on movable optical lattices 
 *2022 - Present*  
 Supervisors: [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [Prof. Chuanfeng Li](http://lqcc.ustc.edu.cn/cfli/)  
 Lab: [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/)
