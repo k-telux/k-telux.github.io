@@ -30,7 +30,7 @@ _RoboGame Robotics Competition is a major brand activity of students' scientific
 
 * [Robotics Budget and Feasibility Plan](../assets/plan.pdf) (Got second prize in 50+ teams)
 * As the sole electrical controls engineer on the team, I developed the majority of the control code for the robot's movement and catching mechanisms. 
-  * Designed the main control board using STM32, 
+  * Designed the main control board (STM32) using Cubemx and Keil 
   * Drew the power distribution boards PCB, ensured consistency across all robot components.
   * Wrote and fine-tuned the PID for wheel movement.
 * Finally we successfully finished the tasks and won third prize in the finals.
