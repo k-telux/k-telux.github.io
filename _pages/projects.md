@@ -25,8 +25,8 @@ _Place two electrodes into water, supply a safe voltage and use a voltmeter to d
 * Summary of the work: [Paper](../assets/FPcavity.pdf) 
 
 ## Single atom trapping technique based on movable optical lattices(2022 - 2024)
+#### _This work is supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) in USTC_
 ****
-#### This work is supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) in USTC
 
 * Proposed to achieve the trapping of single atoms and combine fluorescence detection to achieve high-precision control of atomic positions by movable optical lattice.
 * Participated in setting up the optical path for magneto-optical trap for $^{87}Rb$. Independently built the double pass configuration to adjust the frequency of cooling light with Bragg diffraction.
@@ -48,8 +48,9 @@ _RoboGame Robotics Competition is a major brand activity of students' scientific
 * Codes and PCBs in [github repositories](https://github.com/k-telux/RoboGame2023)
 
 ## Single photon emission in 2D materials(2024 - Present)
+#### _This work is supervised by [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ&hl=en) and [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang), [SCOPE Lab](https://scopelab.rice.edu/) in Rice University_
 ****
-#### This work is supervised by [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ&hl=en) and [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang), [SCOPE Lab](https://scopelab.rice.edu/) in Rice University
+
 * <font color=Red>Now I try my best to do this research...</font>
 
 ## Heatmap plotter & Spectrum fitting plotter(2024 - Present)
