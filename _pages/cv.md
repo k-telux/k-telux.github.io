@@ -11,7 +11,7 @@ redirect_from:
 
 <div align='center' ><font size='60'>ZHONGQI XIU</font></div>
 
-**Email:** xzqtelux@mail.ustc.edu.cn | **Phone:** +86 19805675505 | **Homepage:** [k-telux.github.io](http://k-telux.github.io)
+**Email:** xzqtelux@mail.ustc.edu.cn/xzqtelux@gmail.com | **Phone:** +86 19805675505 / +1 (832)-627-2957
 
 ---
 
