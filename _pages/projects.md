@@ -19,12 +19,12 @@ _Place two electrodes into water, supply a safe voltage and use a voltmeter to d
 * Summary of the work: [Paper](../assets/equipotential_lines.pdf) 
 <font color=Red>Lack of presentation slides</font>
 
-## Simulation and review of light field modes in Fabry–Pérot cavity(2022)
+## Simulation and review of light field modes in Fabry–Pérot cavity (2022)
 ****
 * Simulated the transmission characteristics (transmission rate, resonance mode) of Fabry-Perot resonators using COMSOL and compared the results with analytical solutions.
 * Summary of the work: [Paper](../assets/FPcavity.pdf) 
 
-## Single atom trapping technique based on movable optical lattices(2022 - 2024)
+## Single atom trapping technique based on movable optical lattices (2022 - 2024)
 #### _This work is supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) in USTC_
 ****
 
@@ -47,13 +47,13 @@ _RoboGame Robotics Competition is a major brand activity of students' scientific
 * Finally we successfully finished the tasks and won third prize in the finals.
 * Codes and PCBs in [github repositories](https://github.com/k-telux/RoboGame2023)
 
-## Single photon emission in 2D materials(2024 - Present)
+## Single photon emission in 2D materials (2024 - Present)
 #### _This work is supervised by [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ&hl=en) and [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang), [SCOPE Lab](https://scopelab.rice.edu/) in Rice University_
 ****
 
 * <font color=Red>Now I try my best to do this research...</font>
 
-## Heatmap plotter & Spectrum fitting plotter(2024 - Present)
+## Heatmap plotter & Spectrum fitting plotter (2024 - Present)
 ****
 _Served for SCOPE Lab_
 * [Heatmap plotter](../assets/Heatmap_plotter.exe):
