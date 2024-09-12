@@ -29,6 +29,9 @@ _Place two electrodes into water, supply a safe voltage and use a voltmeter to d
 _RoboGame Robotics Competition is a major brand activity of students' scientific and technological innovation and comprehensive practical education founded by the University of Science and Technology of China (USTC) in 2001, which requires the participating teams to design and build their own robots to participate in the competition within no more than half a year and with a certain amount of funding, centering on a specific theme and rules of the competition._ 
 
 * [Robotics Budget and Feasibility Plan](../assets/plan.pdf) (Got second prize in 50+ teams)
-* As the sole electrical controls engineer on the team, I developed the majority of the control code for the robot's movement and catching mechanisms. Additionally, I designed the main control board using STM32, created the PCB, ensured consistency across all robot components, and fine-tuned the PID for wheel movement.
+* As the sole electrical controls engineer on the team, I developed the majority of the control code for the robot's movement and catching mechanisms. 
+  * Designed the main control board using STM32, 
+  * Drew the power distribution boards PCB, ensured consistency across all robot components.
+  * Wrote and fine-tuned the PID for wheel movement.
 * Finally we successfully finished the tasks and won third prize in the finals.
 * Codes and PCBs in [github repositories](https://github.com/k-telux/RoboGame2023)

@@ -5,11 +5,10 @@
   * 改intro
 * ~~meeting slides~~
 * projects
-  * 程设大作业
-  * 科社神经网络
-  * 2022IYPT/等势线
-  * 光学小论文
-  * Robogame
+  * ~~科社神经网络~~
+  * ~~2022IYPT/等势线~~
+  * ~~光学小论文~~
+  * ~~Robogame~~
   * 科大组的一些光路
   * 两个plotter
 * CV修改（包括CV）
