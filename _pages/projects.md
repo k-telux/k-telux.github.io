@@ -52,6 +52,17 @@ _RoboGame Robotics Competition is a major brand activity of students' scientific
 ****
 
 * <font color=Red>Now I try my best to do this research...</font>
+* Designed and fabricated substrates with strain engineering features (nano pillars, nano discs) with electron beam lithography for deterministically creation of single photon emitters.
+* Carried out optical spectroscopy measurements including photoluminescence (PL), Raman, Time-Correlated Single Photon Counting (TCSPC) on hBN encapsulated WSe2 and WS2 monolayers integrated with strain engineered substrates.
+* Examined the single photon emission quality by conducting photon statistic measurements, obtain second-order correlation function g2(𝜏) using Hanbury Brown and Twiss (HBT) interferometry. 
+* Improved the purity of SPE by electrostatic gating and charge transfer between molecules and graphene. 
+
+## Nitrogen atomic substitution in WS2 monolayer (2024 - Present)
+#### _This work is supervised by [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ&hl=en) and [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang), [SCOPE Lab](https://scopelab.rice.edu/) in Rice University_
+****
+*	Performed remote nitrogen plasma treatment on exfoliated WS2 monolayer in order to create nitrogen substitution defects.
+*	Characterized the induced nitrogen substitution using photoluminescence spectroscopy. Prepared additional samples for scanning tunneling microscopy/scanning tunneling spectroscopy (STM/STS) and scanning transmission electron microscopy (STEM) for directly imaging of the atomic defects.
+
 
 ## Heatmap plotter & Spectrum fitting plotter (2024 - Present)
 ****
