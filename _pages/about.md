@@ -52,7 +52,7 @@ Now, I am doing research about Single Photon emission in fewlayer WSe2/WS2, whic
             <li>Hobbys: music, travel, photography(especially aerial), gym, anime (also two-dimensional)</li>
             <li>
                 <a href="https://space.bilibili.com/89038571">Bilibili homepage</a>(You can find my aerial videos here 😜)<br>
-                <a href="https://steamcommunity.com/id/xzqtelux/">Steam homepage 🤫</a><br>
+                <a href="https://steamcommunity.com/id/xzqtelux/">Steam homepage </a>🤫<br>
             </li>
         </ul>
     </div>
