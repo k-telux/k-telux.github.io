@@ -7,7 +7,6 @@ redirect_from:
   - /about/
   - /about.html
 ---
-<!DOCTYPE html>
 <link rel="stylesheet" type="text/css" href="../style.css">
 
 I'm a fourth-year undergraduate student from the [School of Physical Sciences](https://en.physics.ustc.edu.cn/), [University of Science and Technology of China](https://en.ustc.edu.cn/), majoring in Optics and Optical Engineering.
