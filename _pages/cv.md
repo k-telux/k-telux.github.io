@@ -17,8 +17,8 @@ redirect_from:
 
 ## Education
 
-** University of Science and Technology of China *Anhui, China*  
-** Bachelor of Optics and Optical Engineering  *2021 - 2025*  
+ University of Science and Technology of China *Anhui, China*  
+ _Bachelor of Optics and Optical Engineering  *2021 - 2025*_
 - Overall GPA: 3.88/4.3  
 - Rank:  114/514
 
@@ -27,8 +27,8 @@ redirect_from:
 ## Honors
 
 - Chung-Yao Chao Talent Program Scholarship (2023)
-- ** Outstanding Student Scholarship, Silver Prize (Top 10%) (2022, 2023)
-- ** Endeavor Scholarship (Top 5%) (2022)
+- Outstanding Student Scholarship, Silver Prize (Top 10%) (2022, 2023)
+- Endeavor Scholarship (Top 5%) (2022)
 - First Prize in the electromagnetism course essay competition (IYPT 2022) (2022)
 
 ---
