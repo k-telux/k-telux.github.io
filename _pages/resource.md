@@ -21,14 +21,7 @@ Talking slides
 
 Physics
 ======
-* 
-  * 2
-* 2
-* 3
+* [Optics B](https://rec.ustc.edu.cn/share/069d0bf0-4ada-11ee-9a14-639039fbf8d8)
+* To be continued...
 
-Math
-======
-* 1
-  * 1
-  * 1
-  * 1
+
