@@ -7,28 +7,4 @@ author_profile: true
 
 {% include base_path %}
 
-Talking slides
-======
-* CAS Lab (Journal club) [Quantum memory based on room temperature atoms](../assets/Quantum_memory.pptx).
-
-* SCOPE Lab (Weekly meeting & Journal club)
-  * [Introduction to Nitrogen treatment](../assets/xzq_0729.pptx)
-  * [Try to fix peaks in PL/Raman/g2](../assets/xzq_0805.pptx)
-  * [How to do PL data process & Analyze](../assets/xzq_0812.pptx)
-  * [Create an application to plot easier & Analyze data and compare to Calculation](../assets/xzq_0819.pptx)
-  * [Build "Heatmap Plotter" & Analyze mutiple peaks in PL/Raman spectrum](../assets/xzq_0826.pptx)
-
-
-Physics
-======
-* 
-  * 2
-* 2
-* 3
-
-Math
-======
-* 1
-  * 1
-  * 1
-  * 1
+Test
