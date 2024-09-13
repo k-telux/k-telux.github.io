@@ -184,6 +184,9 @@ collections:
   test:
     output: true
     permalink: /:collection/:path/
+  extra:
+    output: true
+    permalink: /:collection/:path/
 
 
 # Defaults
@@ -215,7 +218,16 @@ defaults:
       author_profile: true
       share: true
       comments: true
-
+  # _extra
+  - scope:
+      path: ""
+      type: extra
+    values:
+      layout: single
+      author_profile: true
+      share: true
+      comments: true
+    
   - scope:
       path: ""
       type: test

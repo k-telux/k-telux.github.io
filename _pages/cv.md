@@ -58,8 +58,9 @@ Lab: [SCOPE Lab](https://scopelab.rice.edu/)
 ---
 
 ## Extracurricular Activities & Interests
-
-- **Member of the Student Union** (Sep. 2018 - Mar. 2020)
+- **Class monitor**
+- **Member of the Student Union** 
+- **Principal player of the wind section of the School Folk Orchestra**
 
 ---
 
