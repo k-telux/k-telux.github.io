@@ -28,6 +28,7 @@ Now, I am doing research about Single Photon emission in fewlayer WSe2/WS2, whic
 - [Wechat](../images/wechat.jpg)
 
 
+
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -44,11 +45,11 @@ Now, I am doing research about Single Photon emission in fewlayer WSe2/WS2, whic
     </style>
 </head>
 <body>
-    <h2 class="clickable" onclick="toggleVisibility()">Extracurricular Activities & Interests (click to view)</h2>
+    <h2 class="clickable" onclick="toggleVisibility()">Extracurricular Activities & Interests (Click to view)</h2>
     <div class="hidden-content" id="hidden-content">
         <ul>
-            <li>Member of the Student Union</li>
-            <li>Principal player of the wind section of the School Folk Orchestra</li>
+            <li>Member of the Student Union (2021 - 2023)</li>
+            <li>Principal player of the wind section of the School Folk Orchestra --- <a herf="https://space.bilibili.com/64643274">NMOU</a> (2021 - 2023)</li>
             <li>Hobbys: music, travel, photography(especially aerial), gym, anime (also two-dimensional)</li>
             <li>
                 <a href="https://space.bilibili.com/89038571">Bilibili homepage</a><br>
