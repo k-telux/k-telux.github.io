@@ -53,7 +53,9 @@ Supervisors: [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kA
 Lab: [SCOPE Lab](https://scopelab.rice.edu/)
 
 - Carried out optical spectroscopy measurements including photoluminescence (PL), Raman, Time-Correlated Single Photon Counting (TCSPC) on hBN encapsulated WSe2 and WS2 monolayers integrated with strain engineered substrates.
+  
 - Examined the single photon emission quality by conducting photon statistic measurements, obtain second-order correlation function $g^{2}(\tau) $using Hanbury Brown and Twiss (HBT) interferometry.
+
 ---
 
 ## Teaching Assistant
