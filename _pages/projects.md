@@ -16,7 +16,7 @@ author_profile: true
 
 ## Heatmap plotter & Spectrum fitting plotter (2024 - Present)
 ****
-_Served for SCOPE Lab_
+_Served for SCOPE Lab (Original python codes in [Github](https://github.com/k-telux/SPE-purity))_
 * [Heatmap plotter](../assets/Heatmap_plotter.exe):
   * This application is designed to generate heatmaps from Renishaw map data files. Also, it can plot the specific points' spectrum to know how to choose the range. Users can fit the spectrum of specific points by just clicking the points on the plot.
 
