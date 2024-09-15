@@ -23,13 +23,13 @@ _Served for SCOPE Lab (Original python codes in [Github](https://github.com/k-te
 * [Spectrum fitting plotter](../assets/Justplot.exe):
   * This application is designed to plot Raman/PL spectrum and draw fitted curves on it. Users need to fit the curves with Origin to get the parameters first.
 
-## Simulation of the focusing property with high-numericalaperture lens of vectorial polarized beam (2024)
+## Simulation of the focusing property with high-NA lens of vectorial polarized beam (2024)
 #### _This work is supervised by [Prof. Kun Huang](https://faculty.ustc.edu.cn/huangkun) in USTC_
 ****
 
 * Simulated the effect of polarization states on the propagation process of the light field and the focused light field.
 * Calculated and analyzed different polarized light Bessel-Gauss beams and polarized light beams with vortex phase at the focal plane based on the Richard-Wolf vector-integral formula.
-* Summary of the work: [paper](../assets/Vector_beams.pdf)
+* Summary of the work: [Paper](../assets/Vector_beams.pdf)
 
 ## Single atom trapping technique based on movable optical lattices (2022 - 2024)
 #### _This work is supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) in USTC_
