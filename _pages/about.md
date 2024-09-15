@@ -7,12 +7,13 @@ redirect_from:
   - /about/
   - /about.html
 ---
-
 <link rel="stylesheet" type="text/css" href="../style.css">
 
 I'm a fourth-year undergraduate student from the [School of Physical Sciences](https://en.physics.ustc.edu.cn/), [University of Science and Technology of China](https://en.ustc.edu.cn/), majoring in Optics and Optical Engineering.
 
-Now I'm doing research about single photon emission from WSe2/WS2, which is supported by the [SCOPE lab](https://scopelab.rice.edu/), led by [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang) and [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ) at Rice University.
+From 2022 to 2024, I focused on Fiber Cavity QED and participated in the project "Single atom trapping technique based on movable optical lattices", which was supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) in USTC
+
+Now, I am doing research about Single Photon emission in fewlayer WSe2/WS2, which is supported by the [SCOPE lab](https://scopelab.rice.edu/), led by [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang) and [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ) at Rice University.
 
 ## Research Interests
 - Fiber cavity QED
@@ -24,4 +25,46 @@ Now I'm doing research about single photon emission from WSe2/WS2, which is supp
 - [Email](xzqtelux@mail.ustc.edu.cn)
 - [Github](https://github.com/k-telux)
 - [Wechat](../images/wechat.jpg)
+
+
+
+
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV</title>
+    <style>
+        .hidden-content {
+            display: none;
+        }
+        .clickable {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2 class="clickable" onclick="toggleVisibility()">Extracurricular Activities & Interests (Click to view)</h2>
+    <div class="hidden-content" id="hidden-content">
+        <ul>
+            <li>Member of the Student Union (2021 - 2023)</li>
+            <li>Principal player of the wind section of the School Folk Orchestra --- <a herf="https://space.bilibili.com/64643274">NMOU</a> (2021 - 2023)</li>
+            <li>Hobbys: music, travel, photography(especially aerial), gym, anime (also two-dimensional)</li>
+            <li><a href="https://space.bilibili.com/89038571">Bilibili homepage</a> (You can find my aerial videos here 😜)<br></li>
+            <li><a href="https://steamcommunity.com/id/xzqtelux/">Steam homepage </a>🤫<br></li>
+        </ul>
+    </div>
+
+    <script>
+        function toggleVisibility() {
+            var hiddenContent = document.getElementById('hidden-content');
+            if (hiddenContent.style.display === 'none' || hiddenContent.style.display === '') {
+                hiddenContent.style.display = 'block';
+            } else {
+                hiddenContent.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
 
