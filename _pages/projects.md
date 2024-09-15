@@ -40,6 +40,13 @@ _Served for SCOPE Lab (Original python codes in [Github](https://github.com/k-te
 * Independently pre-treated the optical fiber which will be used in the vacuum system and tested the mode field diameter of treated single mode fiber to optimize the mode matching between the modes of cavity and fiber.
 * Independently designed control circuits and installed control electronics such as the microwave amplifier, radio frequency switch, and radio frequency generator into multiple integrated chassis to facilitate the connection of electrical devices in the optical path.
 * Achieved the control time of atoms to 3s (Unpublished).
+  
+## Search exotic particles with deep learning and use Random Forests to classify phases in the Ising Model(2023)
+****
+* Described a ferromagnetic phase transition problem using a 40 x 40 two-dimensional array of atomic dots(2D Ising model).
+* Utilized deep neuron network to examine the search for supersymmetry in collider experiments.(Five million data samples and 18 features of the end state)[Reference](../assets/deep_learning.pdf)
+* Codes of the works:[Github](https://github.com/k-telux/Deep-learning) 
+
 
 ## RoboGame 2023 (2023)
 ****
