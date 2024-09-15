@@ -5,29 +5,27 @@ permalink: /projects/
 author_profile: true
 ---
 
-## Discover physical concepts with neural networks (2021 -  2022)
+## Single photon emission in 2D materials (2024 - Present)
+#### _This work is supervised by [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ&hl=en) and [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang), [SCOPE Lab](https://scopelab.rice.edu/) in Rice University_
 ****
-* Independently built neural networks with three neurons using MATLAB. 
-* Derived the Planck radiation law formula from original spectrum data using the model. [Reference](../assets/neural_network.pdf)
-* Summary of the work (This work got first prize in competition): [Paper](../assets/neural_network_report.pdf)
+* <font color=Red>Now I try my best to do this research...</font>
+* Designed and fabricated substrates with strain engineering features (nano pillars, nano discs) with electron beam lithography for deterministically creation of single photon emitters.
+* Carried out optical spectroscopy measurements including photoluminescence (PL), Raman, Time-Correlated Single Photon Counting (TCSPC) on hBN encapsulated WSe2 and WS2 monolayers integrated with strain engineered substrates.
+* Examined the single photon emission quality by conducting photon statistic measurements, obtain second-order correlation function g2(𝜏) using Hanbury Brown and Twiss (HBT) interferometry. 
+* Improved the purity of SPE by electrostatic gating and charge transfer between molecules and graphene. 
 
-## Theoretical and experimental research on IYPT 2022 Problem 8 — Equipotential Lines (2022)
+## Heatmap plotter & Spectrum fitting plotter (2024 - Present)
 ****
-_Place two electrodes into water, supply a safe voltage and use a voltmeter to determine electric potential at various locations. Investigate how the measured equipotential lines deviate from your expectations for different conditions and liquids._
-* Investigated the equipotential lines in pure water and salt water, constructing the influence of electrodes on the potential distribution in water through different models.
-  *  According to the comparison of measured data and theoretical fitting models (using COMSOL), the formula analysis of electric double layer capacitance theory, bubble theory, alternating current substitution theory and ion concentration theory is carried out. 
-* Summary of the work: [Paper](../assets/equipotential_lines.pdf) 
-<font color=Red>Lack of presentation slides</font>
+_Served for SCOPE Lab_
+* [Heatmap plotter](../assets/Heatmap_plotter.exe):
+  * This application is designed to generate heatmaps from Renishaw map data files. Also, it can plot the specific points' spectrum to know how to choose the range. Users can fit the spectrum of specific points by just clicking the points on the plot.
 
-## Simulation and review of light field modes in Fabry–Pérot cavity (2022)
-****
-* Simulated the transmission characteristics (transmission rate, resonance mode) of Fabry-Perot resonators using COMSOL and compared the results with analytical solutions.
-* Summary of the work: [Paper](../assets/FPcavity.pdf) 
+* [Spectrum fitting plotter](../assets/Justplot.exe):
+  * This application is designed to plot Raman/PL spectrum and draw fitted curves on it. Users need to fit the curves with Origin to get the parameters first.
 
 ## Single atom trapping technique based on movable optical lattices (2022 - 2024)
 #### _This work is supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) in USTC_
 ****
-
 * Proposed to achieve the trapping of single atoms and combine fluorescence detection to achieve high-precision control of atomic positions by movable optical lattice.
 * Participated in setting up the optical path for magneto-optical trap for $^{87}Rb$. Independently built the double pass configuration to adjust the frequency of cooling light with Bragg diffraction.
 * Led building and cleaning our second ultrahigh optical accessible vacuum system, in which we mounted a Rb atom dispenser for the MOT and optical dipole traps for ensembles and single atoms. The vacuum degree of the system has reached $3\times10^{-11}$ Torr.
@@ -47,28 +45,21 @@ _RoboGame Robotics Competition is a major brand activity of students' scientific
 * Finally we successfully finished the tasks and won third prize in the finals.
 * Codes and PCBs in [github repositories](https://github.com/k-telux/RoboGame2023)
 
-## Single photon emission in 2D materials (2024 - Present)
-#### _This work is supervised by [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ&hl=en) and [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang), [SCOPE Lab](https://scopelab.rice.edu/) in Rice University_
+## Simulation and review of light field modes in Fabry–Pérot cavity (2022)
 ****
+* Simulated the transmission characteristics (transmission rate, resonance mode) of Fabry-Perot resonators using COMSOL and compared the results with analytical solutions.
+* Summary of the work: [Paper](../assets/FPcavity.pdf) 
 
-* <font color=Red>Now I try my best to do this research...</font>
-* Designed and fabricated substrates with strain engineering features (nano pillars, nano discs) with electron beam lithography for deterministically creation of single photon emitters.
-* Carried out optical spectroscopy measurements including photoluminescence (PL), Raman, Time-Correlated Single Photon Counting (TCSPC) on hBN encapsulated WSe2 and WS2 monolayers integrated with strain engineered substrates.
-* Examined the single photon emission quality by conducting photon statistic measurements, obtain second-order correlation function g2(𝜏) using Hanbury Brown and Twiss (HBT) interferometry. 
-* Improved the purity of SPE by electrostatic gating and charge transfer between molecules and graphene. 
-
-## Nitrogen atomic substitution in WS2 monolayer (2024 - Present)
-#### _This work is supervised by [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ&hl=en) and [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang), [SCOPE Lab](https://scopelab.rice.edu/) in Rice University_
+## Theoretical and experimental research on IYPT 2022 Problem 8 — Equipotential Lines (2022)
 ****
-*	Performed remote nitrogen plasma treatment on exfoliated WS2 monolayer in order to create nitrogen substitution defects.
-*	Characterized the induced nitrogen substitution using photoluminescence spectroscopy. Prepared additional samples for scanning tunneling microscopy/scanning tunneling spectroscopy (STM/STS) and scanning transmission electron microscopy (STEM) for directly imaging of the atomic defects.
+_Place two electrodes into water, supply a safe voltage and use a voltmeter to determine electric potential at various locations. Investigate how the measured equipotential lines deviate from your expectations for different conditions and liquids._
+* Investigated the equipotential lines in pure water and salt water, constructing the influence of electrodes on the potential distribution in water through different models.
+  * According to the comparison of measured data and theoretical fitting models (using COMSOL), the formula analysis of electric double layer capacitance theory, bubble theory, alternating current substitution theory and ion concentration theory is carried out. 
+* Summary of the work: [Paper](../assets/equipotential_lines.pdf) 
+<font color=Red>Lack of presentation slides</font>
 
-
-## Heatmap plotter & Spectrum fitting plotter (2024 - Present)
+## Discover physical concepts with neural networks (2021 -  2022)
 ****
-_Served for SCOPE Lab_
-* [Heatmap plotter](../assets/Heatmap_plotter.exe):
-  * This application is designed to generate heatmaps from Renishaw map data files. Also, it can plot the specific points' spectrum to know how to choose the range. Users can fit the spectrum of specifc points by just clicking the points on the plot.
-
-* [Spectrum fitting plotter](../assets/Justplot.exe):
-  * This application is designed to plot Raman/PL spectrum and draw fitted curves on it. Users need to fit the curves with Origin to get the parameters first.
+* Independently built neural networks with three neurons using MATLAB. 
+* Derived the Planck radiation law formula from original spectrum data using the model. [Reference](../assets/neural_network.pdf)
+* Summary of the work (This work got first prize in competition): [Paper](../assets/neural_network_report.pdf)
