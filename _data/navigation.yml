@@ -13,4 +13,7 @@ main:
   - title: "Resources"
     url: /resource/ 
 
+  - title: "Extra"
+    url: /extra/ 
+
 
