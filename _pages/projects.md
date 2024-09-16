@@ -30,7 +30,7 @@ _Served for SCOPE Lab (Original python codes in [Github](https://github.com/k-te
 * Simulated the limited temperature that cavity and feedback cooling can reach.
 * Calculated the combination of 2 cooling methods and certified that the new method's lowest temperature has the correct positive correlation with a low cavity decay rate.
 * Simulated the new model using the Quantum Monte Carlo to find the lowest temperature the new method can reach. Compared with the separated cooling method, the new method can reach a lower temperature, which means the laser cooling method can also be enhanced with this new method.
-* Reference and progress of the work: [Github](https://github.com/k-telux/Combine-cooling) (_Unpublished_)
+* Reference and progress of the work: [Github](https://github.com/k-telux/Combine-cooling) (_Unpublished_).
 
 ## Single atom trapping technique based on movable optical lattices (2022 - 2024)
 #### _This work is supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) in USTC_
@@ -40,7 +40,7 @@ _Served for SCOPE Lab (Original python codes in [Github](https://github.com/k-te
 * Led building and cleaning our second ultrahigh optical accessible vacuum system, in which we mounted a Rb atom dispenser for the MOT and optical dipole traps for ensembles and single atoms. The vacuum degree of the system has reached $3\times10^{-11}$ Torr.
 * Independently pre-treated the optical fiber which will be used in the vacuum system and tested the mode field diameter of treated single mode fiber to optimize the mode matching between the modes of cavity and fiber.
 * Independently designed control circuits and installed control electronics such as the microwave amplifier, radio frequency switch, and radio frequency generator into multiple integrated chassis to facilitate the connection of electrical devices in the optical path.
-* Achieved the control time of atoms to 3s (Unpublished).
+* Achieved the control time of atoms to 3s (_Unpublished_).
   
 ## Simulation of the focusing property with high-NA lens of vectorial polarized beam (2024)
 #### _This work is supervised by [Prof. Kun Huang](https://faculty.ustc.edu.cn/huangkun) in USTC_
