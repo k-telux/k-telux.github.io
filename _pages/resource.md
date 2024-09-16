@@ -24,4 +24,4 @@ Physics
 * [Optics B](https://rec.ustc.edu.cn/share/069d0bf0-4ada-11ee-9a14-639039fbf8d8)
 * To be continued...
 
-
+<script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=ZZBhROD38mdLvw10E0oV3tSILSk4iM4WsGCTeuHtSTI"></script>
