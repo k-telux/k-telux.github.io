@@ -54,7 +54,7 @@ _Served for SCOPE Lab (Original python codes in [Github](https://github.com/k-te
 ****
 * Described a ferromagnetic phase transition problem using a 40 x 40 two-dimensional array of atomic dots(2D Ising model).
 * Utilized deep neuron network to examine the search for supersymmetry in collider experiments.(Five million data samples and 18 features of the end state) [Reference](../assets/deep_learning.pdf)
-* Codes of the works:[Github](https://github.com/k-telux/Deep-learning) 
+* Codes of the works: [Github](https://github.com/k-telux/Deep-learning) 
 
 
 ## RoboGame 2023 (2023)
