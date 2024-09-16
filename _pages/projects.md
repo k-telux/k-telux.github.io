@@ -23,13 +23,14 @@ _Served for SCOPE Lab (Original python codes in [Github](https://github.com/k-te
 * [Spectrum fitting plotter](../assets/Justplot.exe):
   * This application is designed to plot Raman/PL spectrum and draw fitted curves on it. Users need to fit the curves with Origin to get the parameters first.
 
-## Simulation of the focusing property with high-NA lens of vectorial polarized beam (2024)
-#### _This work is supervised by [Prof. Kun Huang](https://faculty.ustc.edu.cn/huangkun) in USTC_
+## Combination of the cavity cooling and feed back cooling to reach new cooling temerature limit (2024 - Present)
+#### _This work is supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) in USTC_
 ****
 
-* Simulated the effect of polarization states on the propagation process of the light field and the focused light field.
-* Calculated and analyzed different polarized light Bessel-Gauss beams and polarized light beams with vortex phase at the focal plane based on the Richard-Wolf vector-integral formula.
-* Summary of the work: [Paper](../assets/Vector_beams.pdf)
+* Simulated the limited temperature that cavity and feedback cooling can reach.
+* Calculated the combination of 2 cooling methods and certified that the new method's lowest temperature has the correct positive correlation with a low cavity decay rate.
+* Simulated the new model using the Quantum Monte Carlo to find the lowest temperature the new method can reach. Compared with the separated cooling method, the new method can reach a lower temperature, which means the laser cooling method can also be enhanced with this new method.
+* Reference and progress of the work: [Github](https://github.com/k-telux/Combine-cooling) (_Unpublished_)
 
 ## Single atom trapping technique based on movable optical lattices (2022 - 2024)
 #### _This work is supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) in USTC_
@@ -41,6 +42,14 @@ _Served for SCOPE Lab (Original python codes in [Github](https://github.com/k-te
 * Independently designed control circuits and installed control electronics such as the microwave amplifier, radio frequency switch, and radio frequency generator into multiple integrated chassis to facilitate the connection of electrical devices in the optical path.
 * Achieved the control time of atoms to 3s (Unpublished).
   
+## Simulation of the focusing property with high-NA lens of vectorial polarized beam (2024)
+#### _This work is supervised by [Prof. Kun Huang](https://faculty.ustc.edu.cn/huangkun) in USTC_
+****
+
+* Simulated the effect of polarization states on the propagation process of the light field and the focused light field.
+* Calculated and analyzed different polarized light Bessel-Gauss beams and polarized light beams with vortex phase at the focal plane based on the Richard-Wolf vector-integral formula.
+* Summary of the work: [Paper](../assets/Vector_beams.pdf)
+
 ## Search exotic particles with deep learning and use Random Forests to classify phases in the Ising Model(2023)
 ****
 * Described a ferromagnetic phase transition problem using a 40 x 40 two-dimensional array of atomic dots(2D Ising model).
