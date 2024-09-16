@@ -7,6 +7,7 @@ redirect_from:
   - /about/
   - /about.html
 ---
+<script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=ZZBhROD38mdLvw10E0oV3tSILSk4iM4WsGCTeuHtSTI"></script>
 
 I'm a fourth-year undergraduate student from the [School of Physical Sciences](https://en.physics.ustc.edu.cn/), [University of Science and Technology of China](https://en.ustc.edu.cn/), majoring in Optics and Optical Engineering.
 
