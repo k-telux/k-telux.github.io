@@ -184,7 +184,7 @@ collections:
   test:
     output: true
     permalink: /:collection/:path/
-  extra:
+  pageviews:
     output: true
     permalink: /:collection/:path/
 
@@ -221,7 +221,7 @@ defaults:
   # _extra
   - scope:
       path: ""
-      type: extra
+      type: pageviews
     values:
       layout: single
       author_profile: true
