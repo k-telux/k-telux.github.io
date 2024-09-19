@@ -19,7 +19,7 @@ redirect_from:
 
  University of Science and Technology of China *Anhui, China*  
  _Bachelor of Optics and Optical Engineering  *2021 - 2025*_
-- Overall GPA: 3.88/4.3  (87/100)
+ Overall GPA: 3.88/4.3  (87/100)
 ---
 
 ## Honors
@@ -30,6 +30,9 @@ redirect_from:
 - First Prize in the electromagnetism course essay competition (IYPT 2022) (2022)
 
 ---
+## Publication
+### _Approaching the intrinsic purity of single photon emitter in atomically thin semiconductor_
+Wenjing Wu, **Zhongqi Xiu**, Hangzheng Shen, Song Liu, James C. Hone, Junichiro Kono, Shengxi Huang. ()
 
 ## Research Experience
 
