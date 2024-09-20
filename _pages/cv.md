@@ -50,7 +50,7 @@ Lab: [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/)
 
 ### Single photon emitter creation in few layer 2D materials
 *2024 - Present*  
-Supervisors: [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ&hl=en), [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang)  
+Supervisors: [Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ&hl=en), [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang)  
 Lab: [SCOPE Lab](https://scopelab.rice.edu/)
 
 - Carried out optical spectroscopy measurements including photoluminescence (PL), Raman, Time-Correlated Single Photon Counting (TCSPC) on hBN encapsulated WSe2 and WS2 monolayers integrated with strain engineered substrates.
