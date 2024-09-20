@@ -12,7 +12,7 @@ I am a fourth-year undergraduate student from the [School of Physical Sciences](
 
 From 2022 to 2024, I focused on Fiber Cavity QED and participated in the "Single-atom trapping technique based on movable optical lattices" project supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) at USTC
 
-Now, I am researching single photon emission in few-layer WSe2/WS2, which is supported by the [SCOPE lab](https://scopelab.rice.edu/) and led by [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang) and [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ) at Rice University.(Visiting scholar)
+Now, I am researching single photon emission in few-layer WSe2/WS2, which is supported by the [SCOPE lab](https://scopelab.rice.edu/) and led by [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang) and [Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ) at Rice University.(Visiting scholar)
 
 ## Research Interests
 - Fiber cavity QED
