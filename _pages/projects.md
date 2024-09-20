@@ -23,7 +23,7 @@ _Served for SCOPE Lab (Original python codes in [Github](https://github.com/k-te
 * [Spectrum fitting plotter](../assets/Justplot.exe):
   * This application is designed to plot Raman/PL spectrum and draw fitted curves on it. Users need to fit the curves with Origin to get the parameters first.
 
-## Combination of the cavity cooling and feed back cooling to reach new cooling temerature limit (2024 - Present)
+## Combination of the cavity cooling and feed back cooling to reach new cooling temperature limit (2024 - Present)
 #### _This work is supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) in USTC_
 ****
 
