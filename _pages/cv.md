@@ -20,7 +20,7 @@ redirect_from:
  University of Science and Technology of China *Anhui, China*  
  _Bachelor of Optics and Optical Engineering  *2021 - 2025*_
 
- * Overall GPA: 3.88/4.3  (87/100)
+ * Overall GPA: 3.68/4.3  (87/100)
 ---
 
 ## Honors
