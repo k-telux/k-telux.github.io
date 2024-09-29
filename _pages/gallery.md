@@ -19,10 +19,3 @@ author_profile: true
   <img src="/images/SCOPElab.svg" style="max-width: 500px; max-height: 500px;">
   <img src="/images/SCOPEplay.jpg" style="max-width: 500px; max-height: 500px;">
 </div>
-
-
-### Sport
-_Underconstruction..._
-
-### Aerial photography
-_Underconstruction..._
