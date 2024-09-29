@@ -184,10 +184,12 @@ collections:
   test:
     output: true
     permalink: /:collection/:path/
+  gallery:
+    output: true
+    permalink: /:collection/:path/
   pageviews:
     output: true
     permalink: /:collection/:path/
-
 
 # Defaults
 defaults:
