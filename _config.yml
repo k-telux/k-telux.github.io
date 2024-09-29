@@ -239,7 +239,7 @@ defaults:
   # _resource
   - scope:
       path: ""
-      type: resource
+      type: gallery
     values:
       layout: single
       author_profile: true
