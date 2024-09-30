@@ -44,24 +44,34 @@ More recently, I have been working on single-photon emitters in atomically thin 
 
 ## Slide 7: Project 1: Single Atom Trapping
 
-“One of the key outcomes of this project was the successful design and implementation of control circuits and electronics for microwave amplifiers and radio frequency generators. This allowed us to optimize mode matching between the cavity and fiber. The vacuum system we built achieved a degree of 3×10−11 Torr, which was crucial for ensuring the stability of the system.
-
-In this project, we also explored new methods to improve cooling by combining cavity cooling and feedback cooling, achieving lower temperatures by solving the master equation and stochastic Schrödinger equation.”
+Introduction to group and the aim
+First, I led ... you can see the graph of the system and the optical paths served for the system.
+Then, as a fiber cavity group, we use the fiber to create cavity in vacuum environment, so it's important for the fiber to remove the original cladding and have polymide coating on the fiber. What I do is build up a system to treat the fiber automatically and test the parameters like temperature of PI, baking time, coating velocity... Finally the system I bulit became a patent of my mentor.
+What's more, about the electrical setup, I designed and tested....
+After setting up those optical and electrical paths, then we tried to load the atoms to our cavity.
 
 ---
 
 ## Slide 8-9: Project 2: Single-Photon Emission in 2D Materials
-
-“My second major research project focused on creating single-photon emitters in two-dimensional materials, specifically transition metal dichalcogenides (TMDs). Under Prof. Shengxi Huang’s supervision at SCOPE Lab, I worked on introducing effective techniques to mitigate broad defect-bound excitonic emission in WSe2, aiming to reveal the intrinsic purity limit of single-photon emitters.
-
-We employed polarization-resolved photoluminescence measurements and various g² measurement techniques to systematically investigate the purity of single-photon emitters in monolayer and bilayer WSe2. We found that cross-circular polarization can effectively reduce background emissions and significantly improve the purity of single-photon emission.”
-
+In 2024 summer, I came to Rice University to further explore the quantum optics and optical imaging in surface area. This project is proposed to... and here is our group
+We have already finished this work, however we are still writing paper and the calculation results from the co-workers are under progress so now the paper is not submitted.
+So let me introduce you about the work: at first... In this work...
+Then there is a picture of our sample and the sample is ... the c to e plots are the Photonluminensence spectrum of the SPE spot and we seperate it out using the fitting method. f to h is g2 and then we will improve that.
+First we use dif polarization lights to excite and collect the signal with fliters.
+We found that...
+Then we also used monolayer and bilayer WSe2 then we got better counts in g2, that mean the better spots in bilayer
+What I do in this work is from sample preparation, spectrum and g2 measurement, peak analyze to the figure drawing and paper writing, we supposed to submit it to acs nano or nature communication as we got very good purity and very low g2
+In the process, the most difficult part is the sample preparation and data analyze, as the sample is small and I only study to operate about 1 months. As for the data analyze, the spectrum is broad as there are multiple emission, what I should do is seperate the SPE peak from others and get its parameters like position/linewidth/peak intensity...
+But finally we did everything well and you can also find the slides which shows my process from new to the area to the success SPE finder.
 ---
 
-## Slide 10: Project Results and Challenges
-
-“While we observed promising results, such as ultra-sharp and bright emissions at cryogenic temperatures, several challenges remain. The presence of broad classical emissions overlapping with the single-photon wavelength reduces the purity of the emitter, which is a significant hurdle in using these materials for quantum information processes. Nevertheless, we made important strides in characterizing the optical behavior of 2D materials and designing advanced substrates with strain engineering features.”
-
+## Slide 10: Other projects
+Also, dispite the three projects supervised by mentors, I did some projects by myself and those also helped me a lot about learning knowledge.
+First in my freshman year, I took a course in which the professor gave each of us a paper to refer and improve the work. I chose the paper related to ai 4 sci and the paper built a neural network to find the physical concepts and gain the parameters in the formula. I used matlab to do that and found some datasets in our library for the planke black body formula.You can see the work on my homepage in detail.
+Second is the simulation of light field. When I first met with COMSOL, I took Optics that semester and I joined the fiber cavity group. So I try to write some review of FP cavity and do some simulation to explore the charateristics of the cavity.
+Third is about the course Compute Physics, after learning the Ising model and machine learning, I try to follow a science paper in which it discovered the exotic particles from the huge dataset in the collapsing machine. So I want to use the dataset buliding up deep learning model and see what else can be found.
+About the RoboGame,...
+In 2024, I also do some simulation of vectorial polarized beam: linear, circular, with phase and so on.  
 ---
 
 ## Slide 11: Future Research Plan
