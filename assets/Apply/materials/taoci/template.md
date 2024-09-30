@@ -1,13 +1,8 @@
-2）第二段：告诉导师你目前掌握了哪些技术，正在进行什么课题（反映你和导师其实很相配哦~）
-1) 第三段：告诉导师你已经研读了他的相关文章，并且对此非常感兴趣。谈谈他的文章提到了什么以及你对他研究点的认知,所以想跟他学习
+Dear Professor ___
+I hope this email finds you well. I'm Zhongqi Xiu, an undergraduate student from the University of Science and Technology of China(USTC), and I will get my bachelor's degree in 2025. I've read your papers, and the research about spectral domain OCT attracts me a lot. Hence, I would be honored to apply to the __ graduate program and join your group as a PhD student.
 
-Dear Professor Lastname 
-I hope this email finds you well. I'm Zhongqi Xiu, an undergraduate student from University of Science and Technology of China. I've read your papers and the research about XXX are amongst the leading-edge findings which attracts me a lot. Hence.l would be really honoured lf i can continue to work as a PhD student in your group.
+In parallel to my rigid training in experimental optics, I have a solid foundation in studying optical imaging and machine learning. Nowadays, I am researching single photon emission in fewlayer transition metal dichalcogenides in the SCOPE lab at Rice University. Supervised by Professor Shengxi Huang, I carried out optical spectroscopy measurements, including photoluminescence, Raman, and time-correlated single photon counting spectroscopy, to comprehensively study the properties of single photon emitters. Also, in the SCOPE lab, we use machine learning to build predictive models from the training datasets collected for problems such as predicting material properties, spectral analysis, trace molecule detection, and molecular structure analysis.
 
-In parallel to my rigid training in experimental optics in general, I have an especially strong foundation in the study of XXXX. Nowadays, I am researching on XXX
-Through these rewarding experiences:I am now ready for my PhD and I believe I would definitely be a valuable addition to your group.
+Through these rewarding experiences, I am now ready for my PhD, and I would definitely be a valuable addition to your group. I have been following your work, especially the research on ____, which perfectly match my research interests. Thus, I would like to work with you on investigating ____.
 
-I have been following your work, especially the essential role of XXX，which matches my research interest perfectly.Your paper mentioned XXX. Your insights provide a basis for validating that XXX.I thus would like to work with you on investigating XXX
-
-My CV is attached in email. Please let me know ifyou need more information, Thank you again for
-your time!
+My resume is attached to this email, and you can also visit my homepage for more information. Thank you again for your valuable time!

@@ -17,8 +17,8 @@ redirect_from:
 
 ## Education
 
- University of Science and Technology of China *Anhui, China*  
- _Bachelor of Optics and Optical Engineering  *2021 - 2025*_
+ University of Science and Technology of China, Hefei, China  
+ _Major in Optics and Optical Engineering_ *2021 - 2025*
 
  * Overall GPA: 3.68/4.3  (87/100)
 ---

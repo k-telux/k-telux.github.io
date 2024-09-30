@@ -184,10 +184,12 @@ collections:
   test:
     output: true
     permalink: /:collection/:path/
+  gallery:
+    output: true
+    permalink: /:collection/:path/
   pageviews:
     output: true
     permalink: /:collection/:path/
-
 
 # Defaults
 defaults:
@@ -239,7 +241,7 @@ defaults:
   # _resource
   - scope:
       path: ""
-      type: resource
+      type: gallery
     values:
       layout: single
       author_profile: true
