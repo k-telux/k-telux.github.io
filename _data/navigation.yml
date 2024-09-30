@@ -13,7 +13,9 @@ main:
   - title: "Resources"
     url: /resource/ 
 
+  - title: "Gallery"
+    url: /gallery/ 
+
   - title: "Pageviews"
     url: /pageviews/ 
-
 

@@ -50,7 +50,6 @@ Now, I am researching single photon emission in few-layer WSe2/WS2, which is sup
             <li>Principal player of the wind section of the School Folk Orchestra --- <a herf="https://space.bilibili.com/64643274">NMOU</a> (2021 - 2023)</li>
             <li>Hobbys: music, travel, photography(especially aerial), gym, anime (also two-dimensional)</li>
             <li><a href="https://space.bilibili.com/89038571">Bilibili homepage</a> (You can find my aerial videos here 😜)<br></li>
-            <li><a href="https://steamcommunity.com/id/xzqtelux/">Steam homepage </a>🤫<br></li>
         </ul>
     </div>
 
