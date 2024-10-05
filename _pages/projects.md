@@ -67,7 +67,7 @@ _RoboGame Robotics Competition is a major brand activity of students' scientific
   * Drew the power distribution boards PCB, ensured consistency across all robot components.
   * Wrote and fine-tuned the PID for wheel movement.
 * Finally we successfully finished the tasks and won third prize in the finals.
-* Codes and PCBs in [github repositories](https://github.com/k-telux/RoboGame2023)
+* Codes and PCBs: [Github](https://github.com/k-telux/RoboGame2023)
 
 ## Simulation and review of light field modes in Fabry–Pérot cavity (2022)
 ****
@@ -80,7 +80,6 @@ _Place two electrodes into water, supply a safe voltage and use a voltmeter to d
 * Investigated the equipotential lines in pure water and salt water, constructing the influence of electrodes on the potential distribution in water through different models.
   * According to the comparison of measured data and theoretical fitting models (using COMSOL), the formula analysis of electric double layer capacitance theory, bubble theory, alternating current substitution theory and ion concentration theory is carried out. 
 * Summary of the work: [Paper](../assets/equipotential_lines.pdf) 
-<font color=Red>Lack of presentation slides</font>
 
 ## Discover physical concepts with neural networks (2021 -  2022)
 ****
