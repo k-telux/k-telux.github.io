@@ -181,7 +181,7 @@ collections:
   resource:
     output: true
     permalink: /:collection/:path/
-  test:
+  publications:
     output: true
     permalink: /:collection/:path/
   gallery:
@@ -232,7 +232,7 @@ defaults:
     
   - scope:
       path: ""
-      type: test
+      type: publications
     values:
       layout: single
       author_profile: true
