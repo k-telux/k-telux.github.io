@@ -1,15 +1,11 @@
-* 10.16：
-  * 下周一purdue面试
-  * 毕设与wenjing讨论
+* 2024.10.30：
+  * 毕设project:
+    * 小型化Array,扫描电压
+    * 讨论一下重力/范德华力的影响
 
-* PZT的project：
-  * PZT电压特性
-  * strain与SPE相关
-  * 建模simulate
-
-* 2024.10.3
-  * *面试推迟，放一放，先搞毕设+paper*
-  * 改figure，写support information
-  * 问老板ece还是app，问文静哥大和psu的connection
-  * 面试稿尝试讲？时间！！！
-  * review自己的cv和sop，看项目
+* 11.15 NUS DDL 结合cavity QED和二维材料写research proposal()
+* 11.2 NTU申请
+* Duke questions
+* 英才班pre准备讨论
+* 大创结题--hqy
+* 下下周subgroup meeting 讲文章
