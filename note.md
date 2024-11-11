@@ -1,18 +1,17 @@
-* 11.6:
-  * ~~CUHK申请填表~~
-  * ~~写王老板的推荐信~~
-  * 做meeting ppt：
-    * 什么都不加的pzt bulk(home)
-    * 有洞的单独pzt(this)
-    * 有洞的带monolayer的pzt(this)
-    * 不同洞的pzt(this)
-    * strain调节的范围？大小关系？(home)
-    * 研究一下层间的作用力，如果加上重力？(this/home)
-  * 问老板推荐信的事情，(问黄老板周三有会，先写王老板的)
-  * 英才班pre准备讨论
+* 11.8: 
+  * ~~改推荐信~~
+  * ~~问科大老板/席铮老师推荐信的事情，发模板过去~~
+  * ~~HKU申请~~
+  * ~~看一下该交什么申请~~
+  * 下周二talk
+  * NTU apply
+  * Duke questions
+  * 继续改学校的SOP
+  * 下周交一下CUHK,NUS的申请
+    * CUHK,HUK,NUS仅差推荐
 
-* Duke questions
-
+* NTU Application code:*R2429352*
+* 英才班pre准备讨论
 * 大创结题--hqy
 * 下周subgroup meeting 讲文章
 
