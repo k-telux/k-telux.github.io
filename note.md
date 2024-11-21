@@ -1,9 +1,8 @@
 * 11.20: 
-  * 改墙报,ppt,发群里
-  * 上光奖学金填报
-  * WES查看,gpa更新
+  * ~~改墙报,ppt,发群里~~
+  * ~~上光奖学金填报~~
+  * ~~WES查看,gpa更新~~
   * project发给微信
-  * Duke questions
   * 继续改学校的SOP
 
 * NTU Application code:*R2429352*
