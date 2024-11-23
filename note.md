@@ -1,6 +1,6 @@
 * 11.18: 
-  * 改墙报,ppt
-  * Duke questions
+  * ~~改墙报,ppt~~
+  * ~~Duke questions~~
   * 继续改学校的SOP
 
 * NTU Application code:*R2429352*
