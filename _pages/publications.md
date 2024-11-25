@@ -6,6 +6,8 @@ author_profile: true
 ---
 
 
-Approaching the intrinsic purity of single photon emitter in atomically thin semiconductor _(In process)_ 
+_Facile approach to ultra-high single-photon emission purity in atomically thin semiconductor_
 ======
-_Wenjing Wu, **Zhongqi Xiu**, Hangzheng Shen, Song Liu, James C. Hone, Junichiro Kono, Shengxi Huang*_
+Wenjing Wu, Alex Strasser, **Zhongqi Xiu**, Hangzheng Shen, Song Liu, Luke Nemetz
+Holtzman, James C. Hone, Vasiliy Perebeinos, Junichiro Kono, Xiaofeng Qian,
+and Shengxi Huang
