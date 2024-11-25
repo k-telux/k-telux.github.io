@@ -20,7 +20,7 @@ redirect_from:
  University of Science and Technology of China, Hefei, China  
  _Major in Optics and Optical Engineering_ *2021 - 2025*
 
- * Overall GPA: 87/100
+ * Overall GPA: 3.73/4 (87/100)
 ---
 
 ## Honors
@@ -31,9 +31,11 @@ redirect_from:
 - First Prize in the electromagnetism course essay competition (IYPT 2022) (2022)
 
 ---
-## Publication
-### _Approaching the intrinsic purity of single photon emitter in atomically thin semiconductor_
-Wenjing Wu, **Zhongqi Xiu**, Hangzheng Shen, Song Liu, James C. Hone, Junichiro Kono, Shengxi Huang. ()
+## Manuscript
+### _Facile approach to ultra-high single-photon emission purity in atomically thin semiconductor_
+Wenjing Wu, Alex Strasser, **Zhongqi Xiu**, Hangzheng Shen, Song Liu, Luke Nemetz
+Holtzman, James C. Hone, Vasiliy Perebeinos, Junichiro Kono, Xiaofeng Qian,
+and Shengxi Huang
 
 ## Research Experience
 

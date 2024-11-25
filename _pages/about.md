@@ -14,6 +14,8 @@ From 2022 to 2024, I focused on Fiber Cavity QED and participated in the "Single
 
 Now, I am researching single photon emission in few-layer WSe2/WS2, which is supported by the [SCOPE lab](https://scopelab.rice.edu/) and led by [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang) and [Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ) at Rice University.(Visiting scholar)
 
+My senior thesis will focus on the __strain engineering__ using __PZT array__(Especially PMN-PT). Now I'm trying to simulate the system and make the strain __programmable__ using the voltage modulation.
+
 ## Research Interests
 - Fiber cavity QED
 - Quantum memory based on atoms (Especially _87Rb_ )
