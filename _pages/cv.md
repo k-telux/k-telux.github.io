@@ -20,7 +20,7 @@ redirect_from:
  University of Science and Technology of China, Hefei, China  
  _Major in Optics and Optical Engineering_ *2021 - 2025*
 
- * Overall GPA: 3.73/4 (87/100)
+ * Overall GPA: 3.73/4.00 (87.3/100)
 ---
 
 ## Honors
