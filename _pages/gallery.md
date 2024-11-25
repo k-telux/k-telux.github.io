@@ -19,3 +19,10 @@ author_profile: true
   <img src="/images/SCOPElab.svg" style="max-width: 500px; max-height: 500px;">
   <img src="/images/SCOPEplay.jpg" style="max-width: 500px; max-height: 500px;">
 </div>
+
+## Poster/ Talks
+### [2024 Rice Workshop on Functional Quantum Defects](https://rcqm.rice.edu/20241104-8-workshop-winter-school-home-page)
+
+<div><div align="center" style="display: flex; justify-content: center; gap: 50px;">
+  <img src="/images/RCQM_poster.png" style="max-width: 500px; max-height: 500px;">
+</div>
