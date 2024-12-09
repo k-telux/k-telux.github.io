@@ -1,7 +1,8 @@
-* 12.6: 
-  * GRE练习
-  * 写一下Pre的大纲，review申请
-  * Check进度，收缴团费
+* 12.9: 
+  * 写一下Pre的大纲，准备ppt
+  * 催一下两个project
+  * 问一下nus师兄怎么准备面试
+  * 问一下ntu组员怎么改文书
   
 * pre要讲什么:(主要based on 每周的汇报PPT)
   * 7-8月 分peak, origin, 开发两个software
