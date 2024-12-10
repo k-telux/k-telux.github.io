@@ -8,25 +8,27 @@ redirect_from:
   - /about.html
 ---
 
+
 I am a fourth-year undergraduate student from the [School of Physical Sciences](https://en.physics.ustc.edu.cn/), [University of Science and Technology of China (USTC)](https://en.ustc.edu.cn/), majoring in Optics and Optical Engineering.
+
+**I’m looking for Ph.D. opportunities in Quantum optics and Low dimensional optical materials/devices.** Please feel free to [reach out](xzqtelux@mail.ustc.edu.cn) if you have any opportunities or suggestions.
 
 From 2022 to 2024, I focused on Fiber Cavity QED and participated in the "Single-atom trapping technique based on movable optical lattices" project supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) at USTC
 
 Now, I am researching single photon emission in few-layer WSe2/WS2, which is supported by the [SCOPE lab](https://scopelab.rice.edu/) and led by [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang) and [Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ) at Rice University.(Visiting scholar)
 
-My senior thesis will focus on the __strain engineering__ using __PZT array__(Especially PMN-PT). Now I'm trying to simulate the system and make the strain __programmable__ using the voltage modulation.
+My senior thesis will focus on the __strain engineering__ using __PZT array__ (Especially PMN-PT). Now I'm trying to simulate the system and make the strain __programmable__ using the voltage modulation.
 
 ## Research Interests
-- Fiber cavity QED
-- Quantum memory based on atoms (Especially _87Rb_ )
-- Optical characteristics of 2D materials
+- Fiber cavity QED 
+- Optical characterization of 2D materials
 - Single photon emission based on defects
 
 ## Contact
-- [Email](xzqtelux@mail.ustc.edu.cn)
+- [Email](xzqtelux@mail.ustc.edu.cn) 
 - [Github](https://github.com/k-telux)
 - [Wechat](../images/wechat.jpg)
-
+- [Status](http://168.5.60.15:9010) (Testing)
 
 
 
