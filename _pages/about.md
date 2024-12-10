@@ -11,7 +11,7 @@ redirect_from:
 
 I am a fourth-year undergraduate student from the [School of Physical Sciences](https://en.physics.ustc.edu.cn/), [University of Science and Technology of China (USTC)](https://en.ustc.edu.cn/), majoring in Optics and Optical Engineering.
 
-**I’m looking for Ph.D. opportunities in Quantum optics and Low dimensional optical materials/devices.** Please feel free to [reach out](xzqtelux@mail.ustc.edu.cn) if you have any opportunities or suggestions.
+**I’m looking for Ph.D. opportunities in Quantum Optics and Low Dimensional Optical Materials/Devices.** Please feel free to email me if you have any opportunities or suggestions.
 
 From 2022 to 2024, I focused on Fiber Cavity QED and participated in the "Single-atom trapping technique based on movable optical lattices" project supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) at USTC
 
