@@ -28,7 +28,7 @@ My senior thesis will focus on the __strain engineering__ using __PZT array__ (E
 - [Email](xzqtelux@mail.ustc.edu.cn) 
 - [Github](https://github.com/k-telux)
 - [Wechat](../images/wechat.jpg)
-- [Status](http://168.5.60.15:9010) (Testing)
+- [Status](http://frp-aim.top:44404/) (Testing)
 
 
 
