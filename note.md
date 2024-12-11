@@ -1,10 +1,8 @@
-* 12.10:
-  * Strain shape的文章总结，挤？如何算strain？ 
+* 12.11:
   * 修改final pre
-  * ~~Thesis: 低温下的pzt性质~~
-  * 写一下Pre的大纲,准备ppt
-  * ~~催一下两个project~~
-  * ~~问一下nus师兄怎么准备面试~~
+  * NUS Physics面试经验，准备ppt
+  * Strain shape的文章总结，挤？如何算strain？ 
+  * 催一下两个project
   * 问一下ntu组员怎么改文书
   
 * pre要讲什么:(主要based on 每周的汇报PPT)
