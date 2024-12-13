@@ -9,7 +9,7 @@ redirect_from:
 ---
 
 
-I am a fourth-year undergraduate student from the [School of Physical Sciences](https://en.physics.ustc.edu.cn/), [University of Science and Technology of China (USTC)](https://en.ustc.edu.cn/), majoring in Optics and Optical Engineering.
+I am a fourth-year undergraduate student from the [School of Physical Sciences](https://en.physics.ustc.edu.cn/), [University of Science and Technology of China (USTC)](https://en.ustc.edu.cn/), majoring in Optics and Optical Engineering. You can find my CV [here](../assets/xzq_Resume.pdf).
 
 **I’m looking for Ph.D. opportunities in Quantum Optics and Low Dimensional Optical Materials/Devices.** Please feel free to email me if you have any opportunities or suggestions.
 
