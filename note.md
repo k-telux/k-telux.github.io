@@ -1,7 +1,7 @@
 * 12.6: 
   * GRE练习
-  * 写一下Pre的大纲，review申请
-  * Check进度，收缴团费
+  * 写一下Pre的大纲,review申请
+  * Check进度,收缴团费
   
 * pre要讲什么:(主要based on 每周的汇报PPT)
   * 7-8月 分peak, origin, 开发两个software
