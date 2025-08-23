@@ -11,14 +11,20 @@ redirect_from:
 
 <div align='center' ><font size='60'>ZHONGQI XIU</font></div>
 
-**Email:** xzqtelux@mail.ustc.edu.cn/ xzqtelux@gmail.com | **Phone:** +86 19805675505 / +1 (832)-627-2957
+**Email:** zhongqi_xiu@brown.edu | **Phone:** +1 (401)255-3114
+
+<p align="center" style="color:gray;"> Final updated at: 2025.8.23</p>
 
 ---
 
 ## Education
 
- University of Science and Technology of China, Hefei, China  
- _Major in Optics and Optical Engineering_ *2021 - 2025*
+ Brown University
+ _Graduate student in chemistry PhD program_ *2025 - now* 
+
+
+ University of Science and Technology of China
+ _Bachelor degree of physics_ *2021 - 2025*
 
  * Overall GPA: 3.73/4.00 (87.3/100) [WES certified transcript](../assets/WESreport.pdf)
 ---
@@ -31,11 +37,10 @@ redirect_from:
 - First Prize in the electromagnetism course essay competition (IYPT 2022) (2022)
 
 ---
-## Manuscript
-### _Facile approach to ultra-high single-photon emission purity in atomically thin semiconductor_
-Wenjing Wu, Alex Strasser, **Zhongqi Xiu**, Hangzheng Shen, Song Liu, Luke Nemetz
-Holtzman, James C. Hone, Vasiliy Perebeinos, Junichiro Kono, Xiaofeng Qian,
-and Shengxi Huang
+## Paper
+
+### _Ultrahigh-Purity Single-Photon Emission from 2D WSe2 via Effective Suppression of Classical Emission_
+Wenjing Wu, Alex Strasser, **Zhongqi Xiu**...Shuo Sun, Junichiro Kono, Xiaofeng Qian, Shengxi Huang
 
 ## Research Experience
 
@@ -52,7 +57,7 @@ Lab: [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/)
 - Achieved the control time of atoms to 3s (Unpublished)
 
 ### Single photon emitter creation in few layer 2D materials
-*2024 - Present*  
+*2024*  
 Supervisors: [Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ&hl=en), [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang)  
 Lab: [SCOPE Lab](https://scopelab.rice.edu/)
 
