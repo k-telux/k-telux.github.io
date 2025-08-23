@@ -14,7 +14,7 @@ author_profile: true
 * Examined the single photon emission quality by conducting photon statistic measurements, obtain second-order correlation function $g^{2}(\tau)$ using Hanbury Brown and Twiss (HBT) interferometry. 
 * Improved the purity of SPE by electrostatic gating and charge transfer between molecules and graphene. 
 
-## Heatmap plotter & Spectrum fitting plotter (2024 - Present)
+## Heatmap plotter & Spectrum fitting plotter (2024)
 ****
 _Served for SCOPE Lab (Original python codes in [Github](https://github.com/k-telux/SPE-purity))_
 * [Heatmap plotter](../assets/Heatmap_plotter.exe):
