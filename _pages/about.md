@@ -8,29 +8,29 @@ redirect_from:
   - /about.html
 ---
 
+I am a first-year graduate student from [the Chemistry PhD program](https://chemistry.brown.edu/graduate) at [Brown University](https://www.brown.edu/). 
 
-I am a fourth-year undergraduate student from the [School of Physical Sciences](https://en.physics.ustc.edu.cn/), [University of Science and Technology of China (USTC)](https://en.ustc.edu.cn/), majoring in Optics and Optical Engineering. You can find my CV [here](../assets/xzq_Resume.pdf).
-
-**I’m looking for Ph.D. opportunities in Quantum Optics and Low Dimensional Optical Materials/Devices.** Please feel free to email me if you have any opportunities or suggestions.
+I have a bachelor degree of physics at [School of Physical Sciences](https://en.physics.ustc.edu.cn/), [University of Science and Technology of China (USTC)](https://en.ustc.edu.cn/), majoring in Optics and Optical Engineering.  You can find my academic CV [here](../assets/xzq_Resume.pdf) and my bachelor thesis [here](../assets/bachelor_thesis.pdf).
 
 From 2022 to 2024, I focused on Fiber Cavity QED and participated in the "Single-atom trapping technique based on movable optical lattices" project supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) at USTC
 
-Now, I am researching single photon emission in few-layer WSe2/WS2, which is supported by the [SCOPE lab](https://scopelab.rice.edu/) and led by [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang) and [Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ) at Rice University.(Visiting scholar)
+At 2024 summer, I went to Rice University for a half year internship program. I invastigated the single photon emission in few-layer WSe2/WS2 and finished my bachlor degree thesis, which were supported by the [SCOPE lab](https://scopelab.rice.edu/) and led by [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang) and [Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ) at Rice University.
 
-My senior thesis will focus on the __strain engineering__ using __PZT array__ (Especially PMN-PT). Now I'm trying to simulate the system and make the strain __programmable__ using the voltage modulation.
 
-## Research Interests
-- Fiber cavity QED 
-- Optical characterization of 2D materials
+## PhD Research Area
+- Exciton phase transition in low dimensional materials
+- Mott transition and the hidden phase in moire supperlattice
+- 2D devices fabrication and stack
+
+## Bachelor Research History
+- Fiber cavity QED with cold atoms
 - Single photon emission based on defects
+- Strain engineering by piezoelectric materials and neural network
 
-## Contact
-- [Email](xzqtelux@mail.ustc.edu.cn) 
+## Contact Information
+- [Email](zhongqi_xiu@brown.edu) 
 - [Github](https://github.com/k-telux)
 - [Wechat](../images/wechat.jpg)
-- [Status](http://frp-aim.top:44404/) (Testing)
-
-
 
 <html lang="zh-cn">
 <head>

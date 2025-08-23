@@ -4,11 +4,13 @@ title: "Projects"
 permalink: /projects/
 author_profile: true
 ---
+## Programmable Strain Tuning of Single Photon Emissions in 2D Materials with Piezoelectric Array (Bachelor thesis)
+****
+* You can find related files [here](../assets/bachelor_thesis.pdf)
 
-## Single photon emission in 2D materials (2024 - Present)
+## Single photon emission in 2D materials (2024)
 #### _This work is supervised by [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ&hl=en) and [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang), [SCOPE Lab](https://scopelab.rice.edu/) in Rice University_
 ****
-* <font color=Red>Now I try my best to do this research...</font>
 * Designed and fabricated substrates with strain engineering features (nano pillars, nano discs) with electron beam lithography for deterministically creation of single photon emitters.
 * Carried out optical spectroscopy measurements including photoluminescence (PL), Raman, Time-Correlated Single Photon Counting (TCSPC) on hBN encapsulated WSe2 and WS2 monolayers integrated with strain engineered substrates.
 * Examined the single photon emission quality by conducting photon statistic measurements, obtain second-order correlation function $g^{2}(\tau)$ using Hanbury Brown and Twiss (HBT) interferometry. 
