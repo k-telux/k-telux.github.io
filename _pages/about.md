@@ -14,7 +14,7 @@ I have a bachelor degree of physics at [School of Physical Sciences](https://en.
 
 From 2022 to 2024, I focused on Fiber Cavity QED and participated in the "Single-atom trapping technique based on movable optical lattices" project supervised by [Prof. Chuan-Feng Li](http://lqcc.ustc.edu.cn/cfli/) and associate professor [Dr. Jian Wang](https://faculty.ustc.edu.cn/wangjian1), [CAS Key Laboratory of Quantum Information](https://lqcc.ustc.edu.cn/) at USTC
 
-At 2024 summer, I went to Rice University for a half year internship program. I invastigated the single photon emission in few-layer WSe$_{2}$/WS$_{2}$ and finished my bachlor degree thesis, which were supported by the [SCOPE lab](https://scopelab.rice.edu/) and led by [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang) and [Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ) at Rice University.
+At 2024 summer, I went to Rice University for a half year internship program. I invastigated the single photon emission in few-layer transition-metal dichalcogenide (TMDC) and finished my bachlor degree thesis, which were supported by the [SCOPE lab](https://scopelab.rice.edu/) and led by [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang) and [Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ) at Rice University.
 
 
 ## PhD Research Area
