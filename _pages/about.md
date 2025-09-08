@@ -53,7 +53,7 @@ At 2024 summer, I went to Rice University for a half year internship program. I 
             <li>Member of the Student Union (2021 - 2023)</li>
             <li>Principal player of the wind section of the School Folk Orchestra --- <a href="https://space.bilibili.com/64643274">NMOU</a> (2021 - 2023)</li>
             <li>Hobbies: music, travel, photography(especially aerial), gym, anime (also two-dimensional)</li>
-            <li><a href="https://space.bilibili.com/89038571">Bilibili homepage</a> (You can find my aerial videos here 😜)<br></li>
+            <li><a href="https://space.bilibili.com/89038571">Bilibili homepage</a> (You can find my aerial videos here)<br></li>
         </ul>
     </div>
 
