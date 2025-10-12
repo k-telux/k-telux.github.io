@@ -44,7 +44,7 @@ author_profile: true
 <form
   class="contact-card"
   id="contactForm"
-  action="https://formsubmit.co/xzqtelux@gmail.com"
+  action="https://formsubmit.co/afac8593c9c18a504deded6135c1b48f"
   method="POST"
   enctype="multipart/form-data"
   autocomplete="on"
