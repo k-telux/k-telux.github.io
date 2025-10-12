@@ -33,39 +33,73 @@ At 2024 summer, I went to Rice University for a half year internship program. I 
 
 <html lang="zh-cn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV</title>
-    <style>
-        .hidden-content {
-            display: none;
-        }
-        .clickable {
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV</title>
+  <style>
+    .hidden-content { display: none; }
+    .clickable { cursor: pointer; }
+
+    /* 新增：按钮样式（简洁、主题友好） */
+    .btn-music {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .55rem .9rem; border-radius: .6rem; border: 1px solid #e5e7eb;
+      background: #111827; color: #fff; text-decoration: none; font-size: .95rem;
+      box-shadow: 0 6px 16px rgba(0,0,0,.06);
+      transition: transform .05s ease, opacity .2s ease;
+    }
+    .btn-music:hover { opacity: .92; }
+    .btn-music:active { transform: translateY(1px); }
+    .btn-wrap { margin-top: .75rem; }
+  </style>
 </head>
 <body>
-    <h2 class="clickable" onclick="toggleVisibility()">Extracurricular Activities & Interests (Click to view)</h2>
-    <div class="hidden-content" id="hidden-content">
-        <ul>
-            <li>Member of the Student Union (2021 - 2023)</li>
-            <li>Principal player of the wind section of the School Folk Orchestra --- <a href="https://space.bilibili.com/64643274">NMOU</a> (2021 - 2023)</li>
-            <li>Hobbies: music, travel, photography(especially aerial), gym, anime (also two-dimensional)</li>
-            <li><a href="https://space.bilibili.com/89038571">Bilibili homepage</a> (You can find my aerial videos here)<br></li>
-        </ul>
-    </div>
+  <h2 class="clickable" onclick="toggleVisibility()">Extracurricular Activities & Interests (Click to view)</h2>
 
-    <script>
-        function toggleVisibility() {
-            var hiddenContent = document.getElementById('hidden-content');
-            if (hiddenContent.style.display === 'none' || hiddenContent.style.display === '') {
-                hiddenContent.style.display = 'block';
-            } else {
-                hiddenContent.style.display = 'none';
-            }
-        }
-    </script>
+  <div class="hidden-content" id="hidden-content">
+    <ul>
+      <li>Member of the Student Union (2021 - 2023)</li>
+      <li>Principal player of the wind section of the School Folk Orchestra --- <a href="https://space.bilibili.com/64643274">NMOU</a> (2021 - 2023)</li>
+      <li>Hobbies: music, travel, photography(especially aerial), gym, anime (also two-dimensional)</li>
+      <li><a href="https://space.bilibili.com/89038571">Bilibili homepage</a> (You can find my aerial videos here)<br></li>
+    </ul>
+
+    <!-- 新增：跳转按钮（不加入顶部导航，通过按钮访问 /music/） -->
+    <div class="btn-wrap">
+      <!-- 方法A：a标签当按钮（推荐） -->
+      <a id="musicLink" class="btn-music" href="#">🎵 Open My Music</a>
+
+      <!-- 方法B（可选）：button版。若只保留A，上面这一段可以删除）
+      <button class="btn-music" type="button" onclick="goMusic()">🎵 Open My Music</button>
+      -->
+    </div>
+  </div>
+
+  <script>
+    // 展开/收起
+    function toggleVisibility() {
+      var hiddenContent = document.getElementById('hidden-content');
+      if (hiddenContent.style.display === 'none' || hiddenContent.style.display === '') {
+        hiddenContent.style.display = 'block';
+      } else {
+        hiddenContent.style.display = 'none';
+      }
+    }
+
+    // 计算 baseurl（Jekyll 会在构建时替换；本地纯HTML打开时退化为空字符串）
+    var BASE = "{{ site.baseurl | default: '' }}";
+
+    // 方法A：给 a 标签注入正确的 href
+    var musicLink = document.getElementById('musicLink');
+    if (musicLink) {
+      musicLink.href = BASE + "/music/";   // 你的音乐子页面固定是 /music/
+    }
+
+    // 方法B（若使用 button）
+    function goMusic() {
+      window.location.href = BASE + "/music/";
+    }
+  </script>
 </body>
 </html>
 
