@@ -111,199 +111,103 @@ author_profile: true
 </div>
 
 <script>
-  // ======== 配置：支持多格式优先级（WAV 优先，回退 MP3/OGG/M4A/FLAC） ========
-  // 方式1（推荐）：为每首提供 sources 数组（浏览器会选第一个可播放的）
-  // 方式2：仍可用原来的单一 src（会按扩展名猜 MIME）
-
+document.addEventListener('DOMContentLoaded', function () {
+  // ===== 站点 baseurl（Jekyll 会替换为 "" 或 "/<repo>"）=====
   const base = "{{ base }}";
+  const ASSETS = base + "/assets/music/";
+
+  // 只对“文件名”编码，目录不编码
+  const urlOf = (file) => ASSETS + encodeURIComponent((file || "").trim());
+
+  // ===== 在这里列出你的歌单：文件都放在 assets/music/ 下 =====
   const tracks = [
     {
-      title: "Somniomancer [null set]",
+      title: "Somniomancer",
       artist: "Cryolf",
-      // 只有一个 src 也支持（会根据扩展名猜测 MIME）
-      src: base + "/assets/music/Somniomancer.wav",
-      cover: base + "/assets/music/Somniomancer.jpg"
+      file: "Somniomancer.wav",      // 音频文件名（区分大小写）
+      coverFile: "Somniomancer.jpg"  // 封面文件名（区分大小写）
     }
+    // 继续追加更多：
   ];
 
-  // ======== 元素 ========
-  const listEl = document.getElementById('playlist');
-  const audio = document.getElementById('audio');
-  const cover = document.getElementById('cover');
-  const nowTitle = document.getElementById('nowTitle');
-  const nowArtist = document.getElementById('nowArtist');
-  const playBtn = document.getElementById('play');
-  const prevBtn = document.getElementById('prev');
-  const nextBtn = document.getElementById('next');
-  const seek = document.getElementById('seek');
-  const curT = document.getElementById('cur');
-  const durT = document.getElementById('dur');
-  const vol = document.getElementById('vol');
-  const loopChip = document.getElementById('loopChip');
-  const shuffleChip = document.getElementById('shuffleChip');
-  const muteChip = document.getElementById('muteChip');
+  // ===== 元素 =====
+  const listEl     = document.getElementById('playlist');
+  const audio      = document.getElementById('audio');
+  const cover      = document.getElementById('cover');
+  const nowTitle   = document.getElementById('nowTitle');
+  const nowArtist  = document.getElementById('nowArtist');
+  const playBtn    = document.getElementById('play');
+  const prevBtn    = document.getElementById('prev');
+  const nextBtn    = document.getElementById('next');
+  const seek       = document.getElementById('seek');
+  const curT       = document.getElementById('cur');
+  const durT       = document.getElementById('dur');
+  const vol        = document.getElementById('vol');
+  const loopChip   = document.getElementById('loopChip');
+  const shuffleChip= document.getElementById('shuffleChip');
+  const muteChip   = document.getElementById('muteChip');
 
-  let index = 0;
-  let isLoop = false;
-  let isShuffle = false;
+  let index = 0, isLoop = false, isShuffle = false;
 
-  // ======== 工具：扩展名 -> MIME 猜测 ========
-  const mimeByExt = {
-    mp3: "audio/mpeg",
-    wav: "audio/wav",
-    ogg: "audio/ogg",
-    m4a: "audio/mp4",
-    aac: "audio/aac",
-    flac: "audio/flac" // 注意：浏览器普遍不原生支持 FLAC
-  };
-  function guessMime(url){
-    const m = url.toLowerCase().match(/\.([a-z0-9]+)(?:\?|#|$)/);
-    return m ? (mimeByExt[m[1]] || "") : "";
-  }
-
-  // 把 track 统一转为 sources 数组
-  function toSources(track){
-    if (Array.isArray(track.sources) && track.sources.length) return track.sources;
-    if (track.src) return [{ src: track.src, type: guessMime(track.src) }];
-    return [];
-  }
-
-  // 选择第一个可播放的 source
-  function pickPlayable(track){
-    const sources = toSources(track);
-    for (const s of sources){
-      // 若有 type，用 canPlayType 判断；没有 type 时尝试直接返回（有些浏览器仍可播）
-      if (s.type) {
-        const support = audio.canPlayType(s.type);
-        if (support === "probably" || support === "maybe") return s;
-      } else {
-        return s;
-      }
-    }
-    // 都不支持则返回第一个作为兜底
-    return sources[0] || null;
-  }
-
-  // ======== 渲染歌单 ========
-  function renderList(){
+  // ===== 渲染歌单 =====
+  function renderList() {
     listEl.innerHTML = "";
-    tracks.forEach((t, i)=>{
+    tracks.forEach((t, i) => {
       const li = document.createElement('li');
       li.dataset.index = i;
       li.innerHTML = `
-        <img class="mini-cover" src="${t.cover}" alt="">
+        <img class="mini-cover" src="${ t.coverFile ? urlOf(t.coverFile) : (base + '/assets/music/cover.png') }" alt="">
         <div class="meta">
-          <span class="title">${t.title}</span>
-          <span class="artist">${t.artist}</span>
+          <span class="title">${ t.title || 'Untitled' }</span>
+          <span class="artist">${ t.artist || '' }</span>
         </div>`;
-      li.addEventListener('click', ()=> loadAndPlay(i));
+      li.addEventListener('click', () => loadAndPlay(i));
       listEl.appendChild(li);
     });
     activate(index);
   }
-
   function activate(i){
-    [...listEl.children].forEach(li=> li.classList.remove('active'));
-    const active = listEl.children[i];
-    if (active) active.classList.add('active');
+    [...listEl.children].forEach(li => li.classList.remove('active'));
+    if (listEl.children[i]) listEl.children[i].classList.add('active');
   }
 
-  // ======== 加载并播放 ========
+  // ===== 加载 & 播放 =====
   function load(i){
-    const t = tracks[i];
-    if (!t) return;
+    const t = tracks[i]; if (!t) return;
     index = i;
 
-    const selected = pickPlayable(t);
-    if (!selected){
-      // 没有可播放来源，清空
-      audio.removeAttribute('src');
-    } else {
-      audio.src = selected.src;
-    }
-
-    cover.src = t.cover;
-    nowTitle.textContent = t.title;
-    nowArtist.textContent = t.artist;
+    audio.src = urlOf(t.file); // 直接挂载 .wav
+    cover.src = t.coverFile ? urlOf(t.coverFile) : (base + "/assets/music/cover.png");
+    nowTitle.textContent  = t.title || "Title";
+    nowArtist.textContent = t.artist || "Artist";
     activate(index);
   }
   function loadAndPlay(i){
     load(i);
-    // 尝试播放（自动播放可能被策略阻止）
-    audio.play().catch(()=>{});
+    audio.play().catch(()=>{}); // 自动播放可能被策略阻止
     syncPlayButton();
   }
 
-  // ======== 控件 ========
-  function syncPlayButton(){
-    playBtn.textContent = audio.paused ? "▶️" : "⏸";
-  }
-  playBtn.addEventListener('click', ()=>{
-    if (audio.paused) audio.play(); else audio.pause();
-    syncPlayButton();
-  });
-  prevBtn.addEventListener('click', ()=> {
-    if (isShuffle) return nextRandom();
-    const i = (index - 1 + tracks.length) % tracks.length;
-    loadAndPlay(i);
-  });
-  nextBtn.addEventListener('click', ()=> {
-    if (isShuffle) return nextRandom();
-    const i = (index + 1) % tracks.length;
-    loadAndPlay(i);
-  });
+  // ===== 控件 =====
+  function syncPlayButton(){ playBtn.textContent = audio.paused ? "▶️" : "⏸"; }
+  playBtn.addEventListener('click', ()=>{ if (audio.paused) audio.play(); else audio.pause(); syncPlayButton(); });
+  prevBtn.addEventListener('click', ()=>{ const i = isShuffle ? randNext() : (index - 1 + tracks.length) % tracks.length; loadAndPlay(i); });
+  nextBtn.addEventListener('click', ()=>{ const i = isShuffle ? randNext() : (index + 1) % tracks.length; loadAndPlay(i); });
 
-  // 进度 & 时长
-  function fmt(sec){
-    if (!isFinite(sec)) return "0:00";
-    const m = Math.floor(sec/60); const s = Math.floor(sec%60);
-    return m + ":" + (s<10 ? "0"+s : s);
-  }
-  audio.addEventListener('loadedmetadata', ()=>{
-    durT.textContent = fmt(audio.duration);
-  });
-  audio.addEventListener('timeupdate', ()=>{
-    curT.textContent = fmt(audio.currentTime);
-    if (audio.duration) seek.value = Math.floor(audio.currentTime / audio.duration * 100);
-  });
-  seek.addEventListener('input', ()=>{
-    if (audio.duration) audio.currentTime = seek.value/100 * audio.duration;
-  });
+  function fmt(s){ if(!isFinite(s)) return "0:00"; const m=Math.floor(s/60), ss=Math.floor(s%60); return m+":"+(ss<10?"0"+ss:ss); }
+  audio.addEventListener('loadedmetadata', ()=>{ durT.textContent = fmt(audio.duration); });
+  audio.addEventListener('timeupdate', ()=>{ curT.textContent = fmt(audio.currentTime); if(audio.duration) seek.value = Math.floor(audio.currentTime/audio.duration*100); });
+  seek.addEventListener('input', ()=>{ if(audio.duration) audio.currentTime = seek.value/100*audio.duration; });
 
-  // 音量 & 静音
-  vol.addEventListener('input', ()=> { audio.volume = parseFloat(vol.value); });
-  muteChip.addEventListener('click', ()=>{
-    audio.muted = !audio.muted;
-    muteChip.classList.toggle('active', audio.muted);
-    muteChip.textContent = audio.muted ? "Muted" : "Mute";
-  });
+  vol.addEventListener('input', ()=>{ audio.volume = parseFloat(vol.value); });
+  muteChip.addEventListener('click', ()=>{ audio.muted = !audio.muted; muteChip.classList.toggle('active', audio.muted); muteChip.textContent = audio.muted ? "Muted" : "Mute"; });
+  loopChip.addEventListener('click', ()=>{ isLoop = !isLoop; loopChip.classList.toggle('active', isLoop); });
+  shuffleChip.addEventListener('click', ()=>{ isShuffle = !isShuffle; shuffleChip.classList.toggle('active', isShuffle); });
+  function randNext(){ if(tracks.length<=1) return index; let j=index; while(j===index) j=Math.floor(Math.random()*tracks.length); return j; }
+  audio.addEventListener('ended', ()=>{ if(isLoop) return loadAndPlay(index); const i = isShuffle ? randNext() : (index+1)%tracks.length; loadAndPlay(i); });
 
-  // 循环 & 随机
-  loopChip.addEventListener('click',()=>{
-    isLoop = !isLoop;
-    loopChip.classList.toggle('active', isLoop);
-  });
-  shuffleChip.addEventListener('click',()=>{
-    isShuffle = !isShuffle;
-    shuffleChip.classList.toggle('active', isShuffle);
-  });
-
-  function nextRandom(){
-    if (tracks.length <= 1) return;
-    let j = index;
-    while (j === index) j = Math.floor(Math.random()*tracks.length);
-    loadAndPlay(j);
-  }
-
-  // 自动下一首
-  audio.addEventListener('ended', ()=>{
-    if (isLoop) { loadAndPlay(index); return; }
-    if (isShuffle) { nextRandom(); return; }
-    const i = (index + 1) % tracks.length;
-    loadAndPlay(i);
-  });
-
-  // 初始化
+  // ===== 启动 =====
   renderList();
   load(0);
+});
 </script>
