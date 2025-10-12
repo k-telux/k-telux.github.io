@@ -7,207 +7,68 @@ author_profile: true
 
 {% assign base = site.baseurl | default: "" %}
 
+<!-- APlayer 样式 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+
 <style>
-  /* Container */
-  .music-wrap{
+  /* 卡片外观，贴合你站点风格 */
+  .music-container{
     max-width: 980px; margin: 1.5rem auto; padding: 0 1rem;
-    display:grid; grid-template-columns: 320px 1fr; gap: 1.25rem;
   }
-  @media (max-width: 900px){ .music-wrap{ grid-template-columns: 1fr; } }
-
-  /* Playlist panel */
-  .playlist{
-    background: #fff; border:1px solid #e5e7eb; border-radius: 1rem;
-    overflow: hidden; display:flex; flex-direction: column;
-    box-shadow: 0 8px 24px rgba(0,0,0,.04);
+  .aplayer{
+    box-shadow: 0 8px 24px rgba(0,0,0,.06);
+    border: 1px solid #e5e7eb; border-radius: 1rem;
   }
-  .playlist h3{ margin:0; padding:.9rem 1rem; border-bottom:1px solid #eef2f7; font-size:1.05rem }
-  .playlist ul{ list-style:none; margin:0; padding:0; max-height: 520px; overflow:auto }
-  .playlist li{
-    display:flex; gap:.75rem; align-items:center; padding:.6rem .8rem; cursor:pointer;
-    transition: background .15s ease;
+  .aplayer .aplayer-list{
+    max-height: 420px; /* 播放列表区域加个高度方便滚动 */
   }
-  .playlist li:hover{ background:#f9fafb }
-  .playlist li.active{ background:#eef6ff }
-  .mini-cover{ width:44px; height:44px; border-radius:.5rem; object-fit:cover; flex:0 0 auto }
-  .meta{ display:flex; flex-direction:column; line-height:1.2 }
-  .title{ font-weight:600; font-size:.95rem }
-  .artist{ color:#6b7280; font-size:.85rem }
-
-  /* Player card */
-  .player{
-    background:#fff; border:1px solid #e5e7eb; border-radius:1rem; padding:1rem;
-    box-shadow: 0 8px 24px rgba(0,0,0,.04);
-  }
-  .hero{ display:flex; gap:1rem; align-items:center; }
-  .cover{
-    width:180px; height:180px; border-radius:1rem; object-fit:cover; box-shadow:0 10px 24px rgba(0,0,0,.08);
-  }
-  .now{ display:flex; flex-direction:column; gap:.25rem }
-  .now .t{ font-size:1.25rem; font-weight:700 }
-  .now .a{ color:#6b7280 }
-
-  .controls{ display:flex; align-items:center; gap:.6rem; margin-top:1rem; flex-wrap:wrap }
-  .btn{
-    border:none; background:#111827; color:#fff; padding:.55rem .8rem; border-radius:.65rem; cursor:pointer;
-  }
-  .btn.alt{ background:#374151 }
-  .btn.ghost{ background:#f3f4f6; color:#111827 }
-  .btn:disabled{ opacity:.6; cursor:not-allowed }
-
-  .progress{ display:flex; align-items:center; gap:.5rem; margin-top:.75rem }
-  .time{ font-variant-numeric: tabular-nums; font-size:.85rem; color:#6b7280 }
-  input[type="range"]{ width:100%; accent-color:#111827; }
-
-  .row{ display:flex; gap:1rem; align-items:center; margin-top:.5rem; flex-wrap:wrap }
-  .chip{ font-size:.85rem; background:#f3f4f6; padding:.3rem .55rem; border-radius:.5rem; cursor:pointer; }
-  .chip.active{ background:#111827; color:#fff }
-
-  .hint{ color:#6b7280; font-size:.85rem; margin-top:.5rem }
 </style>
 
-<div class="music-wrap">
-  <!-- Playlist -->
-  <div class="playlist">
-    <h3>Playlist</h3>
-    <ul id="playlist"></ul>
-  </div>
-
-  <!-- Player -->
-  <div class="player">
-    <div class="hero">
-      <img id="cover" class="cover" src="{{ base }}/assets/music/cover.png" alt="cover">
-      <div class="now">
-        <div id="nowTitle" class="t">Title</div>
-        <div id="nowArtist" class="a">Artist</div>
-      </div>
-    </div>
-
-    <div class="controls">
-      <button id="prev" class="btn alt" aria-label="Previous">⏮</button>
-      <button id="play" class="btn" aria-label="Play/Pause">▶️</button>
-      <button id="next" class="btn alt" aria-label="Next">⏭</button>
-
-      <div class="row">
-        <span class="chip" id="loopChip" title="Loop">Loop</span>
-        <span class="chip" id="shuffleChip" title="Shuffle">Shuffle</span>
-        <span class="chip" id="muteChip" title="Mute">Mute</span>
-      </div>
-    </div>
-
-    <div class="progress">
-      <span id="cur" class="time">0:00</span>
-      <input id="seek" type="range" min="0" max="100" value="0" step="1" aria-label="Seek">
-      <span id="dur" class="time">0:00</span>
-    </div>
-
-    <div class="row">
-      <label class="time" for="vol">Volume</label>
-      <input id="vol" type="range" min="0" max="1" step="0.01" value="0.9" style="width:180px">
-    </div>
-
-    <audio id="audio" preload="metadata"></audio>
-  </div>
+<div class="music-container">
+  <div id="aplayer"></div>
 </div>
 
+<!-- APlayer 脚本 -->
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  // ===== 站点 baseurl（Jekyll 会替换为 "" 或 "/<repo>"）=====
-  const base = "{{ base }}";
-  const ASSETS = base + "/assets/music/";
+  (function(){
+    // 站点 baseurl（GitHub Pages 根站为空字符串，子路径时如 "/repo"）
+    const BASE = "{{ base }}";
+    // 仅编码文件名，避免空格/中文/特殊字符问题
+    const u = (file) => BASE + "/assets/music/" + encodeURIComponent(file.trim());
 
-  // 只对“文件名”编码，目录不编码
-  const urlOf = (file) => ASSETS + encodeURIComponent((file || "").trim());
+    // 你的歌单（可继续追加）
+    const audioList = [
+      {
+        name: "Somniomancer",
+        artist: "Cryolf",
+        url: u("Somniomancer.wav"),     // 支持 .wav
+        cover: u("Somniomancer.jpg")    // 封面
+      }
+      // 继续加：
+      // { name:"...", artist:"...", url: u("My Song.wav"), cover: u("My Song.jpg") }
+    ];
 
-  // ===== 在这里列出你的歌单：文件都放在 assets/music/ 下 =====
-  const tracks = [
-    {
-      title: "Somniomancer",
-      artist: "Cryolf",
-      file: "Somniomancer.wav",      // 音频文件名（区分大小写）
-      coverFile: "Somniomancer.jpg"  // 封面文件名（区分大小写）
-    }
-    // 继续追加更多：
-  ];
-
-  // ===== 元素 =====
-  const listEl     = document.getElementById('playlist');
-  const audio      = document.getElementById('audio');
-  const cover      = document.getElementById('cover');
-  const nowTitle   = document.getElementById('nowTitle');
-  const nowArtist  = document.getElementById('nowArtist');
-  const playBtn    = document.getElementById('play');
-  const prevBtn    = document.getElementById('prev');
-  const nextBtn    = document.getElementById('next');
-  const seek       = document.getElementById('seek');
-  const curT       = document.getElementById('cur');
-  const durT       = document.getElementById('dur');
-  const vol        = document.getElementById('vol');
-  const loopChip   = document.getElementById('loopChip');
-  const shuffleChip= document.getElementById('shuffleChip');
-  const muteChip   = document.getElementById('muteChip');
-
-  let index = 0, isLoop = false, isShuffle = false;
-
-  // ===== 渲染歌单 =====
-  function renderList() {
-    listEl.innerHTML = "";
-    tracks.forEach((t, i) => {
-      const li = document.createElement('li');
-      li.dataset.index = i;
-      li.innerHTML = `
-        <img class="mini-cover" src="${ t.coverFile ? urlOf(t.coverFile) : (base + '/assets/music/cover.png') }" alt="">
-        <div class="meta">
-          <span class="title">${ t.title || 'Untitled' }</span>
-          <span class="artist">${ t.artist || '' }</span>
-        </div>`;
-      li.addEventListener('click', () => loadAndPlay(i));
-      listEl.appendChild(li);
+    // 初始化播放器
+    const ap = new APlayer({
+      container: document.getElementById('aplayer'),
+      audio: audioList,
+      theme: '#111827',
+      preload: 'metadata',
+      autoplay: false,
+      loop: 'all',        // all / one / none
+      order: 'list',      // list / random
+      volume: 0.85,
+      mutex: true,        // 多个音频互斥
+      listFolded: false,  // 默认展开播放列表
+      lrcType: 0
     });
-    activate(index);
-  }
-  function activate(i){
-    [...listEl.children].forEach(li => li.classList.remove('active'));
-    if (listEl.children[i]) listEl.children[i].classList.add('active');
-  }
 
-  // ===== 加载 & 播放 =====
-  function load(i){
-    const t = tracks[i]; if (!t) return;
-    index = i;
-
-    audio.src = urlOf(t.file); // 直接挂载 .wav
-    cover.src = t.coverFile ? urlOf(t.coverFile) : (base + "/assets/music/cover.png");
-    nowTitle.textContent  = t.title || "Title";
-    nowArtist.textContent = t.artist || "Artist";
-    activate(index);
-  }
-  function loadAndPlay(i){
-    load(i);
-    audio.play().catch(()=>{}); // 自动播放可能被策略阻止
-    syncPlayButton();
-  }
-
-  // ===== 控件 =====
-  function syncPlayButton(){ playBtn.textContent = audio.paused ? "▶️" : "⏸"; }
-  playBtn.addEventListener('click', ()=>{ if (audio.paused) audio.play(); else audio.pause(); syncPlayButton(); });
-  prevBtn.addEventListener('click', ()=>{ const i = isShuffle ? randNext() : (index - 1 + tracks.length) % tracks.length; loadAndPlay(i); });
-  nextBtn.addEventListener('click', ()=>{ const i = isShuffle ? randNext() : (index + 1) % tracks.length; loadAndPlay(i); });
-
-  function fmt(s){ if(!isFinite(s)) return "0:00"; const m=Math.floor(s/60), ss=Math.floor(s%60); return m+":"+(ss<10?"0"+ss:ss); }
-  audio.addEventListener('loadedmetadata', ()=>{ durT.textContent = fmt(audio.duration); });
-  audio.addEventListener('timeupdate', ()=>{ curT.textContent = fmt(audio.currentTime); if(audio.duration) seek.value = Math.floor(audio.currentTime/audio.duration*100); });
-  seek.addEventListener('input', ()=>{ if(audio.duration) audio.currentTime = seek.value/100*audio.duration; });
-
-  vol.addEventListener('input', ()=>{ audio.volume = parseFloat(vol.value); });
-  muteChip.addEventListener('click', ()=>{ audio.muted = !audio.muted; muteChip.classList.toggle('active', audio.muted); muteChip.textContent = audio.muted ? "Muted" : "Mute"; });
-  loopChip.addEventListener('click', ()=>{ isLoop = !isLoop; loopChip.classList.toggle('active', isLoop); });
-  shuffleChip.addEventListener('click', ()=>{ isShuffle = !isShuffle; shuffleChip.classList.toggle('active', isShuffle); });
-  function randNext(){ if(tracks.length<=1) return index; let j=index; while(j===index) j=Math.floor(Math.random()*tracks.length); return j; }
-  audio.addEventListener('ended', ()=>{ if(isLoop) return loadAndPlay(index); const i = isShuffle ? randNext() : (index+1)%tracks.length; loadAndPlay(i); });
-
-  // ===== 启动 =====
-  renderList();
-  load(0);
-});
+    // 失败兜底提示（比如路径错或浏览器不支持格式）
+    ap.on('error', function(e){
+      console.warn('Audio load error:', e);
+      alert('Audio failed to load. Please check file name/path and try hard refresh (Ctrl+F5).');
+    });
+  })();
 </script>
