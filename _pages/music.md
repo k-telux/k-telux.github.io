@@ -82,7 +82,6 @@ author_profile: true
       <div class="now">
         <div id="nowTitle" class="t">Title</div>
         <div id="nowArtist" class="a">Artist</div>
-        <div class="hint">Files are served from <code>assets/music/</code>.</div>
       </div>
     </div>
 
