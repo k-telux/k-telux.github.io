@@ -57,9 +57,7 @@ author_profile: true
 
   .progress{ display:flex; align-items:center; gap:.5rem; margin-top:.75rem }
   .time{ font-variant-numeric: tabular-nums; font-size:.85rem; color:#6b7280 }
-  input[type="range"]{
-    width:100%; accent-color:#111827;
-  }
+  input[type="range"]{ width:100%; accent-color:#111827; }
 
   .row{ display:flex; gap:1rem; align-items:center; margin-top:.5rem; flex-wrap:wrap }
   .chip{ font-size:.85rem; background:#f3f4f6; padding:.3rem .55rem; border-radius:.5rem; cursor:pointer; }
@@ -78,10 +76,11 @@ author_profile: true
   <!-- Player -->
   <div class="player">
     <div class="hero">
-      <img id="cover" class="cover" src="{{ base }}/assets/music/covers/default.jpg" alt="cover">
+      <img id="cover" class="cover" src="{{ base }}/assets/music/cover.png" alt="cover">
       <div class="now">
         <div id="nowTitle" class="t">Title</div>
         <div id="nowArtist" class="a">Artist</div>
+        <div class="hint">Files are served from <code>assets/music/</code>.</div>
       </div>
     </div>
 
@@ -113,22 +112,22 @@ author_profile: true
 </div>
 
 <script>
-  // ======== 配置：在这里列出你的歌单 ========
-  // 把音频放到 assets/music/audio/；封面放到 assets/music/covers/
-  // 支持 mp3/ogg/flac(浏览器支持取决于编码)
+  // ======== 配置：支持多格式优先级（WAV 优先，回退 MP3/OGG/M4A/FLAC） ========
+  // 方式1（推荐）：为每首提供 sources 数组（浏览器会选第一个可播放的）
+  // 方式2：仍可用原来的单一 src（会按扩展名猜 MIME）
+
   const base = "{{ base }}";
   const tracks = [
     {
       title: "Somniomancer [null set]",
-      artist: "Crywolf",
-      src: base + "/assets/music/Somniomancer [null set].wav",
-      cover: base + "/assets/music/covers/Somniomancer [null set].jpg"
-    },
-
+      artist: "Cryolf",
+      // 只有一个 src 也支持（会根据扩展名猜测 MIME）
+      src: base + "/assets/music/aSomniomancer [null set].wav",
+      cover: base + "/assets/music/Somniomancer [null set].jpg"
+    }
   ];
-  // ======== 以上替换为你的实际文件名即可 ========
 
-  // 元素
+  // ======== 元素 ========
   const listEl = document.getElementById('playlist');
   const audio = document.getElementById('audio');
   const cover = document.getElementById('cover');
@@ -149,7 +148,44 @@ author_profile: true
   let isLoop = false;
   let isShuffle = false;
 
-  // 渲染歌单
+  // ======== 工具：扩展名 -> MIME 猜测 ========
+  const mimeByExt = {
+    mp3: "audio/mpeg",
+    wav: "audio/wav",
+    ogg: "audio/ogg",
+    m4a: "audio/mp4",
+    aac: "audio/aac",
+    flac: "audio/flac" // 注意：浏览器普遍不原生支持 FLAC
+  };
+  function guessMime(url){
+    const m = url.toLowerCase().match(/\.([a-z0-9]+)(?:\?|#|$)/);
+    return m ? (mimeByExt[m[1]] || "") : "";
+  }
+
+  // 把 track 统一转为 sources 数组
+  function toSources(track){
+    if (Array.isArray(track.sources) && track.sources.length) return track.sources;
+    if (track.src) return [{ src: track.src, type: guessMime(track.src) }];
+    return [];
+  }
+
+  // 选择第一个可播放的 source
+  function pickPlayable(track){
+    const sources = toSources(track);
+    for (const s of sources){
+      // 若有 type，用 canPlayType 判断；没有 type 时尝试直接返回（有些浏览器仍可播）
+      if (s.type) {
+        const support = audio.canPlayType(s.type);
+        if (support === "probably" || support === "maybe") return s;
+      } else {
+        return s;
+      }
+    }
+    // 都不支持则返回第一个作为兜底
+    return sources[0] || null;
+  }
+
+  // ======== 渲染歌单 ========
   function renderList(){
     listEl.innerHTML = "";
     tracks.forEach((t, i)=>{
@@ -173,12 +209,20 @@ author_profile: true
     if (active) active.classList.add('active');
   }
 
-  // 加载并播放
+  // ======== 加载并播放 ========
   function load(i){
     const t = tracks[i];
     if (!t) return;
     index = i;
-    audio.src = t.src;
+
+    const selected = pickPlayable(t);
+    if (!selected){
+      // 没有可播放来源，清空
+      audio.removeAttribute('src');
+    } else {
+      audio.src = selected.src;
+    }
+
     cover.src = t.cover;
     nowTitle.textContent = t.title;
     nowArtist.textContent = t.artist;
@@ -186,11 +230,12 @@ author_profile: true
   }
   function loadAndPlay(i){
     load(i);
-    audio.play().catch(()=>{ /* 自动播放可能被浏览器阻止 */ });
+    // 尝试播放（自动播放可能被策略阻止）
+    audio.play().catch(()=>{});
     syncPlayButton();
   }
 
-  // 控件
+  // ======== 控件 ========
   function syncPlayButton(){
     playBtn.textContent = audio.paused ? "▶️" : "⏸";
   }
