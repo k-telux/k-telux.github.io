@@ -5,15 +5,19 @@ excerpt: "favorite tracks"
 author_profile: true
 ---
 
-{% assign base = site.baseurl | default: "" %}
+<!-- 把 baseurl 注入到全局，供 RAW 脚本里使用 -->
+<script>
+  window.__BASE__ = "{{ site.baseurl | default: '' }}";
+</script>
 
-<!-- APlayer CSS（主 CDN） -->
+<!-- APlayer 样式（直接用 CDN） -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
 
 <style>
   .music-container{ max-width:980px; margin:1.5rem auto; padding:0 1rem; }
   .aplayer{ box-shadow:0 8px 24px rgba(0,0,0,.06); border:1px solid #e5e7eb; border-radius:1rem; }
   .aplayer .aplayer-list{ max-height:420px; }
+
   /* Fallback 原生播放器样式（当 JS 失败时显示） */
   .fallback{ display:none; margin-top:1rem; }
   .fallback .card{
@@ -25,19 +29,19 @@ author_profile: true
 </style>
 
 <div class="music-container">
-  <!-- 播放器容器（APlayer 会注入 UI） -->
+  <!-- APlayer 容器 -->
   <div id="aplayer"></div>
 
   <!-- Fallback：当 APlayer 加载失败/被拦截时显示 -->
   <div id="fallback" class="fallback">
     <div class="card">
       <div class="row">
-        <img id="fb-cover" src="{{ base }}/assets/music/Somniomancer.jpg" alt="cover">
+        <img id="fb-cover" alt="cover">
         <div>
-          <div style="font-weight:700">Somniomancer</div>
-          <div style="color:#6b7280;margin-bottom:.5rem">Cryolf</div>
+          <div id="fb-title" style="font-weight:700">Title</div>
+          <div id="fb-artist" style="color:#6b7280;margin-bottom:.5rem">Artist</div>
           <audio id="fb-audio" controls preload="metadata" style="width:100%">
-            <source src="{{ base }}/assets/music/Somniomancer.wav" type="audio/wav">
+            <source id="fb-src" type="audio/wav">
           </audio>
           <div style="color:#6b7280;font-size:.85rem;margin-top:.25rem">
             Using fallback player (CDN blocked or JS failed).
@@ -48,30 +52,34 @@ author_profile: true
   </div>
 </div>
 
+<!-- APlayer 脚本（CDN） -->
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+
+{% raw %}
 <script>
-(function(){
-  // ===== 基础路径与工具 =====
-  const BASE = "{{ base }}";
-  const u = f => BASE + "/assets/music/" + encodeURIComponent(f.trim());
+(function () {
+  const BASE = window.__BASE__ || "";
+  const u = (file) => BASE + "/assets/music/" + encodeURIComponent(String(file).trim());
 
-  // 你的歌单（可以继续追加）
+  // ===== 你的歌单（可追加多首）=====
   const audioList = [
-    { name:"Somniomancer", artist:"Cryolf", url:u("Somniomancer.wav"), cover:u("Somniomancer.jpg") }
+    { name: "Somniomancer", artist: "Cryolf", url: u("Somniomancer.wav"), cover: u("Somniomancer.jpg") }
+    // { name:"Another", artist:"Someone", url:u("Another.wav"), cover:u("Another.jpg") }
   ];
 
-  // ===== 多 CDN 动态加载（任何一个成功就初始化） =====
-  const CDNS = [
-    "https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js",
-    "https://unpkg.com/aplayer/dist/APlayer.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js"
-  ];
-
-  function showFallback(){
+  // Fallback 赋值
+  function mountFallback(){
     document.getElementById('fallback').style.display = 'block';
+    document.getElementById('fb-title').textContent  = audioList[0]?.name  || 'Title';
+    document.getElementById('fb-artist').textContent = audioList[0]?.artist|| 'Artist';
+    document.getElementById('fb-cover').src = audioList[0]?.cover || (BASE + "/assets/music/cover.png");
+    document.getElementById('fb-src').src   = audioList[0]?.url;
+    const a = document.getElementById('fb-audio');
+    a.load();
   }
 
-  function initAPlayer(){
-    if (!window.APlayer) { showFallback(); return; }
+  function init(){
+    if (!window.APlayer) { mountFallback(); return; }
     try{
       const ap = new APlayer({
         container: document.getElementById('aplayer'),
@@ -86,38 +94,19 @@ author_profile: true
         listFolded: false,
         lrcType: 0
       });
-      // 如加载失败（路径/格式问题） -> fallback
-      ap.on('error', function(){ showFallback(); });
+      ap.on('error', function(){ mountFallback(); });
     }catch(e){
       console.error(e);
-      showFallback();
+      mountFallback();
     }
   }
 
-  function loadScriptSeq(urls, done){
-    if (!urls.length) return done(new Error("All CDNs failed"));
-    const src = urls[0];
-    const s = document.createElement('script');
-    s.src = src;
-    s.onload = () => done(null);
-    s.onerror = () => {
-      console.warn("CDN failed:", src);
-      loadScriptSeq(urls.slice(1), done);
-    };
-    document.head.appendChild(s);
+  // 等 DOM 就绪再启动
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
-
-  // 某些主题会把内容在 DOM Ready 后渲染，保险起见等 DOMContentLoaded
-  document.addEventListener('DOMContentLoaded', function(){
-    loadScriptSeq(CDNS, function(err){
-      if (err) {
-        console.warn(err);
-        showFallback();
-        return;
-      }
-      initAPlayer();
-    });
-  });
 })();
 </script>
-
+{% endraw %}
