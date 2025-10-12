@@ -27,8 +27,8 @@ At 2024 summer, I went to Rice University for a half year internship program. I 
 - Strain engineering by piezoelectric materials and neural network
 
 ## Contact Information
+- [Directly Send Message](https://k-telux.github.io/contact/)
 - [Email](zhongqi_xiu@brown.edu) 
-- [Github](https://github.com/k-telux)
 - [Wechat](../images/wechat.jpg)
 
 <html lang="zh-cn">
