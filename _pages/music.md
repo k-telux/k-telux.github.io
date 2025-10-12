@@ -1,6 +1,6 @@
 ---
 permalink: /music/
-title: "My Music"
+title: "Favorite tracks"
 excerpt: "favorite tracks"
 author_profile: true
 ---
@@ -121,8 +121,8 @@ author_profile: true
       title: "Somniomancer [null set]",
       artist: "Cryolf",
       // 只有一个 src 也支持（会根据扩展名猜测 MIME）
-      src: base + "/assets/music/Somniomancer [null set].wav",
-      cover: base + "/assets/music/Somniomancer [null set].jpg"
+      src: base + "/assets/music/Somniomancer.wav",
+      cover: base + "/assets/music/Somniomancer.jpg"
     }
   ];
 
