@@ -29,14 +29,39 @@ author_profile: true
   button[type="submit"] {
     border: none; padding: 0.65rem 1.1rem; border-radius: 0.75rem; cursor: pointer;
   }
-  .btn-primary {
-    background: #111827; color: #fff;
-  }
+  .btn-primary { background: #111827; color: #fff; }
   .btn-primary:hover { opacity: 0.9; }
   .disclaimer { color:#6b7280; font-size:0.85rem; margin-top:0.25rem; }
   .hidden { display:none !important; }
   .error { color: #b91c1c; font-size: 0.9rem; margin-top: 0.25rem; }
   .success { color: #065f46; font-size: 0.95rem; margin: 0.25rem 0; }
+
+  /* === 绿色提示 toast 样式 === */
+  .toast {
+    position: fixed;
+    right: 1rem;
+    bottom: 1.25rem;
+    background: #10b981;      /* emerald-500 */
+    color: #fff;
+    padding: 0.65rem 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 24px rgba(16,185,129,0.35);
+    font-size: 0.95rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .25s ease, transform .25s ease;
+    z-index: 9999;
+    pointer-events: none;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .toast.fade-out {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
 </style>
 
 <p>If you prefer email directly: <a href="mailto:xzqtelux@gmail.com">xzqtelux@gmail.com</a></p>
@@ -53,7 +78,7 @@ author_profile: true
   <!-- FormSubmit 相关隐藏字段 -->
   <input type="hidden" name="_subject" value="New message from your website contact page">
   <input type="hidden" name="_template" value="table">
-  <!-- 提交成功后的跳转页面（可改为你站内任意路径） -->
+  <!-- 提交成功后的跳转页面 -->
   <input type="hidden" name="_next" value="https://k-telux.github.io/contact/?sent=1">
   <!-- 关闭默认验证码（可改为 'true' 开启） -->
   <input type="hidden" name="_captcha" value="false">
@@ -81,7 +106,7 @@ author_profile: true
     <div>
       <label for="files">Attachments (optional)</label>
       <input id="files" name="attachments" type="file" multiple>
-      <div class="hint">Support to upload multiple files </div>
+      <div class="hint">Support to upload multiple files</div>
     </div>
 
     <div>
@@ -93,6 +118,7 @@ author_profile: true
     </div>
 
     <div id="formError" class="error hidden">Please provide at least a name or an email, and ensure consent is checked.</div>
+    <!-- 可保留或删除：静态成功文本，不再用于 ?sent=1 提示 -->
     <div id="formSuccess" class="success hidden">Thanks! Your message was sent.</div>
 
     <div class="actions">
@@ -102,20 +128,43 @@ author_profile: true
   </div>
 </form>
 
+<!-- === toast 容器 === -->
+<div id="toast" class="toast" role="status" aria-live="polite">Submitted Successfully</div>
+
 <script>
   (function () {
-    // 成功提示（根据 ?sent=1）
     const params = new URLSearchParams(window.location.search);
-    if (params.get('sent') === '1') {
-      const ok = document.getElementById('formSuccess');
-      if (ok) ok.classList.remove('hidden');
+    const toastEl = document.getElementById('toast');
+
+    // === 显示绿色弹窗 1~2s，并淡出 ===
+    function showToast(text, duration = 1600) {
+      if (!toastEl) return;
+      toastEl.textContent = text || 'Submitted Successfully';
+      // 淡入
+      toastEl.classList.add('show');
+      // 停留 duration 后淡出
+      setTimeout(() => {
+        toastEl.classList.add('fade-out');
+        toastEl.addEventListener('transitionend', () => {
+          toastEl.classList.remove('show', 'fade-out');
+        }, { once: true });
+      }, duration);
     }
 
+    if (params.get('sent') === '1') {
+      showToast('Submitted Successfully', 1600);
+      // 清理 ?sent=1，避免刷新后重复弹出
+      try {
+        const cleanURL = window.location.pathname + window.location.hash;
+        history.replaceState({}, '', cleanURL);
+      } catch (_) {}
+    }
+
+    // ===== 表单校验逻辑 =====
     const form = document.getElementById('contactForm');
     const err = document.getElementById('formError');
 
     form.addEventListener('submit', function (e) {
-      // 前端校验：name 或 email 至少一个；同意勾选；message 非空
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
       const msg = document.getElementById('message').value.trim();
