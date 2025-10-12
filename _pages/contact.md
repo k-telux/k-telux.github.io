@@ -39,7 +39,6 @@ author_profile: true
   .success { color: #065f46; font-size: 0.95rem; margin: 0.25rem 0; }
 </style>
 
-<h2>Contact Me</h2>
 <p>If you prefer email directly: <a href="mailto:xzqtelux@gmail.com">xzqtelux@gmail.com</a></p>
 
 <form
@@ -67,12 +66,10 @@ author_profile: true
       <div>
         <label for="name">Your Name (optional)</label>
         <input type="text" id="name" name="name" placeholder="e.g., Alex">
-        <div class="hint">可以只填称呼或邮箱，二选一即可。</div>
       </div>
       <div>
         <label for="email">Email (optional)</label>
         <input type="email" id="email" name="email" placeholder="you@example.com">
-        <div class="hint">如果需要我回信，请提供一个有效邮箱。</div>
       </div>
     </div>
 
@@ -84,7 +81,7 @@ author_profile: true
     <div>
       <label for="files">Attachments (optional)</label>
       <input id="files" name="attachments" type="file" multiple>
-      <div class="hint">可上传多个文件（PDF/图片/压缩包等）。</div>
+      <div class="hint">Support to upload multiple files </div>
     </div>
 
     <div>
