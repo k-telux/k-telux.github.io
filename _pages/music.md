@@ -119,23 +119,12 @@ author_profile: true
   const base = "{{ base }}";
   const tracks = [
     {
-      title: "Starry Night",
-      artist: "Lofi Artist",
-      src: base + "/assets/music/audio/starry-night.mp3",
-      cover: base + "/assets/music/covers/starry-night.jpg"
+      title: "Somniomancer [null set]",
+      artist: "Crywolf",
+      src: base + "/assets/music/Somniomancer [null set].wav",
+      cover: base + "/assets/music/covers/Somniomancer [null set].jpg"
     },
-    {
-      title: "Autumn Walk",
-      artist: "Chillhop",
-      src: base + "/assets/music/audio/autumn-walk.mp3",
-      cover: base + "/assets/music/covers/autumn-walk.jpg"
-    },
-    {
-      title: "Ocean Breeze",
-      artist: "Ambient",
-      src: base + "/assets/music/audio/ocean-breeze.mp3",
-      cover: base + "/assets/music/covers/ocean-breeze.jpg"
-    }
+
   ];
   // ======== 以上替换为你的实际文件名即可 ========
 
