@@ -39,8 +39,7 @@ At 2024 summer, I went to Rice University for a half year internship program. I 
   <style>
     .hidden-content { display: none; }
     .clickable { cursor: pointer; }
-
-    /* 新增：按钮样式（简洁、主题友好） */
+    /* 按钮样式 */
     .btn-music {
       display: inline-flex; align-items: center; gap: .5rem;
       padding: .55rem .9rem; border-radius: .6rem; border: 1px solid #e5e7eb;
@@ -54,52 +53,65 @@ At 2024 summer, I went to Rice University for a half year internship program. I 
   </style>
 </head>
 <body>
-  <h2 class="clickable" onclick="toggleVisibility()">Extracurricular Activities & Interests (Click to view)</h2>
+  <!-- 给标题一个 id，便于绑定事件；tabindex 让其可聚焦；aria-controls 辅助无障碍 -->
+  <h2 id="toggle-title" class="clickable" tabindex="0" aria-controls="hidden-content" aria-expanded="false">
+    Extracurricular Activities & Interests (Click to view)
+  </h2>
 
-  <div class="hidden-content" id="hidden-content">
+  <!-- 双保险：CSS 隐藏 + hidden 属性 -->
+  <div class="hidden-content" id="hidden-content" hidden>
     <ul>
       <li>Member of the Student Union (2021 - 2023)</li>
       <li>Principal player of the wind section of the School Folk Orchestra --- <a href="https://space.bilibili.com/64643274">NMOU</a> (2021 - 2023)</li>
-      <li>Hobbies: music, travel, photography(especially aerial), gym, anime (also two-dimensional)</li>
-      <li><a href="https://space.bilibili.com/89038571">Bilibili homepage</a> (You can find my aerial videos here)<br></li>
+      <li>Hobbies: music, travel, photography (especially aerial), gym, anime (also two-dimensional)</li>
+      <li><a href="https://space.bilibili.com/89038571">Bilibili homepage</a> (You can find my aerial videos here)</li>
     </ul>
 
-    <!-- 新增：跳转按钮（不加入顶部导航，通过按钮访问 /music/） -->
+    <!-- 跳转音乐页按钮（不进主导航，通过此按钮访问） -->
     <div class="btn-wrap">
-      <!-- 方法A：a标签当按钮（推荐） -->
-      <a id="musicLink" class="btn-music" href="#">🎵 Open My Music</a>
-
-      <!-- 方法B（可选）：button版。若只保留A，上面这一段可以删除）
-      <button class="btn-music" type="button" onclick="goMusic()">🎵 Open My Music</button>
-      -->
+      <a class="btn-music" href="{{ site.baseurl | default: '' }}/music/">🎵 Open My Music</a>
+      <!-- 若想新标签打开：在上面 a 标签加 target="_blank" rel="noopener" -->
     </div>
   </div>
 
   <script>
-    // 展开/收起
-    function toggleVisibility() {
-      var hiddenContent = document.getElementById('hidden-content');
-      if (hiddenContent.style.display === 'none' || hiddenContent.style.display === '') {
-        hiddenContent.style.display = 'block';
-      } else {
-        hiddenContent.style.display = 'none';
+    // 等 DOM 就绪后再绑定，避免渲染顺序导致失效
+    (function () {
+      var title = document.getElementById('toggle-title');
+      var content = document.getElementById('hidden-content');
+
+      // 统一的切换函数
+      function toggle() {
+        var willShow = content.hasAttribute('hidden');
+        if (willShow) {
+          content.removeAttribute('hidden');            // 语义隐藏切换
+          content.style.display = 'block';              // 兼容旧样式
+          title.setAttribute('aria-expanded', 'true');
+        } else {
+          content.setAttribute('hidden', '');
+          content.style.display = 'none';
+          title.setAttribute('aria-expanded', 'false');
+        }
       }
-    }
 
-    // 计算 baseurl（Jekyll 会在构建时替换；本地纯HTML打开时退化为空字符串）
-    var BASE = "{{ site.baseurl | default: '' }}";
+      // 点击标题切换
+      title.addEventListener('click', toggle);
 
-    // 方法A：给 a 标签注入正确的 href
-    var musicLink = document.getElementById('musicLink');
-    if (musicLink) {
-      musicLink.href = BASE + "/music/";   // 你的音乐子页面固定是 /music/
-    }
+      // 键盘无障碍：Enter 或 Space 切换
+      title.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.code === 'Space') {
+          e.preventDefault();
+          toggle();
+        }
+      });
 
-    // 方法B（若使用 button）
-    function goMusic() {
-      window.location.href = BASE + "/music/";
-    }
+      // 初始状态：强制隐藏（双保险）
+      content.setAttribute('hidden', '');
+      content.style.display = 'none';
+      title.setAttribute('aria-expanded', 'false');
+    })();
   </script>
 </body>
 </html>
+
 
