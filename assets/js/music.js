@@ -1,69 +1,65 @@
 (function () {
-    // 基础路径
+    // ------- 基础工具 -------
     var BASE = window.__BASE__ || "";
-    var asset = function (file) { return BASE + "/assets/music/" + encodeURIComponent(String(file).trim()); };
+    var asset = function (file) {
+      return BASE + "/assets/music/" + encodeURIComponent(String(file || "").trim());
+    };
   
-    // 读 JSON 配置
-    var cfgEl = document.getElementById('music-config');
-    var tracks = [];
-    try {
-      if (cfgEl && cfgEl.textContent) {
-        var data = JSON.parse(cfgEl.textContent);
-        tracks = (data && data.tracks) ? data.tracks : [];
-      }
-    } catch (e) {
-      console.error("music-config JSON parse error:", e);
+    // ------- 读取曲目配置 -------
+    var tracks = (window.__MUSIC__ && Array.isArray(window.__MUSIC__.tracks))
+      ? window.__MUSIC__.tracks
+      : [];
+  
+    if (!tracks.length) {
+      console.warn("[music] No tracks found in window.__MUSIC__. Add some in music.md.");
     }
   
     // 转为 APlayer 需要的格式
-    var audioList = tracks.map(function (t) {
+    var audioList = tracks.map(function (t, i) {
+      if (!t.file) console.warn("[music] Track", i, "has no 'file' field.");
       return {
-        name: t.name || "Untitled",
+        name:   t.name   || "Untitled",
         artist: t.artist || "",
-        url: asset(t.file),
-        cover: asset(t.cover || "cover.png")
+        url:    asset(t.file),
+        cover:  asset(t.cover || "cover.png")
       };
     });
   
-    // Fallback 显示
-    function showFallback() {
-      var fb = document.getElementById('fallback');
-      if (!fb || audioList.length === 0) return;
-      fb.style.display = 'block';
-      document.getElementById('fb-title').textContent  = audioList[0].name;
-      document.getElementById('fb-artist').textContent = audioList[0].artist;
-      document.getElementById('fb-cover').src = audioList[0].cover;
-      document.getElementById('fb-src').src   = audioList[0].url;
-      var a = document.getElementById('fb-audio'); a.load();
-    }
-  
+    // ------- 初始化 APlayer -------
     function init() {
-      if (!window.APlayer) { showFallback(); return; }
-      if (!document.getElementById('aplayer')) return;
+      if (!document.getElementById("aplayer")) return;
+      if (!window.APlayer) {
+        console.error("[music] APlayer not loaded.");
+        return;
+      }
   
       try {
         var ap = new APlayer({
-          container: document.getElementById('aplayer'),
+          container: document.getElementById("aplayer"),
           audio: audioList,
-          theme: '#111827',
-          preload: 'metadata',
+          theme: "#111827",
+          preload: "metadata",
           autoplay: false,
-          loop: 'all',
-          order: 'list',
+          loop: "all",        // 'all' | 'one' | 'none'
+          order: "list",      // 'list' | 'random'
           volume: 0.85,
           mutex: true,
-          listFolded: false,
+          listFolded: false,  // 默认展开列表（当曲目≥2 时显示）
+          listMaxHeight: 360, // 与 CSS 保持一致
           lrcType: 0
         });
-        ap.on('error', function () { showFallback(); });
+  
+        // 可选：监听错误，方便排查文件路径问题
+        ap.on("error", function (e) {
+          console.warn("[music] APlayer error:", e);
+        });
       } catch (e) {
-        console.error(e);
-        showFallback();
+        console.error("[music] init error:", e);
       }
     }
   
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
     } else {
       init();
     }

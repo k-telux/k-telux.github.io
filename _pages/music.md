@@ -7,7 +7,7 @@ author_profile: true
 
 {% assign base = site.baseurl | default: "" %}
 
-<!-- 注入 baseurl 给外部 JS 使用 -->
+<!-- 把 baseurl 注入到全局，供外部 JS 使用 -->
 <script>window.__BASE__ = "{{ base }}";</script>
 
 <!-- APlayer 样式 -->
@@ -15,50 +15,37 @@ author_profile: true
 
 <style>
   .music-container{ max-width:980px; margin:1.5rem auto; padding:0 1rem; }
-  .aplayer{ box-shadow:0 8px 24px rgba(0,0,0,.06); border:1px solid #e5e7eb; border-radius:1rem; }
-  .aplayer .aplayer-list{ max-height:420px; }
-
-  .fallback{ display:none; margin-top:1rem; }
-  .fallback .card{
-    border:1px solid #e5e7eb; border-radius:1rem; padding:1rem;
+  .aplayer{
     box-shadow:0 8px 24px rgba(0,0,0,.06);
+    border:1px solid #e5e7eb; border-radius:1rem;
   }
-  .fallback .row{ display:flex; gap:1rem; align-items:center; }
-  .fallback img{ width:120px; height:120px; border-radius:.75rem; object-fit:cover; }
+  /* 播放列表高度（当曲目≥2 时自动显示） */
+  .aplayer .aplayer-list{ max-height:360px; }
 </style>
 
 <div class="music-container">
   <div id="aplayer"></div>
-
-  <!-- Fallback 原生播放器 -->
-  <div id="fallback" class="fallback">
-    <div class="card">
-      <div class="row">
-        <img id="fb-cover" alt="cover">
-        <div>
-          <div id="fb-title" style="font-weight:700">Title</div>
-          <div id="fb-artist" style="color:#6b7280;margin-bottom:.5rem">Artist</div>
-          <audio id="fb-audio" controls preload="metadata" style="width:100%">
-            <source id="fb-src" type="audio/wav">
-          </audio>
-          <div style="color:#6b7280;font-size:.85rem;margin-top:.25rem">
-            Using fallback player (CDN blocked or JS failed).
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
-<!-- 播放列表配置（纯 JSON，不会被解析为脚本） -->
-<script id="music-config" type="application/json">
-{
-  "tracks": [
-    { "name": "Somniomancer", "artist": "Cryolf", "file": "Somniomancer.wav", "cover": "Somniomancer.jpg" }
-  ]
-}
-</script>
+<!-- 👇 在这里维护你的歌单；复制一段对象即可新增一首（文件放 assets/music/） -->
+{% raw %}
+<script>
+  window.__MUSIC__ = {
+    tracks: [
+      // 现有示例（已存在于你的仓库）
+      { name: "Somniomancer", artist: "Cryolf", file: "Somniomancer.wav", cover: "Somniomancer.jpg" },
 
-<!-- APlayer 脚本 + 你的外部逻辑 -->
+      // 新增一首（示例）：把下面一行取消注释并替换文件名即可
+      // { name: "Another Track", artist: "Artist Name", file: "Another.wav", cover: "Another.jpg" },
+
+      // 也支持 MP3/OGG 等格式（浏览器支持即可）
+      // { name: "MP3 Example", artist: "Someone", file: "example.mp3", cover: "example.jpg" }
+    ]
+  };
+</script>
+{% endraw %}
+
+<!-- APlayer 核心脚本 & 你的初始化逻辑 -->
 <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
 <script src="{{ base }}/assets/js/music.js"></script>
+
