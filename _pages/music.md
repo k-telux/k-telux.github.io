@@ -80,7 +80,6 @@ author_profile: true
       <div class="now">
         <div id="nowTitle" class="t">Title</div>
         <div id="nowArtist" class="a">Artist</div>
-        <div class="hint">Files are served from <code>assets/music/</code>.</div>
       </div>
     </div>
 
@@ -122,7 +121,7 @@ author_profile: true
       title: "Somniomancer [null set]",
       artist: "Cryolf",
       // 只有一个 src 也支持（会根据扩展名猜测 MIME）
-      src: base + "/assets/music/aSomniomancer [null set].wav",
+      src: base + "/assets/music/Somniomancer [null set].wav",
       cover: base + "/assets/music/Somniomancer [null set].jpg"
     }
   ];
