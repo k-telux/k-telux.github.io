@@ -33,85 +33,39 @@ At 2024 summer, I went to Rice University for a half year internship program. I 
 
 <html lang="zh-cn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CV</title>
-  <style>
-    .hidden-content { display: none; }
-    .clickable { cursor: pointer; }
-    /* 按钮样式 */
-    .btn-music {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .55rem .9rem; border-radius: .6rem; border: 1px solid #e5e7eb;
-      background: #111827; color: #fff; text-decoration: none; font-size: .95rem;
-      box-shadow: 0 6px 16px rgba(0,0,0,.06);
-      transition: transform .05s ease, opacity .2s ease;
-    }
-    .btn-music:hover { opacity: .92; }
-    .btn-music:active { transform: translateY(1px); }
-    .btn-wrap { margin-top: .75rem; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV</title>
+    <style>
+        .hidden-content {
+            display: none;
+        }
+        .clickable {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <!-- 给标题一个 id，便于绑定事件；tabindex 让其可聚焦；aria-controls 辅助无障碍 -->
-  <h2 id="toggle-title" class="clickable" tabindex="0" aria-controls="hidden-content" aria-expanded="false">
-    Extracurricular Activities & Interests (Click to view)
-  </h2>
-
-  <!-- 双保险：CSS 隐藏 + hidden 属性 -->
-  <div class="hidden-content" id="hidden-content" hidden>
-    <ul>
-      <li>Member of the Student Union (2021 - 2023)</li>
-      <li>Principal player of the wind section of the School Folk Orchestra --- <a href="https://space.bilibili.com/64643274">NMOU</a> (2021 - 2023)</li>
-      <li>Hobbies: music, travel, photography (especially aerial), gym, anime (also two-dimensional)</li>
-      <li><a href="https://space.bilibili.com/89038571">Bilibili homepage</a> (You can find my aerial videos here)</li>
-    </ul>
-
-    <!-- 跳转音乐页按钮（不进主导航，通过此按钮访问） -->
-    <div class="btn-wrap">
-      <a class="btn-music" href="{{ site.baseurl | default: '' }}/music/">🎵 Open My Music</a>
-      <!-- 若想新标签打开：在上面 a 标签加 target="_blank" rel="noopener" -->
+    <h2 class="clickable" onclick="toggleVisibility()">Extracurricular Activities & Interests (Click to view)</h2>
+    <div class="hidden-content" id="hidden-content">
+        <ul>
+            <li>Member of the Student Union (2021 - 2023)</li>
+            <li>Principal player of the wind section of the School Folk Orchestra --- <a href="https://space.bilibili.com/64643274">NMOU</a> (2021 - 2023)</li>
+            <li>Hobbies: <a href="https://k-telux.github.io/music/">Music</a>, travel, photography(especially aerial), gym, anime (also two-dimensional)</li>
+            <li><a href="https://space.bilibili.com/89038571">Bilibili homepage</a> (You can find my aerial videos here)<br></li>
+        </ul>
     </div>
-  </div>
 
-  <script>
-    // 等 DOM 就绪后再绑定，避免渲染顺序导致失效
-    (function () {
-      var title = document.getElementById('toggle-title');
-      var content = document.getElementById('hidden-content');
-
-      // 统一的切换函数
-      function toggle() {
-        var willShow = content.hasAttribute('hidden');
-        if (willShow) {
-          content.removeAttribute('hidden');            // 语义隐藏切换
-          content.style.display = 'block';              // 兼容旧样式
-          title.setAttribute('aria-expanded', 'true');
-        } else {
-          content.setAttribute('hidden', '');
-          content.style.display = 'none';
-          title.setAttribute('aria-expanded', 'false');
+    <script>
+        function toggleVisibility() {
+            var hiddenContent = document.getElementById('hidden-content');
+            if (hiddenContent.style.display === 'none' || hiddenContent.style.display === '') {
+                hiddenContent.style.display = 'block';
+            } else {
+                hiddenContent.style.display = 'none';
+            }
         }
-      }
-
-      // 点击标题切换
-      title.addEventListener('click', toggle);
-
-      // 键盘无障碍：Enter 或 Space 切换
-      title.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ' || e.code === 'Space') {
-          e.preventDefault();
-          toggle();
-        }
-      });
-
-      // 初始状态：强制隐藏（双保险）
-      content.setAttribute('hidden', '');
-      content.style.display = 'none';
-      title.setAttribute('aria-expanded', 'false');
-    })();
-  </script>
+    </script>
 </body>
 </html>
-
 
