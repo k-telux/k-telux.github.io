@@ -54,7 +54,7 @@ author_profile: true
 <script id="music-config" type="application/json">
 {
   "tracks": [
-    { "name": "Somniomancer", "artist": "Cryolf", "file": "Somniomancer.wav", "cover": "Somniomancer.jpg" }
+    { "name": "Somniomancer", "artist": "Crywolf", "file": "Somniomancer.wav", "cover": "Somniomancer.jpg" }
   ]
 }
 </script>
