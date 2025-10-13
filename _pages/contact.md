@@ -90,7 +90,7 @@ author_profile: true
     <div class="inline-two">
       <div>
         <label for="name">Your Name (optional)</label>
-        <input type="text" id="name" name="name" placeholder="e.g., Alex">
+        <input type="text" id="name" name="name" placeholder="e.g., telux">
       </div>
       <div>
         <label for="email">Email (optional)</label>
