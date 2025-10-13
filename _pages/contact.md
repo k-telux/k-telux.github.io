@@ -59,7 +59,6 @@ author_profile: true
   <!-- 提交成功后重定向到 /contact/?sent=1（务必是绝对 URL） -->
   <input type="hidden" name="_next"     value="{{ site_url }}{{ base }}/contact/?sent=1">
   <input type="hidden" name="_captcha"  value="false">
-  <!-- 蜜罐，勿删 -->
   <input type="text"   name="_honey" class="hidden" tabindex="-1" autocomplete="off">
 
   <div class="contact-grid">
@@ -104,7 +103,6 @@ author_profile: true
 
 <div id="toast" class="toast" role="status" aria-live="polite">Submitted Successfully</div>
 
-<!-- 注入给外部 JS 用 -->
 <script>
   window.__CONTACT__ = {
     base: "{{ base }}",
