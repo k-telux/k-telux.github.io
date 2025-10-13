@@ -5,7 +5,7 @@
       return BASE + "/assets/music/" + encodeURIComponent(String(file || "").trim());
     };
   
-    // ------- 读取曲目配置 -------
+    // ------- 读取配置 -------
     var tracks = (window.__MUSIC__ && Array.isArray(window.__MUSIC__.tracks))
       ? window.__MUSIC__.tracks
       : [];
