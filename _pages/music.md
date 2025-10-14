@@ -50,15 +50,14 @@ author_profile: true
   </div>
 </div>
 
-<!-- 播放列表配置（纯 JSON，不会被解析为脚本） -->
 <script id="music-config" type="application/json">
 {
   "tracks": [
-    { "name": "Somniomancer", "artist": "Crywolf", "file": "Somniomancer.wav", "cover": "Somniomancer.jpg" }
+    { "name": "Somniomancer", "artist": "Crywolf", "file": "Somniomancer.wav", "cover": "Somniomancer.jpg" },
+    { "name": "Abnormal Spectrum", "artist": "MSR", "file": "Abnormal Spectrum.wav", "cover": "Abnormal Spectrum.png" }
   ]
 }
 </script>
 
-<!-- APlayer 脚本 + 你的外部逻辑 -->
 <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
 <script src="{{ base }}/assets/js/music.js"></script>
