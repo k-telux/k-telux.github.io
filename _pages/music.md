@@ -62,7 +62,7 @@ author_profile: true
     { "name": "魔王", "artist": "MSR", "file": "魔王.wav", "cover": "魔王.jpg" },
     { "name": "微芒", "artist": "MSR", "file": "微芒.wav",  "cover": "微芒.jpg" },
     { "name": "......已至", "artist": "MSR", "file": "......已至.wav", "cover": "......已至.jpg" }
-  ]]
+  ]
 }
 </script>
 
