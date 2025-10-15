@@ -89,10 +89,9 @@ author_profile: true
         <input type="checkbox" id="consent" checked>
         I agree to send this information to Zhongqi for the purpose of contact.
       </label>
-      <div class="disclaimer">We do not store data on the server; messages are forwarded to email via FormSubmit.</div>
     </div>
 
-    <div id="formError" class="error hidden">Please provide at least a name or an email, and ensure consent is checked.</div>
+    <div id="formError" class="error hidden">Please provide at least a name or an email.</div>
 
     <div class="actions">
       <button class="btn-primary" type="submit">Send Message</button>
