@@ -6,7 +6,7 @@
 # `jekyll serve`. If you change this file, please restart the server process.
 
 # Site Settings
-locale                   : "CN"
+locale                   : "US"
 title                    : "Homepage of Zhongqi Xiu"
 title_separator          : "-"
 name                     : &name "Zhongqi Xiu"
@@ -86,7 +86,7 @@ author:
   location         : "Providence, Rhodes Island"
   employer         :
   pubmed           : 
-  googlescholar    : 
+  googlescholar    : https://scholar.google.com/citations?user=-Rv_8vQAAAAJ
   email            : "zhongqi_xiu@brown.edu"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   uri              : https://k-telux.github.io
