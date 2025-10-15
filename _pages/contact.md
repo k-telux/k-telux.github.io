@@ -6,6 +6,8 @@ layout: single
 author_profile: true
 ---
 
+- [Wechat](../images/wechat.jpg)
+
 {% assign base = site.baseurl | default: "" %}
 {% assign site_url = site.url | default: "https://k-telux.github.io" %}
 
@@ -42,7 +44,7 @@ author_profile: true
   .toast.fade-out{ opacity:0; transform: translateY(6px); transition: opacity .6s ease, transform .6s ease; }
 </style>
 
-<p>If you prefer email directly: <a href="mailto:xzqtelux@gmail.com">xzqtelux@gmail.com</a></p>
+<p>If you prefer email: <a href="mailto:xzqtelux@gmail.com">xzqtelux@gmail.com</a></p>
 
 <form
   class="contact-card"
