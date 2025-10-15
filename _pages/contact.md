@@ -1,12 +1,10 @@
 ---
 permalink: /contact/
-title: "Contact Me"
+title: "Contact Me [Wechat](../images/wechat.jpg)"
 excerpt: "Get in touch"
 layout: single
 author_profile: true
 ---
-
-- [Wechat](../images/wechat.jpg)
 
 {% assign base = site.baseurl | default: "" %}
 {% assign site_url = site.url | default: "https://k-telux.github.io" %}
