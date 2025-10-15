@@ -1,6 +1,6 @@
 ---
 permalink: /contact/
-title: "Contact Me [Wechat](../images/wechat.jpg)"
+title: "Contact Me Through [Wechat](../images/wechat.jpg)"
 excerpt: "Get in touch"
 layout: single
 author_profile: true
