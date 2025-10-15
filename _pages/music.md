@@ -57,11 +57,8 @@ author_profile: true
     { "name": "Abnormal Spectrum", "artist": "MSR", "file": "Abnormal Spectrum.wav", "cover": "Abnormal Spectrum.png" },
     { "name": "I Will Touch the Sky", "artist": "MSR", "file": "I Will Touch the Sky.wav","cover": "I Will Touch the Sky.jpg" },
     { "name": "Sanctuary Inside", "artist": "MSR", "file": "Sanctuary Inside.wav",  "cover": "Sanctuary Inside.png" },
-    { "name": "离解复合", "artist": "MSR", "file": "离解复合.wav", "cover": "离解复合.png" },
-    { "name": "永恒呼吸", "artist": "MSR", "file": "永恒呼吸.wav", "cover": "永恒呼吸.png" },
-    { "name": "魔王", "artist": "MSR", "file": "魔王.wav", "cover": "魔王.jpg" },
-    { "name": "微芒", "artist": "MSR", "file": "微芒.wav",  "cover": "微芒.jpg" },
-    { "name": "......已至", "artist": "MSR", "file": "......已至.wav", "cover": "......已至.jpg" }
+    { "name": "Brokenrec", "artist": "MSR", "file": "Brokenrec.wav", "cover": "Brokenrec.png" },
+    { "name": "Arrived", "artist": "MSR", "file": "Arrived.wav", "cover": "Arrived.jpg" }
   ]
 }
 </script>
