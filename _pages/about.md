@@ -26,11 +26,6 @@ At 2024 summer, I went to Rice University for a half year internship program. I 
 - Single photon emission based on defects
 - Strain engineering by piezoelectric materials and neural network
 
-## Contact Information
-- [Directly Send Message](https://k-telux.github.io/contact/)
-- [Email](zhongqi_xiu@brown.edu) 
-- [Wechat](../images/wechat.jpg)
-
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
