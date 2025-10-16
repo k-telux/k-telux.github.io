@@ -13,7 +13,7 @@ redirect_from:
 
 **Email:** zhongqi_xiu@brown.edu | **Phone:** +1 (401)255-3114
 
-<p align="center" style="color:gray;"> Final updated at: 2025.8.23</p>
+<p align="center" style="color:gray;"> Final updated at: 2025.10.16</p>
 
 ---
 
@@ -26,7 +26,6 @@ redirect_from:
  University of Science and Technology of China
  _Bachelor degree of physics_ *2021 - 2025*
 
- * Overall GPA: 3.73/4.00 (87.3/100) [WES certified transcript](../assets/WESreport.pdf)
 ---
 
 ## Honors
@@ -93,7 +92,7 @@ Lab: [SCOPE Lab](https://scopelab.rice.edu/)
 - Coupling and design of optical paths
 - Fiber aligning in different instruments, mode testing of laser beams
 
-### Characterization
+### Sample Characterization
 - Optical spectroscopy (photoluminescence, time-correlated spectroscopy, Raman spectroscopy, reflectance, polarization resolved spectroscopy, HBT interferometry)
 - Thin film deposition, lithography, dry and wet etching, 2D heterostructure stacking and transferring
 
