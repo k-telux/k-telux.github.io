@@ -1,6 +1,6 @@
 ---
 permalink: /music/
-title: "Favorite tracks"
+title: "Favorite tracks with Hi-Res audio"
 excerpt: "favorite tracks"
 author_profile: true
 ---
