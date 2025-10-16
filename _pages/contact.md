@@ -100,7 +100,7 @@ author_profile: true
   </div>
 </form>
 
-<div id="toast" class="toast" role="status" aria-live="polite">Submitted Successfully</div>
+<div id="toast" class="toast" role="status" aria-live="polite">Message Submitted Successfully</div>
 
 <script>
   window.__CONTACT__ = {
