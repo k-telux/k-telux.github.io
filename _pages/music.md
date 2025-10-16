@@ -54,12 +54,12 @@ author_profile: true
 {
   "tracks": [
     { "name": "Somniomancer", "artist": "Crywolf", "file": "Somniomancer.wav", "cover": "Somniomancer.jpg" },
-    { "name": "Abnormal Spectrum", "artist": "MSR", "file": "Abnormal Spectrum.wav", "cover": "Abnormal Spectrum.png" },
-    { "name": "Erlkonig", "artist": "MSR", "file": "Erlkonig.wav", "cover": "Erlkonig.jpg" },
-    { "name": "Brokenrec", "artist": "MSR", "file": "Brokenrec.wav", "cover": "Brokenrec.png" },
-    { "name": "Arrived", "artist": "MSR", "file": "Arrived.wav", "cover": "Arrived.jpg" },
-    { "name": "I Will Touch the Sky", "artist": "MSR", "file": "I Will Touch the Sky.wav","cover": "I Will Touch the Sky.jpg" },
-    { "name": "Sanctuary Inside", "artist": "MSR", "file": "Sanctuary Inside.wav",  "cover": "Sanctuary Inside.png" }
+    { "name": "Abnormal Spectrum", "artist": "Camilo Forero", "file": "Abnormal Spectrum.wav", "cover": "Abnormal Spectrum.png" },
+    { "name": "Erlkonig", "artist": "Cody Matthew Johnson", "file": "Erlkonig.wav", "cover": "Erlkonig.jpg" },
+    { "name": "Forever Breath", "artist": "YU", "file": "Brokenrec.wav", "cover": "Brokenrec.png" },
+    { "name": "Arrived", "artist": "Masanori Akita", "file": "Arrived.wav", "cover": "Arrived.jpg" },
+    { "name": "I Will Touch the Sky", "artist": "Edine", "file": "I Will Touch the Sky.wav","cover": "I Will Touch the Sky.jpg" },
+    { "name": "Sanctuary Inside", "artist": "chengcheng", "file": "Sanctuary Inside.wav",  "cover": "Sanctuary Inside.png" }
   ]
 }
 </script>
