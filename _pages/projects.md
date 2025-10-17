@@ -6,7 +6,7 @@ author_profile: true
 ---
 ## Programmable Strain Tuning of Single Photon Emissions in 2D Materials with Piezoelectric Array (Bachelor thesis)
 ****
-* You can find related files [here](../assets/bachelor_thesis.pdf)
+* You can find latest version thesis [here](../assets/bachelor_thesis.pdf), related simulation results [here](https://drive.google.com/drive/folders/1oVUtNE2o5B4DXtFuB9t7AicKIbsG_p7Z?usp=sharing) and final presentation [pptx](../assets/assets/bachelor_thesis.pptx).
 
 ## Single photon emission in 2D materials (2024)
 #### _This work is supervised by [Dr. Wenjing Wu](https://scholar.google.com/citations?user=lm68m7kAAAAJ&hl=en) and [Prof. Shengxi Huang](https://profiles.rice.edu/faculty/shengxi-huang), [SCOPE Lab](https://scopelab.rice.edu/) in Rice University_
@@ -61,7 +61,7 @@ _Served for SCOPE Lab (Original python codes in [Github](https://github.com/k-te
 
 ## RoboGame 2023 (2023)
 ****
-_RoboGame Robotics Competition is a major brand activity of students' scientific and technological innovation and comprehensive practical education founded by the University of Science and Technology of China (USTC) in 2001, which requires the participating teams to design and build their own robots to participate in the competition within no more than half a year and with a certain amount of funding, centering on a specific theme and rules of the competition._ 
+_RoboGame Robotics Competition requires the participating teams to design and build their own robots to participate in the competition within no more than half a year and with a certain amount of funding, centering on a specific theme and rules of the competition._ 
 
 * [Robotics Budget and Feasibility Plan](../assets/plan.pdf) (Got second prize in 50+ teams)
 * As the sole electrical controls engineer on the team, I developed the majority of the control code for the robot's movement and catching mechanisms. 
