@@ -64,11 +64,11 @@ author_profile: true
   <div class="contact-grid">
     <div class="inline-two">
       <div>
-        <label for="name">Your Name (optional)</label>
+        <label for="name">Your Name </label>
         <input type="text" id="name" name="name" placeholder="e.g., telux">
       </div>
       <div>
-        <label for="email">Email (optional)</label>
+        <label for="email">Email </label>
         <input type="email" id="email" name="email" placeholder="you@example.com">
       </div>
     </div>
