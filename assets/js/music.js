@@ -1,9 +1,7 @@
 (function () {
-  // 基础路径
   var BASE = window.__BASE__ || "";
   var asset = function (file) { return BASE + "/assets/music/" + encodeURIComponent(String(file).trim()); };
 
-  // 读 JSON 配置
   var cfgEl = document.getElementById('music-config');
   var tracks = [];
   try {
@@ -15,7 +13,6 @@
     console.error("music-config JSON parse error:", e);
   }
 
-  // 转为 APlayer 需要的格式
   var audioList = tracks.map(function (t) {
     return {
       name: t.name || "Untitled",
@@ -25,7 +22,6 @@
     };
   });
 
-  // Fallback 显示
   function showFallback() {
     var fb = document.getElementById('fallback');
     if (!fb || audioList.length === 0) return;
