@@ -7,10 +7,8 @@ author_profile: true
 
 {% assign base = site.baseurl | default: "" %}
 
-<!-- 注入 baseurl 给外部 JS 使用 -->
 <script>window.__BASE__ = "{{ base }}";</script>
 
-<!-- APlayer 样式 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
 
 <style>
@@ -30,7 +28,6 @@ author_profile: true
 <div class="music-container">
   <div id="aplayer"></div>
 
-  <!-- Fallback 原生播放器 -->
   <div id="fallback" class="fallback">
     <div class="card">
       <div class="row">
