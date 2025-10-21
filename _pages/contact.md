@@ -31,7 +31,6 @@ author_profile: true
   .hidden { display:none !important; }
   .error { color: #b91c1c; font-size: 0.9rem; margin-top: 0.25rem; }
 
-  /* toast */
   .toast{
     position: fixed; right: 1rem; bottom: 1.25rem; background: #10b981; color:#fff;
     padding:.65rem 1rem; border-radius:.75rem; box-shadow:0 8px 24px rgba(16,185,129,.35);
@@ -53,10 +52,8 @@ author_profile: true
   autocomplete="on"
   target="_self"
 >
-  <!-- FormSubmit 配置 -->
   <input type="hidden" name="_subject"  value="New message from your website contact page">
   <input type="hidden" name="_template" value="table">
-  <!-- 提交成功后重定向到 /contact/?sent=1（务必是绝对 URL） -->
   <input type="hidden" name="_next"     value="{{ site_url }}{{ base }}/contact/?sent=1">
   <input type="hidden" name="_captcha"  value="false">
   <input type="text"   name="_honey" class="hidden" tabindex="-1" autocomplete="off">
