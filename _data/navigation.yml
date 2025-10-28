@@ -16,8 +16,5 @@ main:
   - title: "Gallery"
     url: /gallery/ 
 
-  - title: "Pageviews"
-    url: /pageviews/ 
-
   - title: "Contact"
     url: /contact/ 
