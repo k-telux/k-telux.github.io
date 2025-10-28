@@ -62,23 +62,22 @@ author_profile: true
     <div class="inline-two">
       <div>
         <label for="name">Your Name </label>
-        <input type="text" id="name" name="name" placeholder="e.g., telux">
+        <input type="text" id="name" name="name" placeholder="">
       </div>
       <div>
         <label for="email">Email </label>
-        <input type="email" id="email" name="email" placeholder="you@example.com">
+        <input type="email" id="email" name="email" placeholder="">
       </div>
     </div>
 
     <div>
       <label for="message">Message *</label>
-      <textarea id="message" name="message" rows="7" placeholder="Write your message here..." required></textarea>
+      <textarea id="message" name="message" rows="7" placeholder="Write your message here" required></textarea>
     </div>
 
     <div>
       <label for="files">Attachments (optional)</label>
       <input id="files" name="attachments" type="file" multiple>
-      <div class="hint">Support to upload multiple files</div>
     </div>
 
     <div>
