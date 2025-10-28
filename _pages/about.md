@@ -48,7 +48,7 @@ At 2024 summer, I went to Rice University for a half year internship program and
             <li>Principal player of the wind section of the School Folk Orchestra --- <a href="https://space.bilibili.com/64643274">NMOU</a> (2021 - 2023)</li>
             <li>Hobbies: <a href="https://k-telux.github.io/music/">Music</a>, travel, photography(especially aerial), gym, anime (also two-dimensional)</li>
             <li><a href="https://space.bilibili.com/89038571">Bilibili homepage</a> (You can find my aerial videos here)<br></li>
-            <li>Here are the <a href="https://k-telux.github.io/pageviews/">Pageviews of this website</a></li>
+            <li>Here are the <a href="https://k-telux.github.io/pageviews/">Pageviews </a>of this website</li>
         </ul>
     </div>
 
