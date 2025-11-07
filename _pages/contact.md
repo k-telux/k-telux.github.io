@@ -1,6 +1,6 @@
 ---
 permalink: /contact/
-title: "Contact Me Through [Wechat](../images/wechat.jpg)"
+title: "Contact me through [Wechat](../images/wechat.jpg) or[Email](mailto:xzqtelux@gmail.com)"
 excerpt: "Get in touch"
 layout: single
 author_profile: true
@@ -40,8 +40,6 @@ author_profile: true
   .toast.show{ opacity:1; transform: translateY(0); }
   .toast.fade-out{ opacity:0; transform: translateY(6px); transition: opacity .6s ease, transform .6s ease; }
 </style>
-
-<p>If you prefer email: <a href="mailto:xzqtelux@gmail.com">xzqtelux@gmail.com</a></p>
 
 <form
   class="contact-card"
