@@ -55,6 +55,7 @@ author_profile: true
     { "name": "Erlkonig", "artist": "Cody Matthew Johnson", "file": "Erlkonig.wav", "cover": "Erlkonig.jpg" },
     { "name": "Forever Breath", "artist": "YU", "file": "Brokenrec.wav", "cover": "Brokenrec.png" },
     { "name": "Arrived", "artist": "Masanori Akita", "file": "Arrived.wav", "cover": "Arrived.jpg" },
+    { "name": "Paper Boat", "artist": "Maria Landi", "file": "Paper Boat.wav",  "cover": "Paper Boat.jpg" },
     { "name": "I Will Touch the Sky", "artist": "Edine", "file": "I Will Touch the Sky.wav","cover": "I Will Touch the Sky.jpg" },
     { "name": "Sanctuary Inside", "artist": "chengcheng", "file": "Sanctuary Inside.wav",  "cover": "Sanctuary Inside.png" }
   ]
