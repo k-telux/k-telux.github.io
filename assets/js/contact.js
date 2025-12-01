@@ -16,7 +16,7 @@
       toastEl.addEventListener("transitionend", function () {
         toastEl.classList.remove("show", "fade-out");
       }, { once: true });
-    }, duration || 2000);
+    }, duration || 4000);
   }
 
   function maybeToastFromQuery() {

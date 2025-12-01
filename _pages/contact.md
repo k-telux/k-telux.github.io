@@ -51,9 +51,10 @@ author_profile: true
   target="_self"
 >
   <input type="hidden" name="_subject"  value="New message from your website contact page">
-  <input type="hidden" name="_template" value="table">
+  <input type="hidden" name="_template" value="box">
   <input type="hidden" name="_next"     value="{{ site_url }}{{ base }}/contact/?sent=1">
   <input type="hidden" name="_captcha"  value="false">
+  <input type="hidden" name="_autoresponse" value="Thanks for contacting! I will reply ASAP.">
   <input type="text"   name="_honey" class="hidden" tabindex="-1" autocomplete="off">
 
   <div class="contact-grid">
