@@ -8,7 +8,9 @@ redirect_from:
   - /about.html
 ---
 
-I am a first-year graduate student from [the Chemistry PhD program](https://chemistry.brown.edu/graduate) at [Brown University](https://www.brown.edu/). I will join [Yusong Bai's Group](https://www.yusongbai.org/) after the first semester's rotation. You can find my academic CV [here](../assets/xzq_Resume.pdf)
+I am a first-year graduate student from [the Chemistry PhD program](https://chemistry.brown.edu/graduate) at [Brown University](https://www.brown.edu/). I will join [Yusong Bai's Group](https://www.yusongbai.org/) after the first semester's rotation. You can find my academic CV [here](../assets/xzq_Resume.pdf). 
+
+If you want to book a meeting with me, please use this [link](https://calendar.app.google/dbp77AuJixuG6xw7A).
 
 ## PhD Research Area
 - Exciton physics in low dimensional materials
