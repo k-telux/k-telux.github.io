@@ -8,12 +8,12 @@ redirect_from:
   - /about.html
 ---
 
-I am a first-year graduate student from [the Chemistry PhD program](https://chemistry.brown.edu/graduate) at [Brown University](https://www.brown.edu/). I will join [Yusong Bai's Group](https://www.yusongbai.org/) after the first semester's rotation. You can find my academic CV [here](../assets/xzq_Resume.pdf). 
+I am a first-year graduate student from [the Chemistry PhD program](https://chemistry.brown.edu/graduate) at [Brown University](https://www.brown.edu/). I will join [Yusong Bai's Group](https://www.yusongbai.org/) after the first semester's rotation. You can find my undergraduate academic CV [here](../assets/xzq_Resume.pdf). 
 
 If you want to book a meeting with me, please use this [link](https://calendar.app.google/dbp77AuJixuG6xw7A).
 
 ## PhD Research Area
-- Exciton physics in low dimensional materials
+- Exciton physics and topological quantum states
 - Mott transition and the hidden phase in moire supperlattice
 
 I have a bachelor degree of physics at [School of Physical Sciences](https://en.physics.ustc.edu.cn/), [University of Science and Technology of China (USTC)](https://en.ustc.edu.cn/), majoring in Optics and Optical Engineering.  You can find my bachelor thesis [here](../assets/bachelor_thesis.pdf).
