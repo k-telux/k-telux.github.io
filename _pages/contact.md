@@ -1,6 +1,6 @@
 ---
 permalink: /contact/
-title: "Contact me through [Wechat](../images/wechat.jpg) or[Email](mailto:xzqtelux@gmail.com)"
+title: "Contact me through [Wechat](../images/wechat.jpg) or [Email](mailto:zhongqi_xiu@brown.edu)"
 excerpt: "Get in touch"
 layout: single
 author_profile: true
