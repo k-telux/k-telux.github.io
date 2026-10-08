@@ -13,16 +13,18 @@ redirect_from:
 
 **Email:** zhongqi_xiu@brown.edu | **Phone:** +1 (401)255-3114
 
-<p align="center" style="color:gray;"> Final updated at: 2025.10.16</p>
+<p align="center" style="color:gray;"> Final updated at: 2026.10.08</p>
 
 ---
 
 ## Education
 
- Brown University
+Brown University
  _Graduate student in chemistry PhD program_ *2025 - now* 
 
-
+ Rice University
+ _Visiting scholar at Smalley-Curl Institute_ *2024 - 2025* 
+ 
  University of Science and Technology of China
  _Bachelor degree of physics_ *2021 - 2025*
 
