@@ -6,7 +6,7 @@
 # `jekyll serve`. If you change this file, please restart the server process.
 
 # Site Settings
-locale                   : "US"
+locale                   : "en-US"
 title                    : "Homepage of Zhongqi Xiu"
 title_separator          : "-"
 name                     : &name "Zhongqi Xiu"
@@ -83,7 +83,7 @@ author:
   name             : "Zhongqi Xiu(修中淇)"
   avatar           : "xiu.png"
   bio              : "Brown University"
-  location         : "Providence, Rhodes Island"
+  location         : "Providence, Rhode Island"
   employer         :
   pubmed           : 
   googlescholar    : https://scholar.google.com/citations?user=-Rv_8vQAAAAJ
@@ -123,6 +123,27 @@ include:
   - _pages
   - files
 exclude:
+  - _site-local
+  - assets/note.md
+  - assets/WESreport.pdf
+  - artifacts
+  - scripts
+  - tests
+  - assets/Apply
+  - _pages/archive-layout-with-content.md
+  - _pages/category-archive.html
+  - _pages/collection-archive.html
+  - _pages/markdown.md
+  - _pages/page-archive.html
+  - _pages/tag-archive.html
+  - _pages/talks.html
+  - _pages/talkmap.html
+  - _pages/terms.md
+  - _pages/year-archive.html
+  - talkmap
+  - talkmap.py
+  - talkmap.ipynb
+  - markdown_generator
   - "*.sublime-project"
   - "*.sublime-workspace"
   - .asset-cache
@@ -275,6 +296,7 @@ whitelist:
   - jekyll-gist
   - jekyll-feed
   - jemoji
+  - jekyll-redirect-from
 
 
 # Archives

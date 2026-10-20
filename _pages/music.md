@@ -1,66 +1,38 @@
 ---
 permalink: /music/
-title: "Favorite tracks with Hi-Res audio"
-excerpt: "favorite tracks"
-author_profile: true
+layout: editorial
+title: Listening room
+kicker: BEYOND THE LAB
+lede: A few favorite tracks, in full-resolution audio.
 ---
 
-{% assign base = site.baseurl | default: "" %}
 
-<script>window.__BASE__ = "{{ base }}";</script>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
-
-<style>
-  .music-container{ max-width:980px; margin:1.5rem auto; padding:0 1rem; }
-  .aplayer{ box-shadow:0 8px 24px rgba(0,0,0,.06); border:1px solid #e5e7eb; border-radius:1rem; }
-  .aplayer .aplayer-list{ max-height:420px; }
-
-  .fallback{ display:none; margin-top:1rem; }
-  .fallback .card{
-    border:1px solid #e5e7eb; border-radius:1rem; padding:1rem;
-    box-shadow:0 8px 24px rgba(0,0,0,.06);
-  }
-  .fallback .row{ display:flex; gap:1rem; align-items:center; }
-  .fallback img{ width:120px; height:120px; border-radius:.75rem; object-fit:cover; }
-</style>
-
-<div class="music-container">
-  <div id="aplayer"></div>
-
-  <div id="fallback" class="fallback">
-    <div class="card">
-      <div class="row">
-        <img id="fb-cover" alt="cover">
-        <div>
-          <div id="fb-title" style="font-weight:700">Title</div>
-          <div id="fb-artist" style="color:#6b7280;margin-bottom:.5rem">Artist</div>
-          <audio id="fb-audio" controls preload="metadata" style="width:100%">
-            <source id="fb-src" type="audio/wav">
-          </audio>
-          <div style="color:#6b7280;font-size:.85rem;margin-top:.25rem">
-            Using fallback player (CDN blocked or JS failed).
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<section class="music-player" data-asset-base="/assets/music/" aria-label="Music collection">
+<img id="track-cover" src="/assets/music/Somniomancer.jpg" alt="Somniomancer cover art" width="320" height="320">
+<div class="music-player__content">
+<p class="eyebrow">ON THE RECORD</p>
+<h2 id="track-title">Somniomancer</h2>
+<p id="track-artist">Crywolf</p>
+<div class="field">
+<label for="track-select">Choose a track</label>
+<select id="track-select" disabled>
+<option data-file="Somniomancer.wav" data-cover="Somniomancer.jpg" data-artist="Crywolf">Somniomancer</option>
+<option data-file="Abnormal Spectrum.wav" data-cover="Abnormal Spectrum.png" data-artist="Camilo Forero">Abnormal Spectrum</option>
+<option data-file="Erlkonig.wav" data-cover="Erlkonig.jpg" data-artist="Cody Matthew Johnson">Erlkonig</option>
+<option data-file="Brokenrec.wav" data-cover="Brokenrec.png" data-artist="YU">Forever Breath</option>
+<option data-file="Arrived.wav" data-cover="Arrived.jpg" data-artist="Masanori Akita">Arrived</option>
+<option data-file="Paper Boat.wav" data-cover="Paper Boat.jpg" data-artist="Maria Landi">Paper Boat</option>
+<option data-file="I Will Touch the Sky.wav" data-cover="I Will Touch the Sky.jpg" data-artist="Edine">I Will Touch the Sky</option>
+<option data-file="Sanctuary Inside.wav" data-cover="Sanctuary Inside.png" data-artist="chengcheng">Sanctuary Inside</option>
+</select>
 </div>
+<audio id="music-audio" src="/assets/music/Somniomancer.wav" controls preload="metadata" aria-label="Play Somniomancer"></audio>
+<p class="form-status" id="music-status" role="status" aria-live="polite" aria-atomic="true" data-state="idle">Choose a track, then press play.</p>
+<p class="form-note">These full-resolution WAV files may take a moment to load.</p>
+<a id="track-file" class="text-link" href="/assets/music/Somniomancer.wav">Open audio file <span aria-hidden="true">↗</span></a>
+<noscript><p>The first track is available above. Enable JavaScript to switch between all eight tracks.</p></noscript>
+</div>
+</section>
 
-<script id="music-config" type="application/json">
-{
-  "tracks": [
-    { "name": "Somniomancer", "artist": "Crywolf", "file": "Somniomancer.wav", "cover": "Somniomancer.jpg" },
-    { "name": "Abnormal Spectrum", "artist": "Camilo Forero", "file": "Abnormal Spectrum.wav", "cover": "Abnormal Spectrum.png" },
-    { "name": "Erlkonig", "artist": "Cody Matthew Johnson", "file": "Erlkonig.wav", "cover": "Erlkonig.jpg" },
-    { "name": "Forever Breath", "artist": "YU", "file": "Brokenrec.wav", "cover": "Brokenrec.png" },
-    { "name": "Arrived", "artist": "Masanori Akita", "file": "Arrived.wav", "cover": "Arrived.jpg" },
-    { "name": "Paper Boat", "artist": "Maria Landi", "file": "Paper Boat.wav",  "cover": "Paper Boat.jpg" },
-    { "name": "I Will Touch the Sky", "artist": "Edine", "file": "I Will Touch the Sky.wav","cover": "I Will Touch the Sky.jpg" },
-    { "name": "Sanctuary Inside", "artist": "chengcheng", "file": "Sanctuary Inside.wav",  "cover": "Sanctuary Inside.png" }
-  ]
-}
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
-<script src="{{ base }}/assets/js/music.js"></script>
+<script src="/assets/js/music.js" defer></script>
