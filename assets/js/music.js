@@ -1,66 +1,63 @@
 (function () {
-  var BASE = window.__BASE__ || "";
-  var asset = function (file) { return BASE + "/assets/music/" + encodeURIComponent(String(file).trim()); };
+  "use strict";
+  var player = document.querySelector(".music-player");
+  if (!player) return;
+  var select = document.getElementById("track-select");
+  var audio = document.getElementById("music-audio");
+  var status = document.getElementById("music-status");
+  var title = document.getElementById("track-title");
+  var artist = document.getElementById("track-artist");
+  var cover = document.getElementById("track-cover");
+  var fileLink = document.getElementById("track-file");
 
-  var cfgEl = document.getElementById('music-config');
-  var tracks = [];
-  try {
-    if (cfgEl && cfgEl.textContent) {
-      var data = JSON.parse(cfgEl.textContent);
-      tracks = (data && data.tracks) ? data.tracks : [];
-    }
-  } catch (e) {
-    console.error("music-config JSON parse error:", e);
+  function showStatus(state, text) {
+    status.dataset.state = state;
+    status.textContent = text;
   }
 
-  var audioList = tracks.map(function (t) {
-    return {
-      name: t.name || "Untitled",
-      artist: t.artist || "",
-      url: asset(t.file),
-      cover: asset(t.cover || "cover.png")
-    };
+  select.disabled = false;
+  select.addEventListener("change", function () {
+    var track = select.options[select.selectedIndex];
+    var wasPlaying = !audio.paused && !audio.ended;
+    audio.pause();
+    title.textContent = track.textContent;
+    artist.textContent = track.dataset.artist;
+    cover.src = player.dataset.assetBase + encodeURIComponent(track.dataset.cover);
+    cover.alt = track.textContent + " cover art";
+    audio.src = player.dataset.assetBase + encodeURIComponent(track.dataset.file);
+    audio.setAttribute("aria-label", "Play " + track.textContent);
+    fileLink.href = audio.src;
+    showStatus("loading", "Loading " + track.textContent + "…");
+    audio.load();
+    if (wasPlaying) {
+      audio.play().catch(function () {
+        if (!audio.error) showStatus("idle", "Press play to start " + title.textContent + ".");
+      });
+    }
   });
 
-  function showFallback() {
-    var fb = document.getElementById('fallback');
-    if (!fb || audioList.length === 0) return;
-    fb.style.display = 'block';
-    document.getElementById('fb-title').textContent  = audioList[0].name;
-    document.getElementById('fb-artist').textContent = audioList[0].artist;
-    document.getElementById('fb-cover').src = audioList[0].cover;
-    document.getElementById('fb-src').src   = audioList[0].url;
-    var a = document.getElementById('fb-audio'); a.load();
-  }
-
-  function init() {
-    if (!window.APlayer) { showFallback(); return; }
-    if (!document.getElementById('aplayer')) return;
-
-    try {
-      var ap = new APlayer({
-        container: document.getElementById('aplayer'),
-        audio: audioList,
-        theme: '#111827',
-        preload: 'metadata',
-        autoplay: false,
-        loop: 'all',
-        order: 'list',
-        volume: 0.85,
-        mutex: true,
-        listFolded: false,
-        lrcType: 0
-      });
-      ap.on('error', function () { showFallback(); });
-    } catch (e) {
-      console.error(e);
-      showFallback();
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  audio.addEventListener("loadstart", function () {
+    showStatus("loading", "Loading " + title.textContent + "…");
+  });
+  audio.addEventListener("loadedmetadata", function () {
+    if (audio.paused) showStatus("idle", "Ready to play " + title.textContent + ".");
+  });
+  audio.addEventListener("waiting", function () {
+    showStatus("loading", "Buffering " + title.textContent + "…");
+  });
+  audio.addEventListener("stalled", function () {
+    showStatus("loading", "Loading is taking longer than usual. You can try another track or open the audio file.");
+  });
+  audio.addEventListener("playing", function () {
+    showStatus("playing", "Playing " + title.textContent + ".");
+  });
+  audio.addEventListener("pause", function () {
+    if (!audio.ended && !audio.error) showStatus("idle", "Paused. Press play to continue.");
+  });
+  audio.addEventListener("ended", function () {
+    showStatus("idle", "Track finished. Choose another track or press play to listen again.");
+  });
+  audio.addEventListener("error", function () {
+    showStatus("error", "This track could not be played. Try another track or open the audio file directly.");
+  });
 })();

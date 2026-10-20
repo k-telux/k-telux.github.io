@@ -1,3 +1,9 @@
 _site/
+_site-local/
+.sass-cache/
+.jekyll-cache/
+.bundle/
+artifacts/
+__pycache__/
 
 assets/Apply/application.xlsx

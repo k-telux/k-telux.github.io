@@ -1,106 +1,74 @@
 ---
 permalink: /contact/
-title: "Contact me through [Wechat](../images/wechat.jpg) or [Email](mailto:zhongqi_xiu@brown.edu)"
-excerpt: "Get in touch"
-layout: single
-author_profile: true
+layout: editorial
+title: Contact
+kicker: GET IN TOUCH
+lede: For research conversations and collaborations.
 ---
 
-{% assign base = site.baseurl | default: "" %}
-{% assign site_url = site.url | default: "https://k-telux.github.io" %}
 
-<style>
-  form.contact-card {
-    max-width: 720px; margin: 1.5rem auto; padding: 1.25rem 1.5rem;
-    border: 1px solid #e5e7eb; border-radius: 1rem;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.04); background: #fff;
-  }
-  .contact-grid { display: grid; gap: 1rem; }
-  .inline-two { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; }
-  label { font-weight: 600; margin-bottom: 0.25rem; display:block; }
-  input[type="text"], input[type="email"], textarea {
-    width: 100%; border: 1px solid #d1d5db; border-radius: 0.5rem;
-    padding: 0.6rem 0.75rem; font-size: 0.95rem;
-  }
-  input[type="file"] { width: 100%; }
-  .hint { color: #6b7280; font-size: 0.85rem; margin-top: 0.25rem; }
-  .actions { display:flex; gap:0.75rem; align-items:center; margin-top: 0.5rem; }
-  button[type="submit"] { border: none; padding: 0.65rem 1.1rem; border-radius: 0.75rem; cursor: pointer; }
-  .btn-primary { background: #111827; color: #fff; } .btn-primary:hover { opacity: .9; }
-  .disclaimer { color:#6b7280; font-size:0.85rem; margin-top:0.25rem; }
-  .hidden { display:none !important; }
-  .error { color: #b91c1c; font-size: 0.9rem; margin-top: 0.25rem; }
 
-  .toast{
-    position: fixed; right: 1rem; bottom: 1.25rem; background: #10b981; color:#fff;
-    padding:.65rem 1rem; border-radius:.75rem; box-shadow:0 8px 24px rgba(16,185,129,.35);
-    font-size:.95rem; opacity:0; transform: translateY(10px);
-    transition: opacity .25s ease, transform .25s ease; z-index:9999; pointer-events:none;
-  }
-  .toast.show{ opacity:1; transform: translateY(0); }
-  .toast.fade-out{ opacity:0; transform: translateY(6px); transition: opacity .6s ease, transform .6s ease; }
-</style>
+<div class="contact-grid">
+<aside class="contact-details" aria-label="Other ways to connect">
+<p class="eyebrow">LET'S CONNECT</p>
+<h2>A conversation starts here.</h2>
+<p>For questions about my work, potential collaborations, or a shared interest in optics and quantum materials.</p>
+<a class="contact-email" href="mailto:zhongqi_xiu@brown.edu">zhongqi_xiu@brown.edu</a>
+<div class="contact-links">
+<a class="text-link" href="https://calendar.app.google/dbp77AuJixuG6xw7A">Book a meeting <span aria-hidden="true">↗</span></a>
+<a class="text-link" href="/images/wechat.jpg">View WeChat QR code <span aria-hidden="true">↗</span></a>
+</div>
+<p class="form-note">Prefer email? You can send attachments directly to the address above.</p>
+</aside>
 
-<form
-  class="contact-card"
-  id="contactForm"
-  action="https://formsubmit.co/afac8593c9c18a504deded6135c1b48f"
-  method="POST"
-  enctype="multipart/form-data"
-  autocomplete="on"
-  target="_self"
->
-  <input type="hidden" name="_subject"  value="New message from your website contact page">
-  <input type="hidden" name="_template" value="box">
-  <input type="hidden" name="_next"     value="{{ site_url }}{{ base }}/contact/?sent=1">
-  <input type="hidden" name="_captcha"  value="false">
-  <input type="hidden" name="_autoresponse" value="Thanks for contacting! I will reply ASAP.">
-  <input type="text"   name="_honey" class="hidden" tabindex="-1" autocomplete="off">
+<form class="contact-form" id="contactForm" action="https://formsubmit.co/afac8593c9c18a504deded6135c1b48f" method="POST" enctype="multipart/form-data">
+<input type="hidden" name="_subject" value="New message from your website contact page">
+<input type="hidden" name="_template" value="box">
+<input type="hidden" name="_captcha" value="false">
+<input type="text" name="_honey" hidden tabindex="-1" autocomplete="off" aria-hidden="true">
 
-  <div class="contact-grid">
-    <div class="inline-two">
-      <div>
-        <label for="name">Your Name </label>
-        <input type="text" id="name" name="name" placeholder="">
-      </div>
-      <div>
-        <label for="email">Email </label>
-        <input type="email" id="email" name="email" placeholder="">
-      </div>
-    </div>
+<div class="field-row">
+<div class="field">
+<label for="name">Name <span class="optional">(optional)</span></label>
+<input type="text" id="name" name="name" autocomplete="name">
+</div>
+<div class="field">
+<label for="email">Email <span class="required">(required)</span></label>
+<input type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-hint email-error">
+<p class="field-hint" id="email-hint">Where I can reply to you.</p>
+<p class="field-error" id="email-error"></p>
+</div>
+</div>
 
-    <div>
-      <label for="message">Message *</label>
-      <textarea id="message" name="message" rows="7" placeholder="Write your message here" required></textarea>
-    </div>
+<div class="field">
+<label for="message">Message <span class="required">(required)</span></label>
+<textarea id="message" name="message" rows="6" aria-describedby="message-error" placeholder="What would you like to discuss?" required></textarea>
+<p class="field-error" id="message-error"></p>
+</div>
 
-    <div>
-      <label for="files">Attachments (optional)</label>
-      <input id="files" name="attachments" type="file" multiple>
-    </div>
+<div class="field">
+<label for="files">Attachments <span class="optional">(optional)</span></label>
+<input id="files" name="attachment" type="file" multiple aria-describedby="files-hint files-error">
+<p class="field-hint" id="files-hint">Up to 10 MB in total.</p>
+<p class="field-error" id="files-error"></p>
+</div>
 
-    <div>
-      <label>
-        <input type="checkbox" id="consent" checked>
-        I agree to send this information to Zhongqi for the purpose of contact.
-      </label>
-    </div>
+<div class="field field-consent">
+<label for="consent">
+<input type="checkbox" id="consent" name="consent" value="yes" required aria-describedby="consent-error">
+<span>I agree to share this information with Zhongqi through FormSubmit for the purpose of this conversation.</span>
+</label>
+<p class="field-error" id="consent-error"></p>
+</div>
 
-    <div id="formError" class="error hidden">Please provide at least a name or an email.</div>
-
-    <div class="actions">
-      <button class="btn-primary" type="submit">Send Message</button>
-      <button type="reset">Reset</button>
-    </div>
-  </div>
+<p class="form-status" id="form-status" role="status" aria-live="polite" aria-atomic="true" data-state="idle"></p>
+<div class="form-actions">
+<button class="button" id="contact-submit" type="submit" disabled>Send message <span aria-hidden="true">↗</span></button>
+<button class="button button--text" id="contact-reset" type="reset">Clear form</button>
+</div>
+<p class="form-note">Your message is sent using FormSubmit. Delivery is confirmed here only when the service accepts it.</p>
+<noscript><p>Please enable JavaScript to use this form, or <a href="mailto:zhongqi_xiu@brown.edu">email me directly</a>.</p></noscript>
 </form>
+</div>
 
-<div id="toast" class="toast" role="status" aria-live="polite">Message Submitted Successfully</div>
-
-<script>
-  window.__CONTACT__ = {
-    base: "{{ base }}",
-    next: "{{ site_url }}{{ base }}/contact/?sent=1"
-  };
-</script>
-<script src="{{ base }}/assets/js/contact.js"></script>
+<script src="/assets/js/contact.js" defer></script>

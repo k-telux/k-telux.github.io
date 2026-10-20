@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ page.lede }}">
+  <meta name="theme-color" content="#f6f4ee">
+  <title>{{ page.title }} — Zhongqi Xiu</title>
+  <link rel="icon" href="/images/monogram.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/editorial.css">
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body data-page="{{ page.permalink }}">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="/" aria-label="Zhongqi Xiu — Home"><span class="monogram" aria-hidden="true">zx.</span><span>Zhongqi Xiu<span class="wordmark-sub">RESEARCH & EXPLORATION</span></span></a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <details class="nav-menu">
+        <summary>Menu <span aria-hidden="true">＋</span></summary>
+        <div class="nav-links">
+          <a href="/">About</a><a href="/projects/">Projects</a><a href="/publications/">Publications</a><a href="/cv/">CV</a><a href="/resource/">Resources</a><a href="/gallery/">Gallery</a><a class="nav-contact" href="/contact/">Let’s talk <span aria-hidden="true">↗</span></a>
+        </div>
+      </details>
+    </nav>
+  </header>
+  <main id="main" tabindex="-1">
+    <header class="page-heading">
+      <p class="eyebrow">{{ page.kicker }}</p>
+      <h1>{{ page.title }}</h1>
+      <p class="lede">{{ page.lede }}</p>
+    </header>
+    {{ content }}
+  </main>
+  <footer class="site-footer">
+    <div class="footer-invitation"><span>Good questions start conversations.</span><a href="/contact/">Get in touch <span aria-hidden="true">↗</span></a></div>
+    <div class="footer-bottom"><a class="footer-name" href="/">Zhongqi Xiu <span lang="zh">修中淇</span></a><p>Providence, Rhode Island</p><nav aria-label="Elsewhere"><a href="https://scholar.google.com/citations?user=-Rv_8vQAAAAJ">Scholar ↗</a><a href="https://github.com/k-telux">GitHub ↗</a><a href="/sitemap/">Site index</a></nav></div>
+    <p class="colophon">A personal collection of research, tools, and things worth exploring.</p>
+  </footer>
+</body>
+</html>
