@@ -47,7 +47,7 @@ lede: For research conversations and collaborations.
 
 <div class="field">
 <label for="files">Attachments <span class="optional">(optional)</span></label>
-<input id="files" name="attachment" type="file" multiple aria-describedby="files-hint files-error">
+<div class="file-picker"><span class="file-trigger"><input id="files" name="attachment" type="file" multiple aria-describedby="files-hint files-names files-error"><span class="file-button" aria-hidden="true">Choose files</span></span><span class="file-names" id="files-names" aria-live="polite">No file chosen</span></div>
 <p class="field-hint" id="files-hint">Up to 10 MB in total.</p>
 <p class="field-error" id="files-error"></p>
 </div>

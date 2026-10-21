@@ -13,7 +13,7 @@ redirect_from:
   <div class="shell horizon-intro-copy">
     <p class="horizon-affiliation" data-reveal>Chemistry PhD · Brown University</p>
     <h1 id="intro-title" data-reveal data-delay="60">Zhongqi Xiu <span lang="zh">修中淇</span></h1>
-    <p class="horizon-lede" data-reveal data-delay="120">Exploring light, quantum materials,<br class="horizon-desktop-break"> and the physics in between.</p>
+    <p class="horizon-lede" data-reveal data-delay="120"><span class="light-sweep">Exploring light, quantum materials,<br class="horizon-desktop-break"> and the physics in between.</span></p>
     <p class="horizon-bio" data-reveal data-delay="180">I’m a second-year graduate researcher at <a href="https://www.brown.edu/">Brown University</a> in <a href="https://www.yusongbai.org/">Yusong Bai’s Group</a>, studying excitonic physics, quantum states, and two-dimensional materials.</p>
     <div class="horizon-actions" data-reveal data-delay="240"><a class="button" href="/projects/">Explore research <span aria-hidden="true">→</span></a><a class="button-secondary" href="/cv/">View CV</a></div>
   </div>
