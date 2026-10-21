@@ -7,7 +7,7 @@ addEventListener('pagereveal', event => {
   }
   // Keep destination content visible in the snapshot; avoid a second reveal.
   document.documentElement.classList.add('cross-page-arrival');
-  const routes = ['/', '/projects/', '/publications/', '/cv/', '/resource/', '/gallery/', '/contact/'];
+  const routes = ['/', '/projects/', '/software/', '/publications/', '/cv/', '/resource/', '/gallery/', '/contact/'];
   const activation = window.navigation?.activation;
   const from = activation?.from?.url ? routes.indexOf(new URL(activation.from.url).pathname) : -1;
   const to = routes.indexOf(location.pathname);
