@@ -13,12 +13,21 @@ a, button, summary, label { -webkit-tap-highlight-color: transparent; }
 /* page ledes: one comfortable line on desktop, and never a single word stranded on the last line */
 .page-heading > p { max-width: 900px; text-wrap: pretty; }
 
-/* gallery: a portrait poster sits beside its caption instead of shrinking inside a landscape frame */
-.gallery-grid .poster-portrait { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 5fr); gap: 28px 56px; align-items: center; }
-.poster-portrait .gallery-image img { aspect-ratio: 3 / 4; object-fit: cover; }
-.poster-portrait figcaption { padding-top: 0; }
-.poster-portrait figcaption p + p { margin-top: 14px; }
-@media (max-width: 720px) { .gallery-grid .poster-portrait { grid-template-columns: 1fr; } .poster-portrait figcaption { padding-top: 22px; } }
+/* gallery posters: two framed prints side by side, whatever their orientation */
+.poster-shelf { margin-top: 88px; padding-top: 56px; border-top: 1px solid var(--line); }
+.poster-shelf .section-heading { margin-bottom: 36px; }
+.poster-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 28px; }
+.poster-card { margin: 0; min-width: 0; }
+.poster-frame { position: relative; display: block; aspect-ratio: 6 / 5; background: linear-gradient(160deg, #f4f7f9, #e4ecf2); border-radius: var(--radius); }
+/* the print fills the frame and is contained inside its own padding, so any orientation fits whole */
+.poster-frame img { position: absolute; inset: 0; width: 100%; height: 100%; box-sizing: border-box; padding: clamp(22px, 7%, 48px); aspect-ratio: auto; object-fit: contain; filter: drop-shadow(0 18px 28px rgba(18, 38, 58, .16)) drop-shadow(0 2px 5px rgba(18, 38, 58, .10)); }
+.poster-card figcaption { padding-top: 22px; }
+.poster-card figcaption > span { font-size: 15px; color: var(--muted); }
+.poster-card h3 { font-size: 28px; margin: 10px 0 10px; }
+.poster-card figcaption p { font-size: 16px; color: var(--muted); margin: 0 0 6px; max-width: 46ch; }
+.poster-authors strong { color: var(--ink); font-weight: 600; }
+.poster-links { display: flex; flex-wrap: wrap; gap: 0 24px; margin-top: 4px; }
+@media (max-width: 720px) { .poster-shelf { margin-top: 56px; padding-top: 40px; } .poster-grid { grid-template-columns: 1fr; gap: 40px; } .poster-frame { aspect-ratio: 1 / 1; } .poster-card h3 { font-size: 26px; } }
 
 /* research list: visible index and a separate date column instead of dates inside titles */
 /* everything in a row lines up on the first line of the title, whether it wraps or not */
@@ -128,6 +137,8 @@ input[type=text]:focus-visible, input[type=email]:focus-visible, input[type=sear
   /* gallery viewer: backdrop and dialog fade in and out; the picture itself flies from its thumbnail (site.js) */
   .gallery-image img { transition: transform .9s var(--ease-out), filter .6s; }
   .gallery-image:hover img { transform: scale(1.03); }
+  .poster-frame img { transition: transform .9s var(--ease-out); }
+  .poster-frame:hover img { transform: translateY(-6px) scale(1.02); }
   .image-dialog[open] { animation: none; }
   /* the panel fades, not the dialog: an opacity change would also fade the picture in flight */
   .image-dialog { transition: background-color .35s ease, overlay .45s allow-discrete, display .45s allow-discrete; }
