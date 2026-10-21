@@ -26,7 +26,7 @@
     cover.alt = track.textContent + " cover art";
     audio.src = player.dataset.assetBase + encodeURIComponent(track.dataset.file);
     audio.setAttribute("aria-label", "Play " + track.textContent);
-    fileLink.href = audio.src;
+    if (fileLink) fileLink.href = audio.src;
     showStatus("loading", "Loading " + track.textContent + "…");
     audio.load();
     if (wasPlaying) {

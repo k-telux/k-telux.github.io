@@ -105,10 +105,12 @@
   addEventListener('pageshow', () => root.classList.remove('is-leaving'));
 
   // Status messages (contact form, music player) arrive instead of popping in.
+  // Only a real change of state animates; progress updates that rewrite the same state stay still.
   document.querySelectorAll('.form-status').forEach((status) => {
-    new MutationObserver(() => {
-      if (status.textContent) animate(status, [{ opacity: 0, transform: 'translateY(-6px) scale(.985)' }, { opacity: 1, transform: 'none' }], { duration: 380 });
-    }).observe(status, { attributes: true, attributeFilter: ['data-state'] });
+    new MutationObserver((records) => {
+      if (!records.some((r) => r.oldValue !== status.dataset.state) || !status.textContent) return;
+      animate(status, [{ opacity: 0, transform: 'translateY(-6px) scale(.985)' }, { opacity: 1, transform: 'none' }], { duration: 380 });
+    }).observe(status, { attributes: true, attributeFilter: ['data-state'], attributeOldValue: true });
   });
 
   // Attachments: show what was chosen, in English, and keep it in sync with resets.
