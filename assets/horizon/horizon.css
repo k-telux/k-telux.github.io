@@ -1,0 +1,101 @@
+body.design--horizon {
+  --page: #ffffff;
+  --surface: #f3f6f8;
+  --ink: #1d2530;
+  --muted: #586575;
+  --accent: #075b9f;
+  --line: #dce3e9;
+  --radius: 24px;
+  background: var(--page);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+  font-size: 18px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+.design--horizon[data-page="/"] h1, .design--horizon[data-page="/"] h2, .design--horizon[data-page="/"] h3 { color: var(--ink); font-style: normal; font-weight: 650; letter-spacing: -.035em; text-wrap: balance; }
+.design--horizon[data-page="/"] h1 { font-size: 64px; line-height: 1.08; }
+.design--horizon[data-page="/"] h2 { font-size: 40px; line-height: 1.2; }
+.design--horizon[data-page="/"] h3 { font-size: 26px; line-height: 1.35; letter-spacing: -.025em; }
+.design--horizon .section { padding-block: 80px; }
+.design--horizon .horizon-intro { padding: 72px 0 52px; text-align: center; }
+.design--horizon .horizon-intro-copy { max-width: 900px; }
+.design--horizon .horizon-affiliation { margin: 0 0 18px; color: var(--muted); font-size: 18px; font-weight: 500; }
+.design--horizon .horizon-intro h1 { margin: 0 0 20px; }
+.design--horizon .horizon-intro h1 span { display: inline-block; margin-left: 12px; font-size: 28px; font-weight: 500; letter-spacing: .03em; vertical-align: middle; }
+.design--horizon .horizon-lede { margin: 0 auto 22px; max-width: 720px; font-size: 28px; line-height: 1.4; letter-spacing: -.025em; font-weight: 500; }
+.design--horizon .horizon-bio { max-width: 730px; margin: 0 auto; color: var(--muted); font-size: 18px; line-height: 1.65; }
+.design--horizon .horizon-bio a { color: inherit; text-decoration: underline; text-decoration-color: #a9b8c5; text-underline-offset: 4px; }
+.design--horizon .horizon-bio a:hover { color: var(--accent); text-decoration-color: currentColor; }
+.design--horizon .horizon-actions { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+.design--horizon .horizon-landscape { width: calc(100% - 32px); max-width: 1568px; margin: 0 auto; overflow: hidden; border-radius: var(--radius); background: #d9e7f0; }
+.design--horizon .horizon-landscape picture { display: block; }
+.design--horizon .horizon-landscape img { display: block; width: 100%; height: clamp(320px, 34vw, 530px); object-fit: cover; object-position: 50% 60%; }
+.design--horizon .horizon-section-heading { margin-bottom: 38px; }
+.design--horizon .horizon-section-heading h2 { margin: 0; }
+.design--horizon .horizon-section-heading p { max-width: 670px; margin: 18px 0 0; color: var(--muted); font-size: 20px; line-height: 1.6; }
+.design--horizon .horizon-heading-row { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; }
+.design--horizon .horizon-research-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.design--horizon .horizon-research-card { display: flex; flex-direction: column; align-items: flex-start; padding: 34px 30px; border-radius: var(--radius); background: var(--surface); }
+.design--horizon .horizon-research-card h3 { margin: 0 0 16px; }
+.design--horizon .horizon-research-card p { margin: 0 0 28px; color: var(--muted); font-size: 18px; }
+.design--horizon .horizon-research-card .text-link { margin-top: auto; }
+.design--horizon .horizon-publication { background: #edf3f7; }
+.design--horizon .horizon-paper { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 48px; padding-top: 30px; border-top: 1px solid #cbd9e4; }
+.design--horizon .horizon-paper-meta p { margin: 0 0 7px; font-size: 26px; font-weight: 600; letter-spacing: -.02em; }
+.design--horizon .horizon-paper-meta span { color: var(--muted); font-size: 16px; }
+.design--horizon .horizon-paper-copy h3 { margin: 0 0 18px; max-width: 800px; }
+.design--horizon .horizon-paper-copy h3 a { color: inherit; text-decoration: none; }
+.design--horizon .horizon-paper-copy h3 a:hover { color: var(--accent); }
+.design--horizon .horizon-paper-copy p { margin: 0 0 22px; color: var(--muted); font-size: 16px; }
+.design--horizon .horizon-timeline article { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 48px; padding: 32px 0; border-top: 1px solid var(--line); }
+.design--horizon .horizon-timeline article:last-child { padding-bottom: 0; }
+.design--horizon .horizon-timeline h3 { margin: 0 0 12px; }
+.design--horizon .horizon-timeline p { margin: 0; max-width: 750px; color: var(--muted); }
+.design--horizon .horizon-timeline .horizon-date { padding-top: 5px; font-size: 16px; font-weight: 500; }
+.design--horizon .horizon-timeline .text-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; }
+.design--horizon .horizon-file-label { color: var(--muted); font-size: 14px; }
+.design--horizon .horizon-outside { background: var(--surface); }
+.design--horizon .horizon-outside-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 72px; }
+.design--horizon .horizon-outside-grid article { border-top: 1px solid #cbd7e0; padding-top: 28px; }
+.design--horizon .horizon-outside-grid h3 { margin: 0 0 14px; }
+.design--horizon .horizon-outside-grid p { max-width: 480px; margin: 0 0 22px; color: var(--muted); }
+.design--horizon .horizon-contact { text-align: center; }
+.design--horizon .horizon-contact h2 { margin: 0 0 18px; }
+.design--horizon .horizon-contact p { max-width: 590px; margin: 0 auto 26px; color: var(--muted); }
+@media (max-width: 860px) {
+  .design--horizon .horizon-research-grid { gap: 16px; }
+  .design--horizon .horizon-research-card { padding: 28px 22px; }
+  .design--horizon .horizon-paper, .design--horizon .horizon-timeline article { grid-template-columns: 170px minmax(0, 1fr); gap: 28px; }
+  .design--horizon .horizon-outside-grid { gap: 36px; }
+}
+@media (max-width: 640px) {
+  .design--horizon .section { padding-block: 56px; }
+  .design--horizon[data-page="/"] h1 { font-size: 44px; }
+  .design--horizon[data-page="/"] h2 { font-size: 32px; }
+  .design--horizon[data-page="/"] h3 { font-size: 26px; }
+  .design--horizon .horizon-intro { padding: 44px 0 32px; }
+  .design--horizon .horizon-affiliation { font-size: 16px; margin-bottom: 18px; }
+  .design--horizon .horizon-intro h1 { margin-bottom: 18px; }
+  .design--horizon .horizon-intro h1 span { display: block; margin: 12px 0 0; font-size: 24px; }
+  .design--horizon .horizon-lede { font-size: 24px; line-height: 1.42; margin-bottom: 20px; }
+  .design--horizon .horizon-desktop-break { display: none; }
+  .design--horizon .horizon-bio { font-size: 18px; }
+  .design--horizon .horizon-actions { margin-top: 24px; }
+  .design--horizon .horizon-landscape { width: calc(100% - 24px); border-radius: 18px; }
+  .design--horizon .horizon-landscape img { height: clamp(270px, 74vw, 390px); object-position: 50% 65%; }
+  .design--horizon .horizon-section-heading { margin-bottom: 28px; }
+  .design--horizon .horizon-section-heading p { font-size: 18px; margin-top: 16px; }
+  .design--horizon .horizon-heading-row { display: block; }
+  .design--horizon .horizon-heading-row .text-link { display: inline-block; margin-top: 18px; }
+  .design--horizon .horizon-research-grid, .design--horizon .horizon-outside-grid { grid-template-columns: 1fr; gap: 20px; }
+  .design--horizon .horizon-research-card { padding: 28px; }
+  .design--horizon .horizon-research-card p { margin-bottom: 22px; }
+  .design--horizon .horizon-paper { grid-template-columns: 1fr; gap: 24px; padding-top: 26px; }
+  .design--horizon .horizon-paper-copy p { font-size: 16px; }
+  .design--horizon .horizon-timeline article { grid-template-columns: 1fr; gap: 12px; padding-block: 28px; }
+  .design--horizon .horizon-timeline .horizon-date { padding: 0; }
+  .design--horizon .horizon-outside-grid { gap: 32px; }
+}
+
+@media(prefers-reduced-motion:no-preference){.horizon-landscape.reveal-ready img{transform:scale(1.035);transition:transform 1.2s var(--ease)}.horizon-landscape.reveal-ready.is-visible img{transform:scale(1)}}

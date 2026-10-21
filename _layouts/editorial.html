@@ -3,38 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{{ page.lede }}">
-  <meta name="theme-color" content="#f6f4ee">
-  <title>{{ page.title }} — Zhongqi Xiu</title>
+  <meta name="description" content="{{ page.lede | escape }}">
+  <title>{{ page.title | escape }} — Zhongqi Xiu</title>
   <link rel="icon" href="/images/monogram.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/css/editorial.css">
-  <script src="/assets/js/site.js" defer></script>
+  <link rel="stylesheet" href="/assets/horizon/base.css">
+  <link rel="stylesheet" href="/assets/horizon/horizon.css">
+
+  <link rel="stylesheet" href="/assets/horizon/horizon-updates.css">
+  {% if page.permalink == '/cv/' %}<link rel="stylesheet" href="/assets/horizon/horizon-cv.css">{% endif %}
+  <script src="/assets/horizon/horizon-navigation.js"></script>
+  <script src="/assets/horizon/horizon-carousel.js" defer></script>
+  <script src="/assets/horizon/site.js" defer></script>
 </head>
-<body data-page="{{ page.permalink }}">
+<body class="design--horizon" data-page="{{ page.permalink }}">
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <a class="wordmark" href="/" aria-label="Zhongqi Xiu — Home"><span class="monogram" aria-hidden="true">zx.</span><span>Zhongqi Xiu<span class="wordmark-sub">RESEARCH & EXPLORATION</span></span></a>
-    <nav class="site-nav" aria-label="Main navigation">
-      <details class="nav-menu">
-        <summary>Menu <span aria-hidden="true">＋</span></summary>
-        <div class="nav-links">
-          <a href="/">About</a><a href="/projects/">Projects</a><a href="/publications/">Publications</a><a href="/cv/">CV</a><a href="/resource/">Resources</a><a href="/gallery/">Gallery</a><a class="nav-contact" href="/contact/">Let’s talk <span aria-hidden="true">↗</span></a>
-        </div>
-      </details>
-    </nav>
-  </header>
+  <header class="site-header"><div class="header-inner shell">
+    <a class="brand brand-home" href="{{ '/' | relative_url }}" aria-label="Homepage of Zhongqi Xiu"><span class="brand-copy"><span class="brand-prefix">Homepage of </span><span class="brand-name">Zhongqi Xiu</span></span><span class="brand-arrow" aria-hidden="true">↗</span></a>
+    <nav aria-label="Main navigation"><details class="nav-menu" open><summary>Menu <span aria-hidden="true">＋</span></summary><div class="nav-links">
+      <a href="{{ '/' | relative_url }}"{% if page.permalink == '/' %} aria-current="page"{% endif %}>About<span class="nav-indicator" aria-hidden="true"></span></a><a href="{{ '/projects/' | relative_url }}"{% if page.permalink == '/projects/' %} aria-current="page"{% endif %}>Research<span class="nav-indicator" aria-hidden="true"></span></a><a href="{{ '/publications/' | relative_url }}"{% if page.permalink == '/publications/' %} aria-current="page"{% endif %}>Publications<span class="nav-indicator" aria-hidden="true"></span></a><a href="{{ '/cv/' | relative_url }}"{% if page.permalink == '/cv/' %} aria-current="page"{% endif %}>CV<span class="nav-indicator" aria-hidden="true"></span></a><a href="{{ '/resource/' | relative_url }}"{% if page.permalink == '/resource/' %} aria-current="page"{% endif %}>Resources<span class="nav-indicator" aria-hidden="true"></span></a><a href="{{ '/gallery/' | relative_url }}"{% if page.permalink == '/gallery/' %} aria-current="page"{% endif %}>Gallery<span class="nav-indicator" aria-hidden="true"></span></a><a href="{{ '/contact/' | relative_url }}"{% if page.permalink == '/contact/' %} aria-current="page"{% endif %}>Contact<span class="nav-indicator" aria-hidden="true"></span></a>
+    </div></details></nav>
+  </div></header>
   <main id="main" tabindex="-1">
-    <header class="page-heading">
-      <p class="eyebrow">{{ page.kicker }}</p>
-      <h1>{{ page.title }}</h1>
-      <p class="lede">{{ page.lede }}</p>
-    </header>
-    {{ content }}
+    {% unless page.permalink == '/' %}<header class="page-heading shell" data-reveal><h1>{{ page.title }}</h1><p>{{ page.lede }}</p></header>{% endunless %}
+    <div class="page-content">{{ content }}</div>
   </main>
-  <footer class="site-footer">
-    <div class="footer-invitation"><span>Good questions start conversations.</span><a href="/contact/">Get in touch <span aria-hidden="true">↗</span></a></div>
-    <div class="footer-bottom"><a class="footer-name" href="/">Zhongqi Xiu <span lang="zh">修中淇</span></a><p>Providence, Rhode Island</p><nav aria-label="Elsewhere"><a href="https://scholar.google.com/citations?user=-Rv_8vQAAAAJ">Scholar ↗</a><a href="https://github.com/k-telux">GitHub ↗</a><a href="/sitemap/">Site index</a></nav></div>
-    <p class="colophon">A personal collection of research, tools, and things worth exploring.</p>
-  </footer>
-</body>
-</html>
+  <footer class="site-footer"><div class="shell"><div class="footer-main"><div><a class="brand" href="{{ '/' | relative_url }}">Zhongqi Xiu</a><p>Graduate researcher · Brown University</p></div><div class="footer-links"><a href="mailto:zhongqi_xiu@brown.edu">Email</a><a href="https://scholar.google.com/citations?user=-Rv_8vQAAAAJ">Scholar ↗</a><a href="https://github.com/k-telux">GitHub ↗</a><a href="https://telux.vercel.app/">Blog ↗</a><a href="{{ '/sitemap/' | relative_url }}">Site index</a></div></div><div class="footer-bottom"><span>Providence, Rhode Island</span></div></div></footer>
+</body></html>

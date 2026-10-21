@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
-const source = fs.readFileSync(path.join(__dirname, "../assets/js/site.js"), "utf8");
+const source = fs.readFileSync(path.join(__dirname, "../assets/horizon/site.js"), "utf8");
 
 function element(extra = {}) {
   return Object.assign({
@@ -39,6 +39,7 @@ function site(initial = {}) {
   const location = { pathname: "/projects/", hash: initial.hash || "" };
   vm.runInNewContext(source, {
     location, URL, Event,
+    matchMedia: query => ({ matches: query.includes("1001") && !!initial.desktop, addEventListener() {} }),
     document: {
       querySelector: selector => nodes[selector] || null,
       querySelectorAll: selector => ({ ".nav-links a": links, ".project-item": projects }[selector] || []),
@@ -111,3 +112,5 @@ test("Escape closes an open navigation menu and returns focus to its summary", (
   app.key("Escape");
   assert.equal(app.summary.focused, false);
 });
+
+test("desktop navigation stays available on Escape", () => { const app=site({desktop:true}); assert.equal(app.menu.open,true); app.key("Escape"); assert.equal(app.menu.open,true); });

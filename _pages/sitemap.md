@@ -1,10 +1,11 @@
 ---
 layout: editorial
-title: Find your way.
+title: Explore the site
 permalink: /sitemap/
 kicker: SITE INDEX
 lede: Everything on this site, in one place.
 ---
+
 
 <div class="index-list">
 <a href="/"><span>01</span><h2>About</h2><p>Research interests, background, and life outside the lab.</p><span aria-hidden="true">↗</span></a>

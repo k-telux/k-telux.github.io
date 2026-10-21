@@ -1,10 +1,11 @@
 ---
 layout: editorial
-title: Ideas worth sharing.
+title: Talks & teaching
 permalink: /resource/
 kicker: RESOURCES / TALKS & TEACHING
 lede: Slides from the lab, practical tools, and materials from teaching optics.
 ---
+
 
 <section aria-labelledby="slides-heading"><div class="section-heading compact"><h2 id="slides-heading">From the journal club.</h2><span class="small-note">6 slide decks · PowerPoint</span></div><div class="resource-list">
 <a class="resource-row" href="/assets/Quantum_memory.pptx" download><span class="resource-number">01</span><div><h3>Quantum memory with room-temperature atoms</h3><p>CAS Lab · Journal club</p></div><span class="file-type">PPTX ↓</span></a>
