@@ -1,0 +1,58 @@
+/* APlayer dressed in Horizon: the large cover and heading carry the track identity, APlayer supplies
+   transport, seeking, volume, play order and the playlist. Scoped to .music-player to outrank APlayer.css. */
+.music-player.has-aplayer { align-items: start; }
+.music-player.has-aplayer #track-cover { cursor: pointer; transition: transform .8s cubic-bezier(.16, 1, .3, 1), box-shadow .8s cubic-bezier(.16, 1, .3, 1), filter .3s; }
+.music-player.has-aplayer #track-cover:hover { filter: brightness(1.04); }
+.music-player.has-aplayer #track-cover:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+.music-player.has-aplayer h2 { margin-bottom: 8px; }
+
+.music-player .aplayer { margin: 22px 0 0; font-family: inherit; color: var(--ink); background: var(--page); border: 1px solid var(--line); border-radius: 18px; box-shadow: none; overflow: hidden; }
+.music-player .aplayer .aplayer-body { display: flex; align-items: center; gap: 14px; padding: 12px 16px 12px 12px; }
+
+/* the small cover becomes a round play / pause control in the accent colour */
+.music-player .aplayer .aplayer-pic { position: relative; float: none; flex: none; width: 52px; height: 52px; border-radius: 50%; background: var(--accent) !important; box-shadow: 0 6px 16px rgba(7, 91, 159, .25); transition: transform .25s cubic-bezier(.16, 1, .3, 1), box-shadow .3s; }
+.music-player .aplayer .aplayer-pic:hover { transform: scale(1.05); box-shadow: 0 8px 22px rgba(7, 91, 159, .32); }
+.music-player .aplayer .aplayer-pic:active { transform: scale(.95); }
+.music-player .aplayer .aplayer-pic .aplayer-button { position: absolute; inset: 0; width: 100%; height: 100%; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; opacity: 1; margin: 0; }
+.music-player .aplayer .aplayer-pic .aplayer-button svg { position: static; width: 24px; height: 24px; }
+.music-player .aplayer .aplayer-pic .aplayer-button path { fill: #fff; }
+.music-player .aplayer .aplayer-pic .aplayer-play svg { margin-left: 3px; }
+
+/* the heading above already names the track, so APlayer's title row gives way to a roomier controller */
+.music-player .aplayer .aplayer-info { flex: 1; min-width: 0; margin: 0; padding: 0; height: auto; border: 0; }
+.music-player .aplayer .aplayer-info .aplayer-music, .music-player .aplayer .aplayer-info .aplayer-lrc { display: none; }
+.music-player .aplayer .aplayer-info .aplayer-controller { display: flex; align-items: center; gap: 14px; position: static; }
+.music-player .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap { flex: 1; margin: 0; padding: 10px 0; }
+.music-player .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar { height: 4px; border-radius: 4px; background: #dbe4ec; overflow: visible; }
+.music-player .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-loaded { height: 4px; border-radius: 4px; background: #c3d3e1; }
+.music-player .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-played { height: 4px; border-radius: 4px; }
+.music-player .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-played .aplayer-thumb { top: -4px; right: -6px; width: 12px; height: 12px; margin: 0; transform: scale(.7); box-shadow: 0 0 0 4px rgba(7, 91, 159, .14); transition: transform .25s; }
+.music-player .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap:hover .aplayer-thumb { transform: scale(1); }
+.music-player .aplayer .aplayer-info .aplayer-controller .aplayer-time { position: static; display: flex; align-items: center; gap: 6px; height: auto; padding: 0; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.music-player .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon { width: 18px; height: 18px; margin: 0 0 0 6px; }
+.music-player .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon path { fill: var(--muted); transition: fill .2s; }
+.music-player .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon:hover path { fill: var(--accent); }
+.music-player .aplayer .aplayer-info .aplayer-controller .aplayer-volume-wrap .aplayer-volume-bar-wrap { bottom: 18px; }
+
+/* playlist: Horizon type, 44px rows, a calm highlight for the current track */
+.music-player .aplayer .aplayer-list { border-top: 1px solid var(--line); }
+.music-player .aplayer .aplayer-list ol li { display: flex; align-items: center; height: 44px; line-height: 44px; padding: 0 18px; font-size: 15px; border-top: 1px solid var(--line); color: var(--ink); transition: background-color .2s; }
+.music-player .aplayer .aplayer-list ol li:first-child { border-top: 0; }
+.music-player .aplayer .aplayer-list ol li:hover { background: var(--surface); }
+.music-player .aplayer .aplayer-list ol li.aplayer-list-light { background: #e8f1f9; font-weight: 600; }
+.music-player .aplayer .aplayer-list ol li .aplayer-list-cur { top: 10px; height: 24px; width: 3px; border-radius: 3px; }
+.music-player .aplayer .aplayer-list ol li .aplayer-list-index { color: var(--muted); font-variant-numeric: tabular-nums; margin-right: 14px; font-weight: 400; }
+.music-player .aplayer .aplayer-list ol li .aplayer-list-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.music-player .aplayer .aplayer-list ol li .aplayer-list-author { float: none; flex: none; max-width: 45%; margin-left: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); font-size: 14px; font-weight: 400; }
+.music-player .aplayer .aplayer-notice { font-size: 13px; border-radius: 8px; }
+@media (max-width: 720px) {
+  .music-player .aplayer .aplayer-body { padding: 10px 12px 10px 10px; gap: 10px; }
+  .music-player .aplayer .aplayer-list ol li { padding: 0 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .music-player .aplayer * { transition: none !important; } }
+
+/* one link for the whole collection; its status line reports packing progress */
+.music-player .download-all { margin-top: 22px; gap: 10px; }
+.music-player .download-all .download-meta { font-weight: 400; color: var(--muted); font-size: 15px; }
+.music-player .download-all[aria-busy=true] .download-meta { display: none; }
+.music-player #download-status { margin-top: 12px; font-variant-numeric: tabular-nums; }
