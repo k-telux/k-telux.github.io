@@ -21,4 +21,3 @@
 .visitor-bottom .text-link{white-space:nowrap;font-size:16px}
 @media(max-width:720px){.visitor-map{padding:24px 20px}.visitor-heading{flex-direction:column;align-items:flex-start;gap:24px}.visitor-map h2{font-size:29px}.visitor-switch{align-self:center}.visitor-stage,.visitor-panel{height:340px}.visitor-frame{height:440px;align-self:start}.visitor-panel{overflow:hidden}.visitor-bottom{flex-direction:column;align-items:flex-start;gap:14px}.visitor-map .small-note{font-size:14px}#map-status{font-size:14px;margin-top:20px}}
 @media(prefers-reduced-motion:reduce){.visitor-switch span{transition:none}}
-
