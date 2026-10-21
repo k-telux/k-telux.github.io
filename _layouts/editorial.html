@@ -6,14 +6,16 @@
   <meta name="description" content="{{ page.lede | escape }}">
   <title>{{ page.title | escape }} — Zhongqi Xiu</title>
   <link rel="icon" href="/images/monogram.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/horizon/base.css">
+  <link rel="stylesheet" href="/assets/horizon/base.css?v=motion-1">
   <link rel="stylesheet" href="/assets/horizon/horizon.css">
 
-  <link rel="stylesheet" href="/assets/horizon/horizon-updates.css">
+  <link rel="stylesheet" href="/assets/horizon/horizon-updates.css?v=motion-1">
+  <link rel="stylesheet" href="/assets/horizon/horizon-motion.css?v=motion-1">
   {% if page.permalink == '/cv/' %}<link rel="stylesheet" href="/assets/horizon/horizon-cv.css">{% endif %}
   <script src="/assets/horizon/horizon-navigation.js"></script>
   <script src="/assets/horizon/horizon-carousel.js" defer></script>
-  <script src="/assets/horizon/site.js" defer></script>
+  <script src="/assets/horizon/site.js?v=motion-1" defer></script>
+  <script src="/assets/horizon/horizon-motion.js?v=motion-1" defer></script>
 </head>
 <body class="design--horizon" data-page="{{ page.permalink }}">
   <a class="skip-link" href="#main">Skip to content</a>

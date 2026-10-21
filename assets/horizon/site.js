@@ -68,18 +68,44 @@
     document.body.append(dialog);
     const preview = dialog.querySelector('img');
     const status = dialog.querySelector('#image-status');
-    let opener;
+    let opener, full;
+    // The picture flies between its thumbnail and the viewer (FLIP), unless motion is reduced.
+    const canFly = () => typeof preview.animate === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fitted = (el, w, h) => { const r = el.getBoundingClientRect(); const s = Math.min(r.width / w, r.height / h); return { x: r.left + r.width / 2, y: r.top + r.height / 2, w: w * s }; };
+    const fly = (thumb, back) => {
+      const w = thumb.naturalWidth, h = thumb.naturalHeight;
+      if (!canFly() || !w || !h) return;
+      const from = fitted(thumb, w, h), to = fitted(preview, w, h);
+      if (!to.w || !from.w) return;
+      const away = `translate(${from.x - to.x}px, ${from.y - to.y}px) scale(${from.w / to.w})`;
+      dialog.style.overflow = 'visible';
+      const run = preview.animate([{ transform: back ? 'none' : away }, { transform: back ? away : 'none' }],
+        { duration: back ? 420 : 580, easing: 'cubic-bezier(.16,1,.3,1)', fill: back ? 'forwards' : 'none' });
+      run.onfinish = run.oncancel = () => { dialog.style.overflow = ''; if (back) run.cancel(); };
+    };
     galleryLinks.forEach(link => link.addEventListener('click', event => {
       event.preventDefault();
       opener = link;
-      preview.alt = link.querySelector('img').alt;
-      preview.hidden = true;
-      status.textContent = 'Loading image…';
+      const thumb = link.querySelector('img');
+      preview.alt = thumb.alt;
       dialog.querySelector('.image-caption').textContent = preview.alt;
       dialog.querySelector('a').href = link.href;
-      preview.src = link.href;
+      // Show the picture the visitor just clicked right away; swap in the full-size file once it arrives.
+      const shown = thumb.complete && thumb.naturalWidth > 0;
+      preview.hidden = !shown;
+      status.textContent = shown ? '' : 'Loading image…';
+      if (shown) preview.src = thumb.currentSrc || thumb.src;
+      const original = full = new Image();
+      original.onload = () => { if (full === original) preview.src = link.href; };
+      original.onerror = () => { if (full === original && shown) status.textContent = 'Showing a smaller preview; the original image could not load.'; };
+      original.src = link.href;
+      if (!shown) preview.src = link.href;
       dialog.showModal();
       document.body.classList.add('dialog-open');
+      if (shown && canFly()) {
+        preview.style.opacity = '0';
+        preview.decode().catch(() => {}).then(() => { preview.style.opacity = ''; fly(thumb, false); });
+      }
     }));
     preview.addEventListener('load', () => { preview.hidden = false; status.textContent = ''; });
     preview.addEventListener('error', () => { status.textContent = 'This image could not load. Try opening the original image below.'; });
@@ -88,8 +114,10 @@
       if (event.target === dialog && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) dialog.close();
     });
     dialog.addEventListener('close', () => {
+      full = null;
+      if (opener && !preview.hidden) fly(opener.querySelector('img'), true);
       document.body.classList.remove('dialog-open');
-      opener?.focus();
+      opener?.focus({ preventScroll: true });
     });
   }
   const mobileProfile = matchMedia('(max-width: 760px)');

@@ -35,7 +35,8 @@
     validationField = field.id;
     showStatus("error", text);
     field.focus({ preventScroll: true });
-    field.scrollIntoView({ block: "center", behavior: "instant" });
+    var calm = typeof matchMedia !== "function" || matchMedia("(prefers-reduced-motion: reduce)").matches;
+    field.scrollIntoView({ block: "center", behavior: calm ? "instant" : "smooth" });
   }
 
   form.noValidate = true;
