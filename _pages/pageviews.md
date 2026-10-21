@@ -16,4 +16,4 @@ lede: A small window into where readers find this corner of the web.
   <div class="visitor-bottom"><p class="small-note">Provided by MapMyVisitors. Loading a view records your visit and approximate location. Locations are approximate; new visits can take time to appear.</p><a class="text-link" href="https://mapmyvisitors.com/web/1bzyq" target="_blank" rel="noopener noreferrer">Visit statistics ↗</a></div>
   <noscript><p>JavaScript is needed for these views. You can still open the visit statistics.</p></noscript>
 </section>
-<script src="/assets/js/visitors.js" defer></script>
+<script src="/assets/js/visitors.js?v=globe-map-1" defer></script>
