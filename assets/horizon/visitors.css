@@ -1,0 +1,24 @@
+.visitor-map{max-width:900px;margin-inline:auto;padding:40px;background:#f4f7f9}
+.visitor-heading{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.visitor-map h2{font-size:32px;letter-spacing:-.035em;margin:0 0 12px}
+.visitor-heading p{margin:0;color:var(--muted);font-size:17px}
+.visitor-switch{display:flex;flex-shrink:0;border:1px solid #dbe3e8;border-radius:999px;padding:4px;margin:0;background:#fff}
+.visitor-switch legend{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.visitor-switch label{position:relative;cursor:pointer}
+.visitor-switch input{position:absolute;width:1px;height:1px;opacity:0}
+.visitor-switch span{display:block;min-width:78px;padding:10px 18px;text-align:center;border-radius:999px;font-size:16px;font-weight:600;transition:background .2s,color .2s,box-shadow .2s}
+.visitor-switch input:checked+span{background:#163e52;color:#fff;box-shadow:0 2px 6px #173f5220}
+.visitor-switch input:focus-visible+span{outline:3px solid #0b6dc0;outline-offset:3px}
+#map-status{font-size:15px;color:var(--muted);min-height:24px;text-align:center;margin:24px 0 8px}
+.visitor-stage{width:min(100%,400px);height:440px;margin-inline:auto;display:grid;align-items:center}
+.visitor-panel{width:100%;height:440px;display:grid;align-items:center}
+.visitor-panel[hidden],#retry-map[hidden]{display:none}
+.visitor-frame{border:0;width:100%;height:440px;background:transparent}
+#visitor-map .visitor-frame{height:250px}
+#retry-map{display:flex;margin:16px auto}
+.visitor-bottom{display:flex;gap:24px;justify-content:space-between;align-items:center;border-top:1px solid #dbe3e8;padding-top:24px;margin-top:16px}
+.visitor-map .small-note{max-width:54ch;margin:0;color:var(--muted);font-size:14px;line-height:1.65}
+.visitor-bottom .text-link{white-space:nowrap;font-size:16px}
+@media(max-width:720px){.visitor-map{padding:24px 20px}.visitor-heading{flex-direction:column;align-items:flex-start;gap:24px}.visitor-map h2{font-size:29px}.visitor-switch{align-self:center}.visitor-stage,.visitor-panel{height:340px}.visitor-frame{height:440px;align-self:start}.visitor-panel{overflow:hidden}.visitor-bottom{flex-direction:column;align-items:flex-start;gap:14px}.visitor-map .small-note{font-size:14px}#map-status{font-size:14px;margin-top:20px}}
+@media(prefers-reduced-motion:reduce){.visitor-switch span{transition:none}}
+

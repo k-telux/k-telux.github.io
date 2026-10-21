@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Visitor visualization</title><style>html,body{margin:0;padding:0;overflow:hidden}body{width:400px;transform-origin:top left}a{color:#145d82}</style></head><body>
+<script>
+  const kind = new URLSearchParams(location.search).get('view') === 'map' ? 'map' : 'globe';
+  // Verified provider responses bind this public project ID to k-telux.github.io /web/1bzyq.
+  const project = 'TaAB729sTftlUrB7KMTGic4DdViOWx9TOW2-unjW3Qg';
+  const script = document.createElement('script');
+  script.id = kind === 'globe' ? 'mmvst_globe' : 'mapmyvisitors';
+  script.src = `https://mapmyvisitors.com/${kind === 'globe' ? 'globe' : 'map'}.js?d=${project}${kind === 'map' ? '&cl=ffffff&w=a' : ''}`;
+  script.onerror = () => { document.documentElement.dataset.failed = 'true'; };
+  document.body.append(script);
+  function fit() { document.body.style.zoom = Math.min(1, innerWidth / 400); }
+  fit();
+  addEventListener('resize', fit);
+</script>
+</body></html>

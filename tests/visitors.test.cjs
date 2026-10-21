@@ -1,0 +1,18 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const source=fs.readFileSync(require('node:path').join(__dirname,'../assets/js/visitors.js'),'utf8');
+function app(reduced=false){
+ const elem=extra=>Object.assign({listeners:{},addEventListener(t,f){this.listeners[t]=f;},setAttribute(n,v){this[n]=v;}},extra);
+ const status=elem(),retry=elem(),container=elem(),choices=['globe','map'].map(value=>elem({value}));
+ const panels=Object.fromEntries(choices.map(c=>[c.value,elem({replaceChildren(frame){this.frame=frame;}})]));
+ const frames=[],intervals=new Map(),timeouts=new Map();let id=0;
+ const doc={querySelector:s=>({'#map-container':container,'#map-status':status,'#retry-map':retry,'#visitor-globe':panels.globe,'#visitor-map':panels.map}[s]),querySelectorAll:()=>choices,createElement:()=>{
+  const f={contentDocument:{documentElement:{dataset:{}},querySelector:s=>s.startsWith('#')?f.link:f.graphic},contentWindow:{getComputedStyle:()=>({display:'block',visibility:'visible',backgroundImage:'url(real-provider-map.svg)'})},remove(){this.removed=true;}};frames.push(f);return f;
+ }};
+ vm.runInNewContext(source,{document:doc,matchMedia:()=>({matches:reduced}),setInterval:f=>{intervals.set(++id,f);return id;},clearInterval:i=>intervals.delete(i),setTimeout:f=>{timeouts.set(++id,f);return id;},clearTimeout:i=>timeouts.delete(i)});
+ return {status,retry,container,choices,panels,frames,intervals,timeouts,select:k=>choices.find(c=>c.value===k).listeners.change(),tick:()=>[...intervals.values()].forEach(f=>f()),expire:()=>[...timeouts.values()].forEach(f=>f()),ready(f=frames[0]){f.link={href:'https://mapmyvisitors.com/web/1bzyq'};f.graphic={getBoundingClientRect:()=>({width:400})};}};
+}
+test('Globe loads first; switching views reuses each existing frame',()=>{const a=app();assert.equal(a.frames.length,1);assert.match(a.frames[0].src,/view=globe$/);a.select('map');assert.equal(a.frames.length,2);a.select('globe');a.select('map');assert.equal(a.frames.length,2);assert.equal(a.panels.globe.hidden,true);assert.equal(a.panels.map.hidden,false);});
+test('reduced-motion preference starts on stationary Map',()=>{const a=app(true);assert.match(a.frames[0].src,/view=map$/);assert.equal(a.choices[1].checked,true);});
+test('readiness requires both graphics and the correct site association',()=>{const a=app();a.ready();a.frames[0].link.href='https://mapmyvisitors.com/web/foreign';a.tick();assert.match(a.status.textContent,/Loading/);a.frames[0].link.href='https://mapmyvisitors.com/web/1bzyq';a.tick();assert.equal(a.container['aria-busy'],'false');assert.equal(a.intervals.size+a.timeouts.size,0);assert.match(a.status.textContent,/Hover/);});
+test('failure and timeout enable retry without replacing the other view',()=>{const a=app();a.frames[0].contentDocument.documentElement.dataset.failed='true';a.tick();assert.equal(a.retry.hidden,false);assert.equal(a.frames[0].removed,true);a.retry.listeners.click();assert.equal(a.frames.length,2);a.expire();assert.equal(a.retry.hidden,false);a.select('map');assert.equal(a.frames.length,3);a.ready(a.frames[2]);a.tick();assert.equal(a.retry.hidden,true);a.select('globe');assert.equal(a.retry.hidden,false);});
+test('a hidden or zero-size graphic is never announced as ready',()=>{const a=app();a.ready();a.frames[0].graphic.getBoundingClientRect=()=>({width:0});a.tick();assert.match(a.status.textContent,/Loading/);a.frames[0].graphic.getBoundingClientRect=()=>({width:400});a.frames[0].contentWindow.getComputedStyle=()=>({display:'none',visibility:'visible'});a.tick();assert.match(a.status.textContent,/Loading/);});
