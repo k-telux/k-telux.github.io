@@ -1,10 +1,12 @@
 ---
 layout: editorial
-title: Questions into experiments.
+title: Research projects
 permalink: /projects/
 kicker: RESEARCH / SELECTED WORK
-lede: A collection of experiments, computational explorations, and tools built along the way.
+lede: A collection of experiments, computational explorations, and tools built along
+  the way.
 ---
+
 
 <p class="project-interests"><strong>Research interests</strong> · Excitonic physics and topological quantum states; critical phase transitions in 2D materials.</p>
 <div class="project-toolbar"><div class="search-field"><label for="project-search">Find a project</label><div class="search-input"><input id="project-search" type="search" placeholder="Try photons, cooling, or Python…" aria-describedby="project-count"><button id="clear-search" type="button" hidden>Clear</button></div></div><p id="project-count" role="status" aria-live="polite"></p></div>

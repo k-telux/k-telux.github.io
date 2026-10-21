@@ -1,11 +1,10 @@
 ---
 permalink: /contact/
 layout: editorial
-title: Contact
+title: Let’s talk
 kicker: GET IN TOUCH
 lede: For research conversations and collaborations.
 ---
-
 
 
 <div class="contact-grid">
@@ -71,4 +70,4 @@ lede: For research conversations and collaborations.
 </form>
 </div>
 
-<script src="/assets/js/contact.js" defer></script>
+<script src="/assets/horizon/contact.js" defer></script>

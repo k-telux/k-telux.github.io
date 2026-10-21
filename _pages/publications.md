@@ -1,10 +1,11 @@
 ---
 layout: editorial
-title: Research in print.
+title: Publications
 permalink: /publications/
 kicker: PUBLICATIONS / MANUSCRIPTS
 lede: Published work and ongoing writing, with links to the original sources.
 ---
+
 
 <div class="publication-list">
 <section class="publication-row"><div class="publication-meta"><span class="eyebrow">PUBLISHED / 2025</span><p>Nano Letters</p><span class="small-note">25 (29), 11226–11233</span></div><div><h2><a href="https://doi.org/10.1021/acs.nanolett.5c01718">Ultrahigh-Purity Single-Photon Emission from 2D WSe<sub>2</sub> via Effective Suppression of Classical Emission</a></h2><p>Wenjing Wu, Alex Strasser, <strong>Zhongqi Xiu</strong>, et al.</p><a class="text-link" href="https://doi.org/10.1021/acs.nanolett.5c01718">Read the published paper <span aria-hidden="true">↗</span></a></div></section>

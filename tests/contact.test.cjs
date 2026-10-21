@@ -3,8 +3,8 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
-const root = path.join(__dirname, "..");
-const contactSource = fs.readFileSync(path.join(root, "assets/js/contact.js"), "utf8");
+const root = path.resolve(__dirname, "..");
+const contactSource = fs.readFileSync(path.join(root, "assets/horizon/contact.js"), "utf8");
 
 function element() {
   return {
@@ -14,6 +14,7 @@ function element() {
     setAttribute(key, value) { this.attributes[key] = value; },
     removeAttribute(key) { delete this.attributes[key]; },
     focus() { this.focused = true; },
+    scrollIntoView() { this.scrolledIntoView = true; },
     fire(type) {
       const event = { target: this, prevented: false, preventDefault() { this.prevented = true; } };
       return this.listeners[type]?.(event);
@@ -238,3 +239,5 @@ test("all eight tracks resolve locally and native player handles switching and e
   audio.fire("error");
   assert.equal(nodes["music-status"].dataset.state, "error");
 });
+
+test("invalid fields are brought into view even when already focused", async () => { const app=contact(); app.nodes.email.value=""; app.nodes.email.focused=true; await app.submit(); assert.equal(app.nodes.email.scrolledIntoView,true); });

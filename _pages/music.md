@@ -7,7 +7,6 @@ lede: A few favorite tracks, in full-resolution audio.
 ---
 
 
-
 <section class="music-player" data-asset-base="/assets/music/" aria-label="Music collection">
 <img id="track-cover" src="/assets/music/Somniomancer.jpg" alt="Somniomancer cover art" width="320" height="320">
 <div class="music-player__content">
