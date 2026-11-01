@@ -26,13 +26,13 @@ lede: A collection of experiments, computational explorations, and tools built a
 <article class="project-item" id="project-3"><details><summary><span class="project-number">03</span><h2>Heatmap plotter & Spectrum fitting plotter</h2><span class="project-meta">2024</span><span class="expand-icon" aria-hidden="true">＋</span></summary><div class="project-body"><p><em>Served for SCOPE Lab (Original python codes in <a href="https://github.com/k-telux/SPE-purity">Github</a>)</em></p>
 <ul>
 <li>
-<p><a href="/assets/Heatmap_plotter.exe" download>Heatmap plotter <span class="file-type">EXE ↓</span></a>:</p>
+<p><a href="https://github.com/k-telux/SPE-purity/releases/download/v1.0.0/Heatmap_plotter.exe">Heatmap plotter <span class="file-type">EXE ↓</span></a>:</p>
 <ul>
 <li>This application is designed to generate heatmaps from Renishaw map data files. Also, it can plot the specific points' spectrum to know how to choose the range. Users can fit the spectrum of specific points by just clicking the points on the plot.</li>
 </ul>
 </li>
 <li>
-<p><a href="/assets/Justplot.exe" download>Spectrum fitting plotter <span class="file-type">EXE ↓</span></a>:</p>
+<p><a href="https://github.com/k-telux/SPE-purity/releases/download/v1.0.0/Justplot.exe">Spectrum fitting plotter <span class="file-type">EXE ↓</span></a>:</p>
 <ul>
 <li>This application is designed to plot Raman/PL spectrum and draw fitted curves on it. Users need to fit the curves with Origin to get the parameters first.</li>
 </ul>

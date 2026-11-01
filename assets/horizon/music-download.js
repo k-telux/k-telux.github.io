@@ -1,6 +1,6 @@
-/* "Download all tracks": the WAV files already published on this site are packed into one ZIP inside the
+/* "Download all tracks": the lossless FLAC files already published on this site are packed into one ZIP inside the
    visitor's browser, so no 500 MB archive has to live in the repository (GitHub refuses files over 100 MB).
-   Entries are stored uncompressed, the way WAV audio is normally archived. Without JavaScript the link
+   Entries are stored as-is: FLAC is already compressed. Without JavaScript the link
    opens the folder on GitHub, where every file can still be downloaded. */
 (() => {
   'use strict';
@@ -12,9 +12,9 @@
 
   const base = player.dataset.assetBase || '/assets/music/';
   const files = [...select.options].map((option) => option.dataset.file);
-  // archive names follow the playlist ("04 Forever Breath - YU.wav"), not the storage file names
+  // archive names follow the playlist ("04 Forever Breath - YU.flac"), not the storage file names
   const safe = (text) => text.replace(/[\\/:*?"<>|]+/g, '').replace(/\s+/g, ' ').trim();
-  const titles = [...select.options].map((option, i) => `${String(i + 1).padStart(2, '0')} ${safe(option.textContent)}${option.dataset.artist ? ' - ' + safe(option.dataset.artist) : ''}.wav`);
+  const titles = [...select.options].map((option, i) => `${String(i + 1).padStart(2, '0')} ${safe(option.textContent)}${option.dataset.artist ? ' - ' + safe(option.dataset.artist) : ''}.${(option.dataset.file.split('.').pop() || 'flac').toLowerCase()}`);
   const label = link.innerHTML;
   let controller = null;
 
@@ -90,7 +90,7 @@
       const url = URL.createObjectURL(zip);
       const save = document.createElement('a');
       save.href = url;
-      save.download = 'Zhongqi-Xiu-listening-room-WAV.zip';
+      save.download = 'Zhongqi-Xiu-listening-room-FLAC.zip';
       document.body.append(save);
       save.click();
       save.remove();

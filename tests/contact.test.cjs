@@ -229,7 +229,7 @@ test("all eight tracks resolve locally and native player handles switching and e
     }
   });
   nodes["track-select"].fire("change");
-  assert.equal(audio.src, "/assets/music/Abnormal%20Spectrum.wav");
+  assert.equal(audio.src, "/assets/music/Abnormal%20Spectrum.flac");
   assert.equal(nodes["track-title"].textContent, "Abnormal Spectrum");
   assert.equal(audio.loaded, true);
   audio.fire("loadedmetadata");
