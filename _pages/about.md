@@ -52,7 +52,7 @@ redirect_from:
   <div class="shell">
     <div class="horizon-section-heading horizon-heading-row" data-reveal><h2 id="journey-heading">The path so far.</h2><a class="text-link" href="/cv/">Full CV <span aria-hidden="true">→</span></a></div>
     <div class="horizon-timeline">
-      <article data-reveal><p class="horizon-date">2025 — Present</p><div><h3>Brown University</h3><p>Graduate research in chemistry, excitonic physics, and quantum materials.</p></div></article>
+      <article data-reveal><p class="horizon-date">2025 — Present</p><div><h3>Brown University</h3><p>Chemistry PhD program.</p></div></article>
       <article data-reveal><p class="horizon-date">2024 — 2025</p><div><h3>Rice University</h3><p>Research at the SCOPE Lab with Prof. Shengxi Huang and Wenjing Wu, studying single-photon emission in two-dimensional materials.</p></div></article>
       <article data-reveal><p class="horizon-date">2021 — 2025</p><div><h3>University of Science and Technology of China</h3><p>Bachelor’s degree in physics, focused on optics and optical engineering. Research in fiber cavity quantum electrodynamics at the CAS Key Laboratory of Quantum Information.</p><a class="text-link" href="/assets/bachelor_thesis.pdf" download>Bachelor’s thesis <span aria-hidden="true">↓</span><span class="horizon-file-label">PDF</span></a></div></article>
     </div>

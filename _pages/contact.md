@@ -3,21 +3,18 @@ permalink: /contact/
 layout: editorial
 title: Let’s talk
 kicker: GET IN TOUCH
-lede: For research conversations and collaborations.
+lede: For questions about my work, potential collaborations, or a shared interest in optics and quantum materials.
 ---
 
 
 <div class="contact-grid">
 <aside class="contact-details" aria-label="Other ways to connect">
-<p class="eyebrow">LET'S CONNECT</p>
-<h2>A conversation starts here.</h2>
-<p>For questions about my work, potential collaborations, or a shared interest in optics and quantum materials.</p>
 <a class="contact-email" href="mailto:zhongqi_xiu@brown.edu">zhongqi_xiu@brown.edu</a>
 <div class="contact-links">
 <a class="text-link" href="https://calendar.app.google/dbp77AuJixuG6xw7A">Book a meeting <span aria-hidden="true">↗</span></a>
 <a class="text-link" href="/images/wechat.jpg">View WeChat QR code <span aria-hidden="true">↗</span></a>
 </div>
-<p class="form-note">Prefer email? You can send attachments directly to the address above.</p>
+<p class="form-note">Attachments can also go straight to this address.</p>
 </aside>
 
 <form class="contact-form" id="contactForm" action="https://formsubmit.co/afac8593c9c18a504deded6135c1b48f" method="POST" enctype="multipart/form-data">

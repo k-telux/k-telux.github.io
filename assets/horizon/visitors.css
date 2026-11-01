@@ -1,5 +1,5 @@
 .visitor-map{max-width:900px;margin-inline:auto;padding:40px;background:#f4f7f9}
-.visitor-heading{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.visitor-heading{display:flex;align-items:center;justify-content:center;gap:24px}
 .visitor-map h2{font-size:32px;letter-spacing:-.035em;margin:0 0 12px}
 .visitor-heading p{margin:0;color:var(--muted);font-size:17px}
 .visitor-switch{display:flex;flex-shrink:0;border:1px solid #dbe3e8;border-radius:999px;padding:4px;margin:0;background:#fff}

@@ -56,6 +56,9 @@ a, button, summary, label { -webkit-tap-highlight-color: transparent; }
 .file-trigger input:disabled + .file-button { opacity: .6; }
 .file-names { font-size: 15px; color: var(--muted); overflow-wrap: anywhere; }
 
+/* contact: the address itself heads the column, so it carries heading weight */
+.contact-details .contact-email { display: inline-block; font-size: clamp(24px, 2.4vw, 32px); font-weight: 600; letter-spacing: -.02em; line-height: 1.2; text-decoration-thickness: 1px; text-underline-offset: .18em; }
+
 /* inputs: a soft focus halo makes the active field obvious */
 input[type=text]:focus, input[type=email]:focus, input[type=search]:focus, textarea:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(var(--glow), .12); outline: none; }
 input[type=text]:focus-visible, input[type=email]:focus-visible, input[type=search]:focus-visible, textarea:focus-visible, select:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }

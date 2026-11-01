@@ -32,7 +32,7 @@ lede: A few favorite tracks, in full-resolution audio.
 </select>
 </div>
 <audio id="music-audio" src="/assets/music/Somniomancer.flac" controls preload="metadata" aria-label="Play Somniomancer"></audio>
-<p class="form-status" id="music-status" role="status" aria-live="polite" aria-atomic="true" data-state="idle">Choose a track, then press play.</p>
+<p class="form-status" id="music-status" role="status" aria-live="polite" aria-atomic="true" data-state="idle">Press play to begin.</p>
 </div>
 <a id="download-all" class="text-link download-all" href="https://github.com/k-telux/k-telux.github.io/tree/master/assets/music">Download all 8 tracks <span class="download-meta">FLAC · 383 MB</span> <span aria-hidden="true">↓</span></a>
 <p class="form-status" id="download-status" role="status" aria-live="polite" aria-atomic="true" data-state="idle"></p>

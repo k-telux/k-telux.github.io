@@ -16,8 +16,8 @@ redirect_from:
       <p>Graduate researcher in the chemistry PhD program, studying excitonic physics, quantum states, and two-dimensional materials in <a href="https://www.yusongbai.org/">Yusong Bai’s Group</a>.</p>
     </div>
     <div class="cv-download">
-      <h3>A record of the journey.</h3>
-      <p>The PDF is the undergraduate edition. Current experience is listed below.</p>
+      <h3>Prefer a printable copy?</h3>
+      <p>Current experience is listed below.</p>
       <a class="button" href="/assets/xzq_Resume.pdf" download>Undergraduate CV <span aria-hidden="true">↓</span><span class="cv-pdf-label">PDF</span></a>
       <p class="cv-updated">Content last updated <time datetime="2026-10-08">8 October 2026</time></p>
     </div>
