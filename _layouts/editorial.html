@@ -8,21 +8,25 @@
   <link rel="icon" href="/images/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="icon" href="/images/icon-512.png" sizes="512x512" type="image/png">
   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-  <link rel="stylesheet" href="/assets/horizon/base.css?v=motion-1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..700&display=swap">
+  <link rel="stylesheet" href="/assets/horizon/base.css?v=identity-1">
   <link rel="stylesheet" href="/assets/horizon/horizon.css">
 
   <link rel="stylesheet" href="/assets/horizon/horizon-updates.css?v=motion-1">
-  <link rel="stylesheet" href="/assets/horizon/horizon-motion.css?v=motion-2">
+  <link rel="stylesheet" href="/assets/horizon/horizon-motion.css?v=identity-1">
+  <link rel="stylesheet" href="/assets/horizon/identity.css?v=identity-1">
   {% if page.permalink == '/cv/' %}<link rel="stylesheet" href="/assets/horizon/horizon-cv.css">{% endif %}
   <script src="/assets/horizon/horizon-navigation.js"></script>
   <script src="/assets/horizon/horizon-carousel.js" defer></script>
-  <script src="/assets/horizon/site.js?v=motion-1" defer></script>
-  <script src="/assets/horizon/horizon-motion.js?v=motion-2" defer></script>
+  <script src="/assets/horizon/site.js?v=identity-1" defer></script>
+  <script src="/assets/horizon/horizon-motion.js?v=identity-1" defer></script>
 </head>
 <body class="design--horizon" data-page="{{ page.permalink }}">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header"><div class="header-inner shell">
-    <a class="brand brand-home" href="{{ '/' | relative_url }}" aria-label="Homepage of Zhongqi Xiu"><span class="brand-copy"><span class="brand-prefix">Homepage of </span><span class="brand-name">Zhongqi Xiu</span></span><span class="brand-arrow" aria-hidden="true">↗</span></a>
+    <a class="brand brand-home" href="{{ '/' | relative_url }}" aria-label="Zhongqi Xiu, home"><svg class="brand-mark" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><defs><linearGradient id="brand-beam" gradientUnits="userSpaceOnUse" x1="4" y1="0" x2="24" y2="0"><stop offset="0" stop-color="#22b8e6"/><stop offset=".55" stop-color="#8f62ff"/><stop offset="1" stop-color="#ff5a6e"/></linearGradient></defs><path class="area" d="M4 22 C7 22 7.6 5 10.2 5 C12.8 5 12.4 15.5 15.4 15.5 C17.4 15.5 17.6 10.5 19.2 10.5 C20.8 10.5 21.4 22 24 22 Z"/><path class="peak" d="M4 22 C7 22 7.6 5 10.2 5 C12.8 5 12.4 15.5 15.4 15.5 C17.4 15.5 17.6 10.5 19.2 10.5 C20.8 10.5 21.4 22 24 22"/><path class="axis" d="M2 2 V24 H25"/></svg><span class="brand-copy"><span class="brand-name">Zhongqi Xiu</span></span><span class="brand-arrow" aria-hidden="true">↗</span></a>
     <nav aria-label="Main navigation"><details class="nav-menu" open><summary>Menu <span aria-hidden="true">＋</span></summary><div class="nav-links">
       <a href="{{ '/' | relative_url }}"{% if page.permalink == '/' %} aria-current="page"{% endif %}>About<span class="nav-indicator" aria-hidden="true"></span></a><a href="{{ '/projects/' | relative_url }}"{% if page.permalink == '/projects/' %} aria-current="page"{% endif %}>Research<span class="nav-indicator" aria-hidden="true"></span></a><a href="{{ '/software/' | relative_url }}"{% if page.permalink == '/software/' %} aria-current="page"{% endif %}>Software<span class="nav-indicator" aria-hidden="true"></span></a><a href="{{ '/publications/' | relative_url }}"{% if page.permalink == '/publications/' %} aria-current="page"{% endif %}>Publications<span class="nav-indicator" aria-hidden="true"></span></a><a href="{{ '/cv/' | relative_url }}"{% if page.permalink == '/cv/' %} aria-current="page"{% endif %}>CV<span class="nav-indicator" aria-hidden="true"></span></a><a href="{{ '/resource/' | relative_url }}"{% if page.permalink == '/resource/' %} aria-current="page"{% endif %}>Resources<span class="nav-indicator" aria-hidden="true"></span></a><a href="{{ '/gallery/' | relative_url }}"{% if page.permalink == '/gallery/' %} aria-current="page"{% endif %}>Gallery<span class="nav-indicator" aria-hidden="true"></span></a><a href="{{ '/contact/' | relative_url }}"{% if page.permalink == '/contact/' %} aria-current="page"{% endif %}>Contact<span class="nav-indicator" aria-hidden="true"></span></a>
     </div></details></nav>
@@ -31,5 +35,5 @@
     {% unless page.permalink == '/' %}<header class="page-heading shell" data-reveal><h1>{{ page.title }}</h1><p>{{ page.lede }}</p></header>{% endunless %}
     <div class="page-content">{{ content }}</div>
   </main>
-  <footer class="site-footer"><div class="shell"><div class="footer-main"><div><a class="brand" href="{{ '/' | relative_url }}">Zhongqi Xiu</a><p>Graduate researcher · Brown University</p></div><div class="footer-links"><a href="mailto:zhongqi_xiu@brown.edu">Email</a><a href="https://scholar.google.com/citations?user=-Rv_8vQAAAAJ">Scholar ↗</a><a href="https://github.com/k-telux">GitHub ↗</a><a href="https://telux.vercel.app/">Blog ↗</a><a href="{{ '/pageviews/' | relative_url }}">Visitor map</a><a href="{{ '/sitemap/' | relative_url }}">Site index</a></div></div><div class="footer-bottom"><span>Providence, Rhode Island</span></div></div></footer>
+  <footer class="site-footer"><div class="shell"><div class="footer-main"><div><a class="brand" href="{{ '/' | relative_url }}">Zhongqi Xiu</a><p>Graduate researcher · Brown University</p></div><div class="footer-links"><a href="https://scholar.google.com/citations?user=-Rv_8vQAAAAJ">Scholar ↗</a><a href="https://github.com/k-telux">GitHub ↗</a><a href="https://telux.vercel.app/">Blog ↗</a><a href="{{ '/pageviews/' | relative_url }}">Visitor map</a><a href="{{ '/sitemap/' | relative_url }}">Site index</a></div></div><div class="footer-bottom"><span>Providence, Rhode Island</span></div></div></footer>
 </body></html>

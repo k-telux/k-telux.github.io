@@ -9,7 +9,7 @@ lede: Everything on this site, in one place.
 
 <div class="index-list">
 <a href="/"><span>01</span><h2>About</h2><p>Research interests, background, and life outside the lab.</p><span aria-hidden="true">↗</span></a>
-<a href="/projects/"><span>02</span><h2>Projects</h2><p>Experiments, simulations, tools, and research notes.</p><span aria-hidden="true">↗</span></a>
+<a href="/projects/"><span>02</span><h2>Research</h2><p>Current work, earlier projects, and competitions.</p><span aria-hidden="true">↗</span></a>
 <a href="/software/"><span>03</span><h2>Software</h2><p>Open-source Agent Skills, led by OpticalModeler.</p><span aria-hidden="true">↗</span></a>
 <a href="/publications/"><span>04</span><h2>Publications</h2><p>Published research and manuscripts.</p><span aria-hidden="true">↗</span></a>
 <a href="/cv/"><span>05</span><h2>Curriculum vitae</h2><p>Education, experience, and a downloadable CV.</p><span aria-hidden="true">↗</span></a>

@@ -1,0 +1,58 @@
+/* Site identity: one display serif for headings, and one recurring mark, the beam from OpticalModeler
+   (cyan → violet → coral), so every page reads as the same site. Loaded after the other Horizon layers. */
+:root {
+  --display: "Newsreader", "Iowan Old Style", Georgia, "PingFang SC", "Microsoft YaHei", serif;
+  --beam-cyan: #22b8e6; --beam-violet: #8f62ff; --beam-coral: #ff5a6e;
+  --beam: linear-gradient(90deg, var(--beam-cyan), var(--beam-violet) 55%, var(--beam-coral));
+  --label: #33414f;
+}
+
+/* headings: a serif with optical sizes; body, navigation and controls stay in the system sans */
+h1, h2, h3 { font-family: var(--display); font-optical-sizing: auto; font-weight: 560; letter-spacing: -.012em; }
+h3 { font-weight: 600; letter-spacing: -.004em; }
+.horizon-intro h1 span[lang=zh] { font-family: var(--font); letter-spacing: .03em; }
+
+/* the beam: under every page title, in the active nav item, the brand hover and the scroll progress */
+.page-heading::after { content: ""; display: block; width: 96px; height: 3px; margin-top: 30px; border-radius: 3px; background: var(--beam); transform-origin: 0 50%; }
+.nav-indicator, .brand-home::after { background: var(--beam); }
+@media not (forced-colors: active) { .scroll-progress { background: var(--beam); } }
+
+/* brand: the name and a small spectrum mark that echoes the favicon */
+.site-header .brand-home { gap: 10px; }
+.brand-mark { flex: none; width: 26px; height: 26px; overflow: visible; }
+.brand-mark .axis { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; opacity: .5; }
+.brand-mark .peak { fill: none; stroke: url(#brand-beam); stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; }
+.brand-mark .area { fill: url(#brand-beam); opacity: .18; }
+
+/* labels and dates carry information, so they sit in a dark slate; grey is kept for genuine side notes */
+.eyebrow, .horizon-affiliation, .horizon-date, .cv-date, .tool-meta, .horizon-paper-meta, .cv-paper-meta,
+.gallery-grid figcaption > span, .poster-card figcaption > span { color: var(--label); }
+.horizon-date, .cv-date { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* a section title and its note share one baseline */
+.section-heading > p { margin-bottom: 0; }
+@media (min-width: 721px) { .section-heading { align-items: last baseline; } }
+/* a note that runs to two lines sits under its title instead of floating beside it */
+.tool-section .section-heading { flex-direction: column; align-items: flex-start; gap: 12px; }
+.tool-section .section-heading > p { max-width: 640px; }
+
+/* gallery: one landscape feature, then the other three side by side */
+@media (min-width: 721px) {
+  .gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px 24px; }
+  .gallery-grid .gallery-feature { grid-column: 1 / -1; }
+  .gallery-grid .gallery-feature img { aspect-ratio: 16 / 9; object-fit: cover; object-position: 50% 72%; }
+  .gallery-grid figure:not(.gallery-feature) img { aspect-ratio: 4 / 3; object-fit: cover; }
+  .gallery-grid figure:not(.gallery-feature) figcaption h2 { font-size: 24px; margin: 10px 0 6px; }
+}
+.gallery-lift { filter: brightness(1.2) contrast(1.04) saturate(1.06); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .page-heading::after { animation: beam-draw 1.1s var(--ease-out) .25s both; }
+  @keyframes beam-draw { from { transform: scaleX(0); opacity: 0; } }
+  /* the hero light and the sweep across the lede take on the beam colours */
+  .horizon-intro::before {
+    background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 42%), rgba(111, 227, 255, .16), transparent 62%),
+      radial-gradient(760px 320px at 24% -4%, rgba(143, 98, 255, .08), transparent 70%),
+      radial-gradient(760px 320px at 78% 0%, rgba(255, 90, 110, .06), transparent 70%); }
+  .light-sweep { background-image: linear-gradient(100deg, var(--ink) 0 40%, var(--beam-cyan) 45%, var(--beam-violet) 50%, var(--beam-coral) 55%, var(--ink) 60% 100%); }
+}

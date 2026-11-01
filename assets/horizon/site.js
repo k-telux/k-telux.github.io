@@ -40,6 +40,7 @@
   const search = document.querySelector('#project-search');
   if (search) {
     const projects = [...document.querySelectorAll('.project-item')];
+    const groups = [...document.querySelectorAll('.project-group')];
     const count = document.querySelector('#project-count');
     const empty = document.querySelector('#project-empty');
     const clear = document.querySelector('#clear-search');
@@ -50,6 +51,7 @@
         project.hidden = !terms.every(term => project.textContent.toLowerCase().includes(term));
         if (!project.hidden) visible++;
       });
+      groups.forEach(group => { group.hidden = !group.querySelector('.project-item:not([hidden])'); });
       count.textContent = `${visible} of ${projects.length} projects`;
       empty.hidden = visible > 0;
       clear.hidden = !search.value;

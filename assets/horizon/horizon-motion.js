@@ -49,7 +49,7 @@
     hero.addEventListener('pointerleave', () => { target = { x: 50, y: 42 }; if (!frame && moving()) frame = requestAnimationFrame(step); });
   }
   if (finePointer.matches) {
-    const cards = '.horizon-research-card, .cv-research-card, .teaching-section, .cv-teaching, .cv-coursework';
+    const cards = '.horizon-research-card, .cv-research-card, .teaching-section, .cv-teaching, .cv-coursework, .project-item';
     document.addEventListener('pointermove', (event) => {
       const card = event.target.closest && event.target.closest(cards);
       if (!card) return;
