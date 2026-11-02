@@ -40,6 +40,7 @@
   const faint = (ctx, a = .18, w = 1.1) => { ctx.strokeStyle = `rgba(255,255,255,${a})`; ctx.lineWidth = w; ctx.stroke(); };
   const rand = (seed) => () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
   const dist2 = (ax, ay, bx, by) => (ax - bx) ** 2 + (ay - by) ** 2;
+  const within = (poly, x, y) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const [xi, yi] = poly[i], [xj, yj] = poly[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c; } return c; };
 
   /* Every scene gets: s.W × 160 drawing space, s.x/s.y the steered point (pointer when near, a slow drift
      otherwise), s.near 0–1, s.inside, s.t seconds, dt. init() builds state, draw() runs one frame. */
@@ -423,122 +424,166 @@
 
     /* ----- home page scenes: things to play with, not just watch. s.clicked is set by a click or tap. ----- */
 
-    // a WSe₂ flake: the pointer presses a strain bubble into the lattice, bonds colour with their stretch, and the
-    // strained sites emit single photons as small wave packets; a click presses hard and fires a burst
-    strain: {
+    // find a single-photon emitter: the pointer is the laser spot of a confocal scan over a WSe₂ flake. Where it has
+    // been, the PL map fills in, and the live spectrum and g²(0) tell what sits under the spot. Clusters of emitters
+    // give g²(0) near 1; park on the one true single emitter (g²(0) < 0.5) and it locks. A click raster-scans for you
+    spe: {
       init(s) {
-        const a = 13, h = a * Math.sqrt(3) / 2; s.a = a; s.sites = []; s.bonds = []; s.ph = []; s.pulse = 0;
-        for (let r = 0, y = 4; y < H + 8; r++, y += h) for (let x = (r % 2) * a / 2 - a; x < s.W + a; x += a) s.sites.push({ x0: x, y0: y, x, y, e: 0 });
-        s.sites.forEach((p, i) => { for (let j = i + 1; j < s.sites.length; j++) { const q = s.sites[j]; if (Math.abs(q.y0 - p.y0) < h * 1.2 && dist2(p.x0, p.y0, q.x0, q.y0) < a * a * 1.1) s.bonds.push([p, q]); } });
+        s.mx0 = 10; s.mx1 = Math.round(s.W * .58); s.my0 = 10; s.my1 = H - 10;
+        s.gw = 36; s.gh = 30; s.cw = (s.mx1 - s.mx0) / s.gw; s.ch = (s.my1 - s.my0) / s.gh; s.map = new Float32Array(s.gw * s.gh);
+        s.hist = new Float32Array(31).fill(1); const nr = rand(5); s.noise = Array.from({ length: 31 }, () => (nr() - .5) * .1);
+        s.ph = []; s.emit = 0; s.g2 = s.raw = 1;
+        s.round = (r) => {
+          const cx = (s.mx0 + s.mx1) / 2, cy = H / 2, R = Math.min(s.mx1 - s.mx0, H) * .4;
+          s.flake = Array.from({ length: 7 }, (_, i) => { const a = (i + r() * .6) / 7 * TAU, rr = R * (.8 + .32 * r()); return [cx + Math.cos(a) * rr * 1.15, cy + Math.sin(a) * rr]; });
+          s.em = []; const groups = [];
+          for (let k = 0; k < 4; k++) {
+            let x, y, tries = 0;
+            do { x = cx + (r() - .5) * R * 1.6; y = cy + (r() - .5) * R * 1.4; tries++; } while (tries < 200 && (!within(s.flake, x, y) || groups.some((g) => dist2(g[0], g[1], x, y) < 26 * 26)));
+            groups.push([x, y]);
+            const n = k ? 3 + (r() * 2 | 0) : 1, lam = .15 + .7 * r();
+            for (let j = 0; j < n; j++) s.em.push({ x: x + (j ? (r() - .5) * 5 : 0), y: y + (j ? (r() - .5) * 5 : 0), b: k ? .42 + .18 * r() : .9, lam: lam + (j ? (r() - .5) * .07 : 0), single: !k });
+          }
+          s.target = s.em.find((e) => e.single);
+          s.map.fill(0); s.locked = false; s.lockT = 0; s.good = 0; s.auto = false; s.path = 0;
+          s.lp = s.lp || { x: lerp(s.mx0, s.mx1, .78), y: H * .3 };
+        };
+        s.round(rand(21));
+        // the still frame shows a scan already begun: park the spot on a cluster and reveal around it
+        const c = s.em.find((e) => !e.single); s.lp = { x: c.x + 3, y: c.y - 2 };
       },
       draw(s, ctx, dt) {
-        const burst = s.clicked; s.clicked = false; if (burst) s.pulse = 1;
-        s.pulse *= Math.exp(-dt * 2.2);
-        const A = 12 * (.35 + .9 * s.near + 1.5 * s.pulse), sig2 = 2 * (24 + 22 * s.pulse) ** 2;
-        for (const p of s.sites) {
-          const dx = p.x0 - s.x, dy = p.y0 - s.y, r = Math.hypot(dx, dy) || 1, push = A * Math.exp(-(r * r) / sig2) * clamp(r / 10);
-          p.x = p.x0 + dx / r * push; p.y = p.y0 + dy / r * push; p.e = push / 12;
-          const emit = (p.e > .3 && s.ph.length < 46 && Math.random() < dt * 2.2 * p.e * (s.near + .15)) || (burst && p.e > .5 && Math.random() < .35);
-          if (emit) s.ph.push({ x: p.x, y: p.y, dx: dx / r, dy: dy / r, life: 0, c: Math.random() });
+        const onFlake = (x, y) => within(s.flake, x, y);
+        const pl = (x, y, w) => (onFlake(x, y) ? .2 : 0) + s.em.reduce((t, e) => t + e.b * Math.exp(-dist2(x, y, e.x, e.y) / (2 * w * w)), 0);
+        if (s.clicked) { s.clicked = false; if (!s.locked) { s.auto = true; s.path = 0; } }
+        // where the spot goes
+        if (s.locked) { s.lp.x = lerp(s.lp.x, s.target.x, Math.min(1, dt * 6)); s.lp.y = lerp(s.lp.y, s.target.y, Math.min(1, dt * 6)); }
+        else if (s.auto) {
+          if (s.raw < .62 && s.sig > .35) { s.lp.x = lerp(s.lp.x, s.target.x, Math.min(1, dt * 5)); s.lp.y = lerp(s.lp.y, s.target.y, Math.min(1, dt * 5)); }
+          else {
+            const xs = s.flake.map((v) => v[0]), ys = s.flake.map((v) => v[1]), bx = Math.min(...xs), by = Math.min(...ys);
+            s.path += dt * 420; const row = 9, len = Math.max(...xs) - bx, rows = Math.floor((Math.max(...ys) - by) / row) + 1, n = Math.floor(s.path / len) % rows, u = (s.path % len) / len;
+            s.lp.x = bx + (n % 2 ? 1 - u : u) * len; s.lp.y = by + 4 + n * row;
+          }
+        } else if (s.inside) { s.lp.x = clamp(s.x, s.mx0, s.mx1); s.lp.y = clamp(s.y, s.my0, s.my1); }
+        // what the spot collects
+        const B = (onFlake(s.lp.x, s.lp.y) ? .15 : 0) + .02;
+        const sig = s.em.map((e) => e.b * Math.exp(-dist2(s.lp.x, s.lp.y, e.x, e.y) / 98));
+        const tot = sig.reduce((a, b) => a + b, 0); s.sig = tot;
+        const g2 = 1 - sig.reduce((a, b) => a + b * b, 0) / (tot + B) ** 2; s.raw = g2; s.g2 = lerp(s.g2, g2, Math.min(1, dt * 8));
+        const ok = s.g2 < .5 && tot > .4;
+        if (!s.locked) { s.good = ok ? s.good + dt : 0; if (s.good > .35) { s.locked = true; s.auto = false; s.lockT = 0; } }
+        else { s.lockT += dt; if (s.lockT > 2.6) { s.round(Math.random); s.g2 = 1; } }
+        // PL map: cells under the spot fill in; when locked the whole map is revealed outward from the emitter
+        const reveal = s.locked ? s.lockT * 150 : 0;
+        for (let j = 0; j < s.gh; j++) for (let i = 0; i < s.gw; i++) {
+          const x = s.mx0 + (i + .5) * s.cw, y = s.my0 + (j + .5) * s.ch, n = j * s.gw + i;
+          if (dist2(x, y, s.lp.x, s.lp.y) < 110 || (reveal && dist2(x, y, s.target.x, s.target.y) < reveal * reveal)) s.map[n] = Math.max(s.map[n], pl(x, y, 3.4));
+          const v = s.map[n]; if (v > .01) { ctx.fillStyle = ramp(.05 + .92 * Math.min(1, v) ** 1.5, .35 + .6 * Math.min(1, v / .8)); ctx.fillRect(x - s.cw / 2, y - s.ch / 2, s.cw - .6, s.ch - .6); }
         }
-        // bonds, bucketed by stretch so each colour is one path
-        const buckets = Array.from({ length: 7 }, () => []);
-        for (const [p, q] of s.bonds) { const st = (Math.hypot(q.x - p.x, q.y - p.y) - s.a) / s.a; buckets[Math.min(6, Math.max(0, Math.floor(st * 22)))].push(p, q); }
-        buckets.forEach((list, k) => {
-          if (!list.length) return; ctx.beginPath();
-          for (let i = 0; i < list.length; i += 2) { ctx.moveTo(list[i].x, list[i].y); ctx.lineTo(list[i + 1].x, list[i + 1].y); }
-          ctx.strokeStyle = k ? ramp(.25 + k * .12, .35 + k * .09) : 'rgba(255,255,255,.12)'; ctx.lineWidth = k ? 1.2 : 1; ctx.stroke();
-        });
+        ctx.beginPath(); s.flake.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath();
+        ctx.fillStyle = 'rgba(180,140,255,.06)'; ctx.fill(); ctx.setLineDash([3, 4]); ctx.strokeStyle = 'rgba(255,255,255,.32)'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+        // the laser spot
         ctx.globalCompositeOperation = 'lighter';
-        for (const p of s.sites) if (p.e > .12) glow(ctx, p.x, p.y, 3 + 5 * p.e, beamAt(p.e), Math.min(1, p.e * 1.4));
-        glow(ctx, s.x, s.y, 30 + 30 * s.pulse, 'rgba(255,111,125,1)', .18 + .3 * s.near + .4 * s.pulse);
-        // photons: a short wave packet flying away from the bubble
-        for (let i = s.ph.length - 1; i >= 0; i--) {
-          const f = s.ph[i]; f.life += dt * .9; const v = 120 * dt; f.x += f.dx * v; f.y += f.dy * v;
-          if (f.life > 1 || f.x < -20 || f.x > s.W + 20 || f.y < -20 || f.y > H + 20) { s.ph.splice(i, 1); continue; }
-          ctx.beginPath();
-          for (let k = 0; k <= 12; k++) { const u = k / 12, al = -u * 18, pr = 2.8 * Math.sin(u * TAU * 2 - s.t * 24) * Math.sin(u * Math.PI); const x = f.x + f.dx * al - f.dy * pr, y = f.y + f.dy * al + f.dx * pr; k ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
-          ctx.globalAlpha = 1 - f.life; ctx.strokeStyle = beamAt(f.c); ctx.lineWidth = 1.4; ctx.stroke(); ctx.globalAlpha = 1;
-          glow(ctx, f.x, f.y, 5, 'rgba(255,255,255,1)', .9 * (1 - f.life));
+        const hue = s.locked ? 'rgba(111,227,255,1)' : 'rgba(255,111,125,1)';
+        glow(ctx, s.lp.x, s.lp.y, 18, hue, .55); glow(ctx, s.lp.x, s.lp.y, 4, 'rgba(255,255,255,1)', .9);
+        if (s.locked) { // a regular train of single photons heads for the detector
+          s.emit -= dt; if (s.emit <= 0) { s.emit = .16; s.ph.push({ x: s.target.x, y: s.target.y }); }
         }
+        const px0 = Math.round(s.W * .63);
+        for (let i = s.ph.length - 1; i >= 0; i--) { const p = s.ph[i]; p.x += 150 * dt; p.y = lerp(p.y, 54, Math.min(1, dt * 3)); if (p.x > px0 - 4) { s.ph.splice(i, 1); continue; } glow(ctx, p.x, p.y, 4.5, 'rgba(255,255,255,1)', .95); }
         ctx.globalCompositeOperation = 'source-over';
+        ctx.beginPath(); ctx.arc(s.lp.x, s.lp.y, 8, 0, TAU); ctx.moveTo(s.lp.x - 13, s.lp.y); ctx.lineTo(s.lp.x - 10, s.lp.y); ctx.moveTo(s.lp.x + 10, s.lp.y); ctx.lineTo(s.lp.x + 13, s.lp.y);
+        ctx.strokeStyle = s.locked ? CY : CO; ctx.lineWidth = 1.3; ctx.stroke();
+        // panel: the spectrum under the spot, then the coincidence histogram and its g²(0)
+        const px1 = s.W - 12, sb = 78, gb = 142;
+        ctx.beginPath(); ctx.moveTo(px0, 26); ctx.lineTo(px0, sb); ctx.lineTo(px1, sb); faint(ctx, .22);
+        curve(ctx, px0, px1, (x) => { const u = (x - px0) / (px1 - px0); return sb - 32 * (B * .9 * Math.exp(-(((u - .5) / .3) ** 2)) + s.em.reduce((t, e, k) => t + sig[k] / (1 + ((u - e.lam) / .016) ** 2), 0)); }, 1);
+        ctx.save(); ctx.lineWidth = 1.8; ctx.lineJoin = 'round'; ctx.shadowColor = beamAt(s.g2, .8); ctx.shadowBlur = 6 * s.dpr; ctx.strokeStyle = beamAt(s.g2); ctx.stroke(); ctx.restore();
+        const bw = (px1 - px0) / 31, hh = 36;
+        for (let i = 0; i < 31; i++) {
+          const tau = i / 15 - 1, want = 1 - (1 - s.g2) * Math.exp(-Math.abs(tau) / .13) + s.noise[i] * (1 - Math.abs(tau) * .3);
+          s.hist[i] = lerp(s.hist[i], want, Math.min(1, dt * 5));
+          ctx.fillStyle = beamAt(s.g2, .7); ctx.fillRect(px0 + i * bw + bw * .18, gb - hh * s.hist[i], bw * .64, hh * s.hist[i]);
+        }
+        ctx.beginPath(); ctx.moveTo(px0, gb - hh * .5); ctx.lineTo(px1, gb - hh * .5); ctx.setLineDash([2, 3]); ctx.strokeStyle = 'rgba(111,227,255,.55)'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+        ctx.beginPath(); ctx.moveTo(px0, gb); ctx.lineTo(px1, gb); faint(ctx, .22);
+        // meter, as in the fit: shorter is better
+        const mw = 50, mx = s.W - mw - 12, my = 12;
+        ctx.fillStyle = 'rgba(255,255,255,.1)'; ctx.fillRect(mx, my, mw, 3); ctx.fillStyle = beamAt(s.g2); ctx.fillRect(mx, my, mw * clamp(s.g2), 3);
+        ctx.fillStyle = 'rgba(255,255,255,.62)'; ctx.font = '600 9px system-ui, sans-serif'; ctx.textAlign = 'right';
+        ctx.fillText(s.locked ? 'single photon ✓' : `g²(0) ${s.g2.toFixed(2)}`, mx - 6, my + 4);
       },
     },
-    // an optical-tweezer array: the pointer is the tweezer. Pick up a loose atom, carry it to an empty site and it
-    // snaps in; a click runs the automatic rearrangement. A full array flashes, then reloads at random
-    tweezer: {
+    // strong coupling in a 2D heterostructure microcavity: left, the device (a TMD heterobilayer between two Bragg
+    // mirrors); right, the exciton–photon anticrossing. Left–right tunes the cavity energy, up–down the coupling.
+    // At resonance with 2g above the linewidth it locks: vacuum Rabi oscillations swap the energy between the
+    // excitons and the cavity field. Each device has its own exciton energy and linewidth; a click tunes for you
+    polariton: {
       init(s) {
-        const sp = 30; s.cols = Math.max(6, Math.floor((s.W - 50) / sp)); const gx = (s.W - (s.cols - 1) * sp) / 2;
-        s.sites = []; for (let r = 0; r < 3; r++) for (let c = 0; c < s.cols; c++) s.sites.push({ x: gx + c * sp, y: 50 + r * 30, atom: null, flash: 0 });
-        s.atoms = s.sites.map(() => ({ x: 0, y: 0, site: null, go: null })); s.held = null; s.ignore = null; s.full = 0; s.auto = false; s.step = 0;
-        s.load = (r, animate) => {
-          s.sites.forEach((st) => { st.atom = null; });
-          s.atoms.forEach((at, i) => {
-            const st = s.sites[i], spot = r() < .58 ? { x: st.x, y: st.y, site: st } : { x: 14 + r() * (s.W - 28), y: r() < .4 ? 26 + r() * 8 : H - 30 + r() * 14, site: null };
-            at.site = null; at.go = null;
-            if (animate) at.go = spot; else { at.x = spot.x; at.y = spot.y; if (spot.site) { at.site = st; st.atom = at; } }
-          });
-        };
-        s.load(rand(4), false);
+        s.dx1 = Math.round(s.W * .33); s.px0 = s.dx1 + 26; s.px1 = s.W - 14; s.py0 = 26; s.py1 = H - 18;
+        s.round = (r) => { s.Ex = .36 + .28 * r(); s.kap = .05 + .035 * r(); s.locked = false; s.lockT = 0; s.good = 0; s.auto = false; };
+        s.round(rand(31)); s.ec = .82; s.g = .018; s.ph = []; s.leak = 0;
       },
       draw(s, ctx, dt) {
-        const T = s.inside, px = s.x, py = s.y;
-        if (s.clicked) { s.clicked = false; if (!s.full) s.auto = true; }
-        const empty = () => s.sites.filter((st) => !st.atom);
-        const settle = (at, st) => { at.site = st; st.atom = at; st.flash = 1; at.go = null; };
-        // the tweezer picks up the nearest atom, carries it, and drops it into an empty site
-        if (s.ignore && dist2(s.ignore.x, s.ignore.y, px, py) > 400) s.ignore = null;
-        if (T && !s.held && !s.full) {
-          let best = 196, pick = null; for (const at of s.atoms) { if (at === s.ignore || at.go) continue; const d = dist2(at.x, at.y, px, py); if (d < best) { best = d; pick = at; } }
-          if (pick) { s.held = pick; if (pick.site) { pick.site.atom = null; pick.site = null; } }
+        const X = (e) => lerp(s.px0, s.px1, (e - .1) / .8), Y = (e) => s.py1 - e * (s.py1 - s.py0);
+        const need = s.kap * .9; // 2g has to beat the linewidth: g > κ/2 with some margin
+        if (s.clicked) { s.clicked = false; if (!s.locked) s.auto = true; }
+        if (s.locked || s.auto) { const k = Math.min(1, dt * (s.locked ? 6 : 3)); s.ec = lerp(s.ec, s.Ex, k); s.g = lerp(s.g, Math.max(s.g, need * 1.25), k); }
+        else if (s.inside) {
+          const k = 1 - Math.exp(-dt * 12);
+          s.ec += (clamp(.1 + .8 * (s.x - s.px0) / (s.px1 - s.px0), .1, .9) - s.ec) * k;
+          s.g += (.012 + .1 * clamp((s.py1 - s.y) / (s.py1 - s.py0)) - s.g) * k;
         }
-        if (s.held && !T) s.held = null;
-        if (s.held) {
-          const at = s.held, k = 1 - Math.exp(-dt * 20); at.x += (px - at.x) * k; at.y += (py - at.y) * k;
-          const st = empty().find((e) => dist2(e.x, e.y, at.x, at.y) < 81); if (st) { settle(at, st); s.ignore = at; s.held = null; }
-        }
-        // automatic rearrangement: one loose atom at a time to the nearest free site
-        if (s.auto) {
-          s.step -= dt;
-          if (s.step <= 0) {
-            s.step = .14;
-            const loose = s.atoms.filter((at) => !at.site && !at.go && at !== s.held);
-            const free = empty().filter((e) => !s.atoms.some((o) => o.go && o.go.site === e));
-            if (!loose.length || !free.length) s.auto = false;
-            else { const at = loose[0]; free.sort((p, q) => dist2(p.x, p.y, at.x, at.y) - dist2(q.x, q.y, at.x, at.y)); at.go = { x: free[0].x, y: free[0].y, site: free[0] }; }
-          }
-        }
-        for (const at of s.atoms) {
-          if (at.go) {
-            const dx = at.go.x - at.x, dy = at.go.y - at.y, d = Math.hypot(dx, dy), v = 260 * dt;
-            if (d <= v) { at.x = at.go.x; at.y = at.go.y; const st = at.go.site; at.go = null; if (st && !st.atom) settle(at, st); }
-            else { at.x += dx / d * v; at.y += dy / d * v; }
-          } else if (at.site) { at.x = lerp(at.x, at.site.x + Math.sin(s.t * 7 + at.site.x) * .6, Math.min(1, dt * 10)); at.y = lerp(at.y, at.site.y, Math.min(1, dt * 10)); }
-          else if (at !== s.held) { at.x = clamp(at.x + (Math.random() - .5) * 14 * dt, 8, s.W - 8); at.y = clamp(at.y + (Math.random() - .5) * 14 * dt, 8, H - 8); }
-        }
-        const filled = s.sites.filter((st) => st.atom).length;
-        if (filled === s.sites.length) { s.full += dt; s.auto = false; if (s.full > 2.4) { s.full = 0; s.load(Math.random, true); } } else s.full = 0;
-        // sites
-        for (const st of s.sites) {
-          st.flash *= Math.exp(-dt * 3);
-          ctx.beginPath(); ctx.arc(st.x, st.y, 7, 0, TAU);
-          ctx.strokeStyle = st.atom ? `rgba(111,227,255,${(.45 + .5 * st.flash).toFixed(2)})` : 'rgba(255,255,255,.22)'; ctx.setLineDash(st.atom ? [] : [2, 3]); ctx.lineWidth = 1.1; ctx.stroke();
-        }
+        const d = s.ec - s.Ex, ratio = 2 * s.g / s.kap;
+        const q = Math.exp(-((d / .045) ** 2)) * clamp((ratio - 1) / .6);
+        if (!s.locked) { s.good = q > .75 ? s.good + dt : 0; if (s.good > .35) { s.locked = true; s.auto = false; s.lockT = 0; } }
+        else { s.lockT += dt; if (s.lockT > 2.6) s.round(Math.random); }
+        // anticrossing: the bare lines dashed, the polariton branches solid; below strong coupling they smear out
+        ctx.beginPath(); ctx.moveTo(s.px0 - 6, s.py0 - 6); ctx.lineTo(s.px0 - 6, s.py1); ctx.lineTo(s.px1, s.py1); faint(ctx, .22);
+        ctx.setLineDash([3, 4]);
+        ctx.beginPath(); ctx.moveTo(X(.1), Y(.1)); ctx.lineTo(X(.9), Y(.9)); faint(ctx, .22);
+        ctx.beginPath(); ctx.moveTo(X(.1), Y(s.Ex)); ctx.lineTo(X(.9), Y(s.Ex)); ctx.strokeStyle = 'rgba(180,140,255,.45)'; ctx.lineWidth = 1; ctx.stroke();
         ctx.setLineDash([]);
-        ctx.globalCompositeOperation = 'lighter';
-        const party = s.full > 0 ? .5 + .5 * Math.sin(s.full * 9) : 0;
-        for (const st of s.sites) if (st.flash > .02 || party) glow(ctx, st.x, st.y, 14 + 10 * st.flash, 'rgba(111,227,255,1)', .5 * Math.max(st.flash, party));
-        for (const at of s.atoms) glow(ctx, at.x, at.y, at === s.held ? 9 : 6.5, at.site ? 'rgba(255,255,255,1)' : 'rgba(255,214,224,1)', at.site ? 1 : .85);
-        // the tweezer: a beam from above, focused on the pointer
-        if (T) {
-          const g = ctx.createLinearGradient(0, 0, 0, py); g.addColorStop(0, 'rgba(255,111,125,0)'); g.addColorStop(1, 'rgba(255,111,125,.35)');
-          ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(px - 10, 0); ctx.lineTo(px + 10, 0); ctx.lineTo(px + 1.5, py); ctx.lineTo(px - 1.5, py); ctx.fill();
-          glow(ctx, px, py, s.held ? 16 : 11, 'rgba(255,111,125,1)', .7);
+        const br = (e, sg) => (e + s.Ex) / 2 + sg * Math.sqrt(s.g * s.g + ((e - s.Ex) / 2) ** 2);
+        const col = beamAt(1 - q), blur = clamp(1 - (ratio - .4) / 1.2);
+        for (const sg of [1, -1]) {
+          curve(ctx, X(.1), X(.9), (x) => Y(br(.1 + .8 * (x - s.px0) / (s.px1 - s.px0), sg)), 1.5);
+          ctx.save(); ctx.lineCap = 'round'; ctx.strokeStyle = beamAt(1 - q, .16 + .1 * blur); ctx.lineWidth = 2 + s.kap * (s.py1 - s.py0) * .9; ctx.stroke();
+          ctx.lineWidth = 2; ctx.shadowColor = beamAt(1 - q, .8); ctx.shadowBlur = (s.locked ? 14 : 5) * s.dpr; ctx.strokeStyle = beamAt(1 - q, 1 - .55 * blur); ctx.stroke(); ctx.restore();
         }
+        // where the cavity is now, and the splitting between the branches
+        const mx = X(s.ec), up = Y(br(s.ec, 1)), lo = Y(br(s.ec, -1));
+        ctx.beginPath(); ctx.moveTo(mx, s.py0 - 6); ctx.lineTo(mx, s.py1); ctx.setLineDash([2, 3]); faint(ctx, .35); ctx.setLineDash([]);
+        ctx.beginPath(); ctx.moveTo(mx + 7, up + 3); ctx.lineTo(mx + 7, lo - 3); ctx.strokeStyle = col; ctx.lineWidth = 1.2; ctx.stroke();
+        ctx.globalCompositeOperation = 'lighter';
+        glow(ctx, mx, up, 7, 'rgba(255,255,255,1)', .95); glow(ctx, mx, lo, 7, 'rgba(255,255,255,1)', .95);
         ctx.globalCompositeOperation = 'source-over';
-        // loading progress
-        const bw = s.W - 40; ctx.fillStyle = 'rgba(255,255,255,.1)'; ctx.fillRect(20, H - 6, bw, 2);
-        ctx.fillStyle = s.beam; ctx.fillRect(20, H - 6, bw * filled / s.sites.length, 2);
+        // the device. Photon and exciton shares of the lower polariton, or Rabi oscillations once locked
+        const root = Math.sqrt(d * d + 4 * s.g * s.g) || 1, phot = s.locked ? .5 + .5 * Math.cos(s.lockT * 10) : .5 * (1 - d / root), exc = 1 - phot;
+        const x0 = 12, x1 = s.dx1, cx = (x0 + x1) / 2, top = 36, bot = 124, mid = 80;
+        for (let k = 0; k < 4; k++) {
+          ctx.fillStyle = 'rgba(255,255,255,.3)'; ctx.fillRect(x0, 14 + k * 5.5, x1 - x0, 2.6); ctx.fillRect(x0, bot + 2 + k * 5.5, x1 - x0, 2.6);
+          ctx.fillStyle = 'rgba(111,227,255,.07)'; ctx.fillRect(x0, 16.6 + k * 5.5, x1 - x0, 2.9); ctx.fillRect(x0, bot + 4.6 + k * 5.5, x1 - x0, 2.9);
+        }
+        ctx.fillStyle = 'rgba(255,255,255,.07)'; ctx.fillRect(x0 + 6, mid - 9, x1 - x0 - 12, 6); ctx.fillRect(x0 + 6, mid + 3, x1 - x0 - 12, 6);
+        ctx.fillStyle = 'rgba(180,140,255,.8)'; ctx.fillRect(x0 + 8, mid - 2.2, x1 - x0 - 16, 1.6); ctx.fillStyle = 'rgba(255,111,125,.8)'; ctx.fillRect(x0 + 8, mid + .6, x1 - x0 - 16, 1.6);
+        for (const sg of [1, -1]) {
+          ctx.beginPath(); for (let y = top; y <= bot; y += 2) { const x = cx + sg * 16 * (.25 + .75 * phot) * Math.sin(Math.PI * (y - top) / (bot - top)) * Math.sin(s.t * 6); y === top ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
+          sg > 0 ? shine(ctx, s, 1.6, 6) : faint(ctx, .25, 1.1);
+        }
+        ctx.globalCompositeOperation = 'lighter';
+        for (let k = 0; k < 5; k++) glow(ctx, lerp(x0 + 14, x1 - 14, k / 4), mid, 7 + 6 * exc, 'rgba(180,140,255,1)', .25 + .6 * exc * (.7 + .3 * Math.sin(s.t * 5 + k)));
+        // light leaking out through the top mirror, more of it when the state is photon-like
+        s.leak -= dt * (s.locked ? 1 : .35) * phot * 4; if (s.leak <= 0) { s.leak = 1; s.ph.push({ x: cx + (Math.random() - .5) * 20, y: 14 }); }
+        for (let i = s.ph.length - 1; i >= 0; i--) { const p = s.ph[i]; p.y -= 70 * dt; if (p.y < -6) { s.ph.splice(i, 1); continue; } glow(ctx, p.x, p.y, 4, 'rgba(111,227,255,1)', .9); }
+        ctx.globalCompositeOperation = 'source-over';
+        // meter: 2g / κ, longer is better here, with the strong-coupling threshold marked
+        const mw = 50, mxm = s.W - mw - 12, my = 12;
+        ctx.fillStyle = 'rgba(255,255,255,.1)'; ctx.fillRect(mxm, my, mw, 3); ctx.fillStyle = col; ctx.fillRect(mxm, my, mw * clamp(ratio / 2.5), 3);
+        ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fillRect(mxm + mw * (1 / 2.5) - .5, my - 2, 1, 7);
+        ctx.fillStyle = 'rgba(255,255,255,.62)'; ctx.font = '600 9px system-ui, sans-serif'; ctx.textAlign = 'right';
+        ctx.fillText(s.locked ? 'strong coupling ✓' : `2g/κ ${ratio.toFixed(1)}`, mxm - 6, my + 4);
       },
     },
     // fit the peak: the pointer moves a Lorentzian (left–right: centre, up–down: height) over noisy data, the
