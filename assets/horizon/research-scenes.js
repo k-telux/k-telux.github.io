@@ -420,18 +420,180 @@
         ctx.globalCompositeOperation = 'source-over';
       },
     },
+
+    /* ----- home page scenes: things to play with, not just watch. s.clicked is set by a click or tap. ----- */
+
+    // a WSe₂ flake: the pointer presses a strain bubble into the lattice, bonds colour with their stretch, and the
+    // strained sites emit single photons as small wave packets; a click presses hard and fires a burst
+    strain: {
+      init(s) {
+        const a = 13, h = a * Math.sqrt(3) / 2; s.a = a; s.sites = []; s.bonds = []; s.ph = []; s.pulse = 0;
+        for (let r = 0, y = 4; y < H + 8; r++, y += h) for (let x = (r % 2) * a / 2 - a; x < s.W + a; x += a) s.sites.push({ x0: x, y0: y, x, y, e: 0 });
+        s.sites.forEach((p, i) => { for (let j = i + 1; j < s.sites.length; j++) { const q = s.sites[j]; if (Math.abs(q.y0 - p.y0) < h * 1.2 && dist2(p.x0, p.y0, q.x0, q.y0) < a * a * 1.1) s.bonds.push([p, q]); } });
+      },
+      draw(s, ctx, dt) {
+        const burst = s.clicked; s.clicked = false; if (burst) s.pulse = 1;
+        s.pulse *= Math.exp(-dt * 2.2);
+        const A = 12 * (.35 + .9 * s.near + 1.5 * s.pulse), sig2 = 2 * (24 + 22 * s.pulse) ** 2;
+        for (const p of s.sites) {
+          const dx = p.x0 - s.x, dy = p.y0 - s.y, r = Math.hypot(dx, dy) || 1, push = A * Math.exp(-(r * r) / sig2) * clamp(r / 10);
+          p.x = p.x0 + dx / r * push; p.y = p.y0 + dy / r * push; p.e = push / 12;
+          const emit = (p.e > .3 && s.ph.length < 46 && Math.random() < dt * 2.2 * p.e * (s.near + .15)) || (burst && p.e > .5 && Math.random() < .35);
+          if (emit) s.ph.push({ x: p.x, y: p.y, dx: dx / r, dy: dy / r, life: 0, c: Math.random() });
+        }
+        // bonds, bucketed by stretch so each colour is one path
+        const buckets = Array.from({ length: 7 }, () => []);
+        for (const [p, q] of s.bonds) { const st = (Math.hypot(q.x - p.x, q.y - p.y) - s.a) / s.a; buckets[Math.min(6, Math.max(0, Math.floor(st * 22)))].push(p, q); }
+        buckets.forEach((list, k) => {
+          if (!list.length) return; ctx.beginPath();
+          for (let i = 0; i < list.length; i += 2) { ctx.moveTo(list[i].x, list[i].y); ctx.lineTo(list[i + 1].x, list[i + 1].y); }
+          ctx.strokeStyle = k ? ramp(.25 + k * .12, .35 + k * .09) : 'rgba(255,255,255,.12)'; ctx.lineWidth = k ? 1.2 : 1; ctx.stroke();
+        });
+        ctx.globalCompositeOperation = 'lighter';
+        for (const p of s.sites) if (p.e > .12) glow(ctx, p.x, p.y, 3 + 5 * p.e, beamAt(p.e), Math.min(1, p.e * 1.4));
+        glow(ctx, s.x, s.y, 30 + 30 * s.pulse, 'rgba(255,111,125,1)', .18 + .3 * s.near + .4 * s.pulse);
+        // photons: a short wave packet flying away from the bubble
+        for (let i = s.ph.length - 1; i >= 0; i--) {
+          const f = s.ph[i]; f.life += dt * .9; const v = 120 * dt; f.x += f.dx * v; f.y += f.dy * v;
+          if (f.life > 1 || f.x < -20 || f.x > s.W + 20 || f.y < -20 || f.y > H + 20) { s.ph.splice(i, 1); continue; }
+          ctx.beginPath();
+          for (let k = 0; k <= 12; k++) { const u = k / 12, al = -u * 18, pr = 2.8 * Math.sin(u * TAU * 2 - s.t * 24) * Math.sin(u * Math.PI); const x = f.x + f.dx * al - f.dy * pr, y = f.y + f.dy * al + f.dx * pr; k ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+          ctx.globalAlpha = 1 - f.life; ctx.strokeStyle = beamAt(f.c); ctx.lineWidth = 1.4; ctx.stroke(); ctx.globalAlpha = 1;
+          glow(ctx, f.x, f.y, 5, 'rgba(255,255,255,1)', .9 * (1 - f.life));
+        }
+        ctx.globalCompositeOperation = 'source-over';
+      },
+    },
+    // an optical-tweezer array: the pointer is the tweezer. Pick up a loose atom, carry it to an empty site and it
+    // snaps in; a click runs the automatic rearrangement. A full array flashes, then reloads at random
+    tweezer: {
+      init(s) {
+        const sp = 30; s.cols = Math.max(6, Math.floor((s.W - 50) / sp)); const gx = (s.W - (s.cols - 1) * sp) / 2;
+        s.sites = []; for (let r = 0; r < 3; r++) for (let c = 0; c < s.cols; c++) s.sites.push({ x: gx + c * sp, y: 50 + r * 30, atom: null, flash: 0 });
+        s.atoms = s.sites.map(() => ({ x: 0, y: 0, site: null, go: null })); s.held = null; s.ignore = null; s.full = 0; s.auto = false; s.step = 0;
+        s.load = (r, animate) => {
+          s.sites.forEach((st) => { st.atom = null; });
+          s.atoms.forEach((at, i) => {
+            const st = s.sites[i], spot = r() < .58 ? { x: st.x, y: st.y, site: st } : { x: 14 + r() * (s.W - 28), y: r() < .4 ? 26 + r() * 8 : H - 30 + r() * 14, site: null };
+            at.site = null; at.go = null;
+            if (animate) at.go = spot; else { at.x = spot.x; at.y = spot.y; if (spot.site) { at.site = st; st.atom = at; } }
+          });
+        };
+        s.load(rand(4), false);
+      },
+      draw(s, ctx, dt) {
+        const T = s.inside, px = s.x, py = s.y;
+        if (s.clicked) { s.clicked = false; if (!s.full) s.auto = true; }
+        const empty = () => s.sites.filter((st) => !st.atom);
+        const settle = (at, st) => { at.site = st; st.atom = at; st.flash = 1; at.go = null; };
+        // the tweezer picks up the nearest atom, carries it, and drops it into an empty site
+        if (s.ignore && dist2(s.ignore.x, s.ignore.y, px, py) > 400) s.ignore = null;
+        if (T && !s.held && !s.full) {
+          let best = 196, pick = null; for (const at of s.atoms) { if (at === s.ignore || at.go) continue; const d = dist2(at.x, at.y, px, py); if (d < best) { best = d; pick = at; } }
+          if (pick) { s.held = pick; if (pick.site) { pick.site.atom = null; pick.site = null; } }
+        }
+        if (s.held && !T) s.held = null;
+        if (s.held) {
+          const at = s.held, k = 1 - Math.exp(-dt * 20); at.x += (px - at.x) * k; at.y += (py - at.y) * k;
+          const st = empty().find((e) => dist2(e.x, e.y, at.x, at.y) < 81); if (st) { settle(at, st); s.ignore = at; s.held = null; }
+        }
+        // automatic rearrangement: one loose atom at a time to the nearest free site
+        if (s.auto) {
+          s.step -= dt;
+          if (s.step <= 0) {
+            s.step = .14;
+            const loose = s.atoms.filter((at) => !at.site && !at.go && at !== s.held);
+            const free = empty().filter((e) => !s.atoms.some((o) => o.go && o.go.site === e));
+            if (!loose.length || !free.length) s.auto = false;
+            else { const at = loose[0]; free.sort((p, q) => dist2(p.x, p.y, at.x, at.y) - dist2(q.x, q.y, at.x, at.y)); at.go = { x: free[0].x, y: free[0].y, site: free[0] }; }
+          }
+        }
+        for (const at of s.atoms) {
+          if (at.go) {
+            const dx = at.go.x - at.x, dy = at.go.y - at.y, d = Math.hypot(dx, dy), v = 260 * dt;
+            if (d <= v) { at.x = at.go.x; at.y = at.go.y; const st = at.go.site; at.go = null; if (st && !st.atom) settle(at, st); }
+            else { at.x += dx / d * v; at.y += dy / d * v; }
+          } else if (at.site) { at.x = lerp(at.x, at.site.x + Math.sin(s.t * 7 + at.site.x) * .6, Math.min(1, dt * 10)); at.y = lerp(at.y, at.site.y, Math.min(1, dt * 10)); }
+          else if (at !== s.held) { at.x = clamp(at.x + (Math.random() - .5) * 14 * dt, 8, s.W - 8); at.y = clamp(at.y + (Math.random() - .5) * 14 * dt, 8, H - 8); }
+        }
+        const filled = s.sites.filter((st) => st.atom).length;
+        if (filled === s.sites.length) { s.full += dt; s.auto = false; if (s.full > 2.4) { s.full = 0; s.load(Math.random, true); } } else s.full = 0;
+        // sites
+        for (const st of s.sites) {
+          st.flash *= Math.exp(-dt * 3);
+          ctx.beginPath(); ctx.arc(st.x, st.y, 7, 0, TAU);
+          ctx.strokeStyle = st.atom ? `rgba(111,227,255,${(.45 + .5 * st.flash).toFixed(2)})` : 'rgba(255,255,255,.22)'; ctx.setLineDash(st.atom ? [] : [2, 3]); ctx.lineWidth = 1.1; ctx.stroke();
+        }
+        ctx.setLineDash([]);
+        ctx.globalCompositeOperation = 'lighter';
+        const party = s.full > 0 ? .5 + .5 * Math.sin(s.full * 9) : 0;
+        for (const st of s.sites) if (st.flash > .02 || party) glow(ctx, st.x, st.y, 14 + 10 * st.flash, 'rgba(111,227,255,1)', .5 * Math.max(st.flash, party));
+        for (const at of s.atoms) glow(ctx, at.x, at.y, at === s.held ? 9 : 6.5, at.site ? 'rgba(255,255,255,1)' : 'rgba(255,214,224,1)', at.site ? 1 : .85);
+        // the tweezer: a beam from above, focused on the pointer
+        if (T) {
+          const g = ctx.createLinearGradient(0, 0, 0, py); g.addColorStop(0, 'rgba(255,111,125,0)'); g.addColorStop(1, 'rgba(255,111,125,.35)');
+          ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(px - 10, 0); ctx.lineTo(px + 10, 0); ctx.lineTo(px + 1.5, py); ctx.lineTo(px - 1.5, py); ctx.fill();
+          glow(ctx, px, py, s.held ? 16 : 11, 'rgba(255,111,125,1)', .7);
+        }
+        ctx.globalCompositeOperation = 'source-over';
+        // loading progress
+        const bw = s.W - 40; ctx.fillStyle = 'rgba(255,255,255,.1)'; ctx.fillRect(20, H - 6, bw, 2);
+        ctx.fillStyle = s.beam; ctx.fillRect(20, H - 6, bw * filled / s.sites.length, 2);
+      },
+    },
+    // fit the peak: the pointer moves a Lorentzian (left–right: centre, up–down: height) over noisy data, the
+    // residuals and χ² answer live, and a good fit locks in before new data arrive; a click fits automatically
+    fit: {
+      init(s) {
+        s.fresh = (r) => {
+          s.x0 = s.W * (.28 + .44 * r()); s.A0 = .55 + .35 * r(); s.w0 = 11 + 6 * r();
+          s.pts = Array.from({ length: 46 }, (_, i) => { const x = 18 + i * (s.W - 36) / 45; return { x, v: s.A0 / (1 + ((x - s.x0) / s.w0) ** 2) + .07 * (r() + r() + r() - 1.5) + .04 }; });
+          s.locked = false; s.lockT = 0; s.good = 0;
+        };
+        s.fresh(rand(9)); s.xc = s.W * .74; s.A = .32; s.auto = false;
+      },
+      draw(s, ctx, dt) {
+        const top = 24, base = H - 40, Y = (v) => base - v * (base - top), M = (x) => s.A / (1 + ((x - s.xc) / s.w0) ** 2) + .04;
+        if (s.clicked) { s.clicked = false; if (!s.locked) s.auto = true; }
+        if (s.locked) { s.lockT += dt; s.xc = lerp(s.xc, s.x0, Math.min(1, dt * 8)); s.A = lerp(s.A, s.A0, Math.min(1, dt * 8)); if (s.lockT > 1.9) s.fresh(Math.random); }
+        else if (s.auto) { s.xc = lerp(s.xc, s.x0, Math.min(1, dt * 3.5)); s.A = lerp(s.A, s.A0, Math.min(1, dt * 3.5)); }
+        else if (s.inside) { const k = 1 - Math.exp(-dt * 12); s.xc += (s.x - s.xc) * k; s.A += (clamp((base - s.y) / (base - top), .04, 1.1) - s.A) * k; }
+        let chi = 0; for (const p of s.pts) chi += (p.v - M(p.x)) ** 2; chi /= s.pts.length * .0045;
+        const q = clamp(Math.exp(-Math.max(0, chi - 1) / 4));
+        if (!s.locked) { s.good = q > .82 ? s.good + dt : 0; if (s.good > .35) { s.locked = true; s.auto = false; s.lockT = 0; } }
+        // axes
+        ctx.beginPath(); ctx.moveTo(16, top - 8); ctx.lineTo(16, base); ctx.lineTo(s.W - 12, base); faint(ctx, .22);
+        // the model, with its fill; it turns from coral (poor) to cyan (good)
+        curve(ctx, 18, s.W - 18, (x) => Y(M(x)), 1.5);
+        ctx.save(); ctx.lineTo(s.W - 18, base); ctx.lineTo(18, base); ctx.closePath(); ctx.fillStyle = beamAt(1 - q, .12); ctx.fill(); ctx.restore();
+        curve(ctx, 18, s.W - 18, (x) => Y(M(x)), 1.5);
+        ctx.save(); ctx.lineWidth = 2.2; ctx.lineJoin = 'round'; ctx.shadowColor = beamAt(1 - q, .8); ctx.shadowBlur = (s.locked ? 16 : 6) * s.dpr; ctx.strokeStyle = beamAt(1 - q); ctx.stroke(); ctx.restore();
+        // the data; a sparkle runs across them when the fit locks
+        ctx.globalCompositeOperation = 'lighter';
+        const sweep = s.locked ? s.lockT * 1.6 : -1;
+        s.pts.forEach((p, i) => { const sp = sweep >= 0 ? Math.exp(-(((i / 45 - sweep) * 9) ** 2)) : 0; glow(ctx, p.x, Y(p.v), 3.4 + 6 * sp, sp > .2 ? 'rgba(111,227,255,1)' : 'rgba(255,255,255,1)', .8); });
+        ctx.globalCompositeOperation = 'source-over';
+        // residuals
+        const rb = H - 16; ctx.beginPath(); ctx.moveTo(18, rb); ctx.lineTo(s.W - 18, rb); faint(ctx, .16);
+        s.pts.forEach((p) => { const d = clamp((p.v - M(p.x)) * 60, -14, 14); ctx.fillStyle = Math.abs(d) > 6 ? 'rgba(255,111,125,.8)' : 'rgba(111,227,255,.7)'; ctx.fillRect(p.x - 1.4, Math.min(rb, rb - d), 2.8, Math.max(.8, Math.abs(d))); });
+        // χ² meter: shorter is better
+        const mw = 58, mx = s.W - mw - 14, my = 12;
+        ctx.fillStyle = 'rgba(255,255,255,.1)'; ctx.fillRect(mx, my, mw, 3); ctx.fillStyle = beamAt(1 - q); ctx.fillRect(mx, my, mw * clamp(1 - q + .04), 3);
+        ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.font = '600 9px system-ui, sans-serif'; ctx.textAlign = 'right'; ctx.fillText(s.locked ? 'fit ✓' : 'χ²', mx - 6, my + 4);
+      },
+    },
   };
 
   // ---------- engine ----------
   // A scene plays only while the pointer is on its card (or within HALO px of it), and only the nearest card plays;
   // everywhere else it holds a still frame. Leaving a card lets its scene coast to a stop.
-  const HALO = 36;
+  const HALO = 36, CARD = '.project-item, .horizon-research-card'; // Research page cards, and the home page research cards
   const pointer = { x: -1e4, y: -1e4, on: false, card: null, chrome: false };
   addEventListener('pointermove', (e) => {
     pointer.x = e.clientX; pointer.y = e.clientY; pointer.on = e.pointerType !== 'touch';
     const el = e.target instanceof Element ? e.target : null;
     // over the sticky header nothing beneath it should wake up
-    pointer.card = el?.closest('.project-item') || null; pointer.chrome = !!el?.closest('.site-header');
+    pointer.card = el?.closest(CARD) || null; pointer.chrome = !!el?.closest('.site-header');
   }, { passive: true });
   document.documentElement.addEventListener('pointerleave', () => { pointer.on = false; });
   addEventListener('blur', () => { pointer.on = false; });
@@ -442,10 +604,10 @@
     const canvas = document.createElement('canvas'); canvas.className = 'project-canvas'; canvas.setAttribute('aria-hidden', 'true');
     const ctx = canvas.getContext('2d'); if (!ctx) return;
     thumb.append(canvas);
-    const s = { thumb, card: thumb.closest('.project-item') || thumb, canvas, ctx, scene, seed: n * 1.7 + .4, near: 0, act: 0, still: false, tap: 0,
+    const s = { thumb, card: thumb.closest(CARD) || thumb, canvas, ctx, scene, seed: n * 1.7 + .4, near: 0, act: 0, still: false, tap: 0,
       t: n * 3.1, x: 0, y: 0, visible: false, ready: false, inside: false };
-    // touch screens have no hover: a tap on the drawing plays it for a few seconds
-    thumb.addEventListener('pointerdown', (e) => { if (e.pointerType === 'touch') s.tap = performance.now() + 5000; });
+    // a click reaches the scene as s.clicked; touch screens have no hover, so a tap also plays it for a few seconds
+    thumb.addEventListener('pointerdown', (e) => { s.clicked = true; if (e.pointerType === 'touch') s.tap = performance.now() + 5000; });
     live.push(s);
   });
   if (!live.length) return;

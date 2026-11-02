@@ -1,0 +1,56 @@
+/* Home page: the research cards carry the same live drawings as the Research page (research-scenes.js), and the
+   paper, timeline and "Beyond the lab" entries answer the pointer. Everything here moves on hover only. */
+.project-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* research cards: a dark drawing across the top, bleeding to the card's edges */
+.design--horizon .horizon-research-card { overflow: hidden; }
+.design--horizon .horizon-research-card .project-thumb { align-self: stretch; margin: -34px -30px 28px; }
+@media (max-width: 860px) { .design--horizon .horizon-research-card .project-thumb { margin: -28px -22px 24px; } }
+@media (max-width: 640px) { .design--horizon .horizon-research-card .project-thumb { margin: -28px -28px 22px; } }
+/* each drawing says how to play with it; the hint steps aside once the pointer is on the card */
+.horizon-research-card .project-thumb[data-hint]::before { content: attr(data-hint); position: absolute; z-index: 2; left: 12px; top: 12px; max-width: calc(100% - 24px);
+  padding: 4px 10px; border: 1px solid rgba(255, 255, 255, .14); border-radius: 999px; background: rgba(11, 16, 22, .72); color: rgba(255, 255, 255, .82);
+  font-size: 12px; font-weight: 500; line-height: 1.35; letter-spacing: .01em; pointer-events: none; transition: opacity .35s, transform .45s var(--ease-out, ease); }
+.horizon-research-card:hover .project-thumb[data-hint]::before { opacity: 0; transform: translateY(-4px); }
+@media (hover: none) { .horizon-research-card .project-thumb[data-hint]::before { content: attr(data-hint-touch); } }
+.horizon-research-card .project-thumb.is-live { cursor: crosshair; }
+.horizon-research-card .project-thumb[data-scene="tweezer"].is-live { cursor: grab; }
+
+/* "Beyond the lab": a small glyph for each entry */
+.design--horizon .horizon-outside-grid article { position: relative; }
+.design--horizon .horizon-outside-grid h3 { padding-right: 56px; }
+.outside-glyph { position: absolute; top: 26px; right: 0; width: 40px; height: 40px; }
+.outside-glyph svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.glyph-ring, .glyph-blades path { fill: none; stroke-width: 1.6; stroke-linecap: round; }
+.glyph-aperture .glyph-ring, .glyph-aperture .glyph-blades path { stroke: url(#glyph-beam-a); }
+.glyph-blades { transform-origin: 20px 20px; transform-box: view-box; }
+.glyph-light { fill: #8f62ff; opacity: 0; transform-origin: 20px 20px; transform-box: view-box; }
+.glyph-bars rect { fill: url(#glyph-beam-b); transform-origin: 50% 100%; transform-box: fill-box; }
+.outside-glyph svg > :not(defs) { opacity: .7; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* paper and timeline rows: a beam runs along the top edge, the date takes the beam colours, the text leans in */
+  .horizon-paper, .horizon-timeline article { position: relative; }
+  .horizon-paper::after, .horizon-timeline article::after { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; border-radius: 2px; pointer-events: none;
+    background: var(--beam); transform: scaleX(0); transform-origin: 0 50%; transition: transform .8s var(--ease-out); }
+  .horizon-paper:hover::after, .horizon-timeline article:hover::after { transform: none; }
+  .horizon-timeline article > div, .horizon-paper-copy { transition: transform .6s var(--ease-out); }
+  .horizon-timeline article:hover > div, .horizon-paper:hover .horizon-paper-copy { transform: translateX(8px); }
+  .horizon-timeline .horizon-date, .horizon-paper-meta p { transition: color .3s; }
+  .horizon-timeline article:hover .horizon-date, .horizon-paper:hover .horizon-paper-meta p {
+    color: transparent; background: var(--beam); -webkit-background-clip: text; background-clip: text; }
+
+  /* "Beyond the lab": the line above each entry lights up, the aperture turns open, the equaliser plays */
+  .design--horizon .horizon-outside-grid article::after { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; border-radius: 2px; pointer-events: none;
+    background: var(--beam); transform: scaleX(0); transform-origin: 0 50%; transition: transform .8s var(--ease-out); }
+  .design--horizon .horizon-outside-grid article:hover::after { transform: none; }
+  .outside-glyph svg > :not(defs) { transition: opacity .3s; }
+  .horizon-outside-grid article:hover .outside-glyph svg > :not(defs) { opacity: 1; }
+  .glyph-blades { transition: transform 1.1s var(--ease-out); }
+  .horizon-outside-grid article:hover .glyph-blades { transform: rotate(60deg) scale(.92); }
+  .glyph-light { transition: opacity .6s, transform 1.1s var(--ease-out); transform: scale(.3); }
+  .horizon-outside-grid article:hover .glyph-light { opacity: .22; transform: scale(1); }
+  .horizon-outside-grid article:hover .glyph-bars rect { animation: glyph-eq .9s ease-in-out calc(var(--i) * -.23s) infinite alternate; }
+  @keyframes glyph-eq { 0% { transform: scaleY(.35); } 50% { transform: scaleY(1.1); } 100% { transform: scaleY(.6); } }
+}
+@media (max-width: 640px) { .outside-glyph { top: 24px; width: 34px; height: 34px; } }

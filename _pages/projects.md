@@ -7,8 +7,8 @@ lede: Experiments, simulations, and the tools built along the way.
 ---
 
 
-<link rel="stylesheet" href="/assets/horizon/research.css?v=research-2">
-<script src="/assets/horizon/research-scenes.js?v=scenes-1" defer></script>
+<link rel="stylesheet" href="/assets/horizon/research.css?v=research-3">
+<script src="/assets/horizon/research-scenes.js?v=scenes-3" defer></script>
 <svg class="project-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs><linearGradient id="project-beam" gradientUnits="userSpaceOnUse" x1="24" y1="0" x2="296" y2="0"><stop offset="0" stop-color="#6fe3ff"/><stop offset=".55" stop-color="#b48cff"/><stop offset="1" stop-color="#ff6f7d"/></linearGradient></defs></svg>
 <p class="project-interests"><strong>Research interests</strong> · Excitonic physics and topological quantum states; critical phase transitions in 2D materials.</p>
 <div class="project-toolbar"><div class="search-field"><label for="project-search">Find a project</label><div class="search-input"><input id="project-search" type="search" placeholder="Try photons, cooling, or Python…" aria-describedby="project-count"><button id="clear-search" type="button" hidden>Clear</button></div></div><p id="project-count" role="status" aria-live="polite"></p></div>
