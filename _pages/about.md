@@ -12,7 +12,7 @@ redirect_from:
 <link rel="stylesheet" href="/assets/horizon/research.css?v=research-3">
 <link rel="stylesheet" href="/assets/horizon/home-motion.css?v=home-5">
 <script src="/assets/horizon/hero-backdrop.js?v=hero-1" defer></script>
-<script src="/assets/horizon/research-scenes.js?v=scenes-5" defer></script>
+<script src="/assets/horizon/research-scenes.js?v=scenes-6" defer></script>
 <svg class="project-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs><linearGradient id="project-beam" gradientUnits="userSpaceOnUse" x1="24" y1="0" x2="296" y2="0"><stop offset="0" stop-color="#6fe3ff"/><stop offset=".55" stop-color="#b48cff"/><stop offset="1" stop-color="#ff6f7d"/></linearGradient></defs></svg>
 
 <section class="horizon-intro section has-backdrop" aria-labelledby="intro-title">

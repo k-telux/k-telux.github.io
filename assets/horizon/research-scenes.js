@@ -523,12 +523,20 @@
       init(s) {
         const g = (r) => (r() + r() + r() - 1.5) * 1.15;
         s.round = (r) => {
-          s.pud = Array.from({ length: 3 }, (_, k) => ({ x: s.W * (.18 + .3 * k) + (r() - .5) * s.W * .14, y: 22 + r() * 76, w: 13 + r() * 10 }));
+          // new pockets keep away from wherever the exciton is, so each round means travelling to them
+          s.pud = [];
+          for (let k = 0; k < 3; k++) {
+            let p, n = 0;
+            do p = { x: 26 + r() * (s.W - 52), y: 22 + r() * 76, w: 13 + r() * 10 };
+            while (++n < 80 && ((s.ex && dist2(p.x, p.y, s.ex.x, s.ex.y) < 85 * 85) || s.pud.some((o) => dist2(o.x, o.y, p.x, p.y) < 62 * 62)));
+            s.pud.push(p);
+          }
+          s.travel = 0;
           s.Nt = 13 + (r() * 6 | 0); s.locked = false; s.lockT = 0; s.good = 0;
           s.b.forEach((b, i) => { if (b.pump) return; const p = s.pud[i % 3]; b.hx = clamp(p.x + g(r) * p.w * .75, 6, s.W - 6); b.hy = clamp(p.y + g(r) * p.w * .65, 6, 110); });
         };
         const r = rand(41);
-        s.b = Array.from({ length: 96 }, () => ({ x: 0, y: 0, vx: 0, vy: 0, hx: 0, hy: 0, bound: false, a: 0, pump: false }));
+        s.b = Array.from({ length: 96 }, () => ({ x: 0, y: 0, vx: 0, vy: 0, hx: 0, hy: 0, bound: false, a: 0, pump: false, cool: 0 }));
         s.round(r); s.b.forEach((b) => { b.x = b.hx; b.y = b.hy; });
         s.ex = { x: s.W * .08, y: 64 }; s.v = 0; s.pulses = []; s.flash = 0;
       },
@@ -536,6 +544,7 @@
         const ex = s.ex, k = 1 - Math.exp(-dt * 10), ox = ex.x, oy = ex.y;
         ex.x += (s.x - ex.x) * k; ex.y += (Math.min(s.y, 110) - ex.y) * k;
         s.v = lerp(s.v, dt ? Math.hypot(ex.x - ox, ex.y - oy) / dt : 0, Math.min(1, dt * 6));
+        if (s.near > .2) s.travel += Math.hypot(ex.x - ox, ex.y - oy);
         const fast = s.v > 120 && !s.locked;
         if (s.clicked) {
           s.clicked = false; s.pulses.push({ x: s.x, y: Math.min(s.y, 110), t: 0 });
@@ -549,23 +558,28 @@
           if (b.bound) {
             b.a += dt * 1.6; const rr = 9 + 3.5 * Math.sin(b.a * 1.7 + b.hx);
             b.x = lerp(b.x, ex.x + Math.cos(b.a) * rr, Math.min(1, dt * 9)); b.y = lerp(b.y, ex.y + Math.sin(b.a) * rr, Math.min(1, dt * 9));
-            if (fast && Math.random() < dt * 4) { b.bound = false; const a = Math.atan2(b.y - ex.y, b.x - ex.x); b.vx = Math.cos(a) * 110; b.vy = Math.sin(a) * 110; }
+            if (fast && Math.random() < dt * 4) { b.bound = false; b.cool = .6; const a = Math.atan2(b.y - ex.y, b.x - ex.x); b.vx = Math.cos(a) * 110; b.vy = Math.sin(a) * 110; }
             else N++;
             continue;
           }
           const dx = ex.x - b.x, dy = ex.y - b.y, d = Math.hypot(dx, dy) || 1;
-          if (d < 28 && !fast) { const f = 70 * (1 - d / 28); b.vx += dx / d * f * dt * 3; b.vy += dy / d * f * dt * 3; }
+          b.cool = Math.max(0, b.cool - dt);
+          if (d < 28 && !fast && !b.cool) { const f = 70 * (1 - d / 28); b.vx += dx / d * f * dt * 3; b.vy += dy / d * f * dt * 3; }
           // only the pointer dresses the exciton, not the idle drift
-          if (d < 11 && s.v < 75 && s.near > .2 && !s.locked) { b.bound = true; b.a = Math.atan2(-dy, -dx); }
+          // only bosons settled in a pocket dress the exciton: after a release they first cool down and migrate,
+          // so the next polaron has to be gathered again rather than re-forming on the spot
+          const settled = !b.cool && dist2(b.x, b.y, b.hx, b.hy) < 900;
+          if (d < 11 && s.v < 75 && s.near > .2 && !s.locked && settled) { b.bound = true; b.a = Math.atan2(-dy, -dx); }
           b.vx += ((b.hx - b.x) * 1.2 + (Math.random() - .5) * 90) * dt; b.vy += ((b.hy - b.y) * 1.2 + (Math.random() - .5) * 90) * dt;
           b.vx *= Math.exp(-dt * 3); b.vy *= Math.exp(-dt * 3);
           b.x = clamp(b.x + b.vx * dt, 4, s.W - 4); b.y = clamp(b.y + b.vy * dt, 4, 112);
         }
-        if (!s.locked) { s.good = N >= s.Nt ? s.good + dt : 0; if (s.good > .4) { s.locked = true; s.lockT = 0; s.flash = 1; } }
+        // a lock needs the target and some travel since the last round, so lingering can never re-trigger it
+        if (!s.locked) { s.good = N >= s.Nt && s.travel > 120 ? s.good + dt : 0; if (s.good > .4) { s.locked = true; s.lockT = 0; s.flash = 1; } }
         else {
           s.lockT += dt;
           if (s.lockT > 2.4) { // release the cloud and move the pockets
-            s.b.forEach((b) => { if (b.bound) { b.bound = false; const a = Math.random() * TAU; b.vx = Math.cos(a) * 70; b.vy = Math.sin(a) * 70; } b.pump = false; });
+            s.b.forEach((b) => { b.cool = 1.6; if (b.bound) { b.bound = false; b.cool = 2.2; const a = Math.random() * TAU; b.vx = Math.cos(a) * 90; b.vy = Math.sin(a) * 90; } b.pump = false; });
             s.round(Math.random);
           }
         }
