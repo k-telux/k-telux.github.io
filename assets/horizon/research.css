@@ -11,6 +11,10 @@
 .project-thumb { position: relative; aspect-ratio: 2 / 1; background: radial-gradient(120% 90% at 50% 0%, #17232e, #0b1016 70%); }
 .project-thumb::after { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px); background-size: 20px 20px; }
 .project-thumb svg { display: block; width: 100%; height: 100%; }
+/* research-scenes.js draws a live version on a canvas; the SVG stays as the still fallback */
+.project-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.project-thumb.is-live svg { opacity: 0; }
+.project-thumb.is-live { cursor: crosshair; }
 .project-thumb .ln { fill: none; stroke: url(#project-beam); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 5px rgba(111, 227, 255, .45)); }
 .project-thumb .thin { stroke-width: 1.4; }
 .project-thumb .fx { fill: none; stroke: rgba(255, 255, 255, .18); stroke-width: 1.2; stroke-linecap: round; }
