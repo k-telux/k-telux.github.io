@@ -80,13 +80,6 @@ input[type=text]:focus-visible, input[type=email]:focus-visible, input[type=sear
   @keyframes light-sweep { from { background-position: 100% 0; } to { background-position: 0 0; } }
   .light-sweep::selection { color: #142b42; }
 
-  /* carousel: the photograph in view settles in; captions change with a soft focus pull */
-  .landscape-slide { overflow: hidden; }
-  .landscape-slide img { transform: scale(1.06); transition: transform 1.8s var(--ease-out); }
-  .landscape-slide.is-active img { transform: none; }
-  .landscape-arrows button { transition: background-color .25s, transform .25s var(--ease-out), opacity .25s; }
-  .landscape-arrows button:active:not(:disabled) { transform: scale(.9); }
-  .landscape-dots button[aria-current=true]::before { box-shadow: 0 0 0 4px rgba(var(--glow), .12); }
 
   /* buttons and links: physical press, a sheen on hover, underlines that draw */
   .button, .button-secondary { position: relative; isolation: isolate; overflow: hidden; transition: color .25s, background-color .25s, border-color .25s, box-shadow .4s var(--ease-out), transform .25s var(--ease-out); }

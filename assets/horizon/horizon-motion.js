@@ -59,21 +59,6 @@
     }, { passive: true });
   }
 
-  // Carousel: mark the photograph in view so it can settle, and soften caption changes.
-  const carousel = document.querySelector('[data-carousel]');
-  if (carousel && typeof IntersectionObserver !== 'undefined') {
-    const track = carousel.querySelector('.landscape-track');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => entry.target.classList.toggle('is-active', entry.intersectionRatio > 0.55));
-    }, { root: track, threshold: [0, 0.55, 1] });
-    [...track.children].forEach((slide) => io.observe(slide));
-    const caption = carousel.querySelector('.landscape-caption [data-caption]');
-    if (caption) {
-      new MutationObserver(() => animate(caption, [{ opacity: 0, transform: 'translateY(6px)', filter: 'blur(3px)' }, { opacity: 1, transform: 'none', filter: 'none' }], { duration: 450 }))
-        .observe(caption, { childList: true, characterData: true, subtree: true });
-    }
-  }
-
   // Project search: results glide into their new places instead of jumping (FLIP).
   const search = document.querySelector('#project-search');
   if (search) {

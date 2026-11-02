@@ -56,3 +56,26 @@
   @keyframes glyph-eq { 0% { transform: scaleY(.35); } 50% { transform: scaleY(1.1); } 100% { transform: scaleY(.6); } }
 }
 @media (max-width: 640px) { .outside-glyph { top: 24px; width: 34px; height: 34px; } }
+
+/* hero: the landscape photographs as a faint backdrop that rises toward the bottom edge, like a horizon,
+   with a veil behind the text; a quiet caption names the photograph and links to the gallery */
+.design--horizon .horizon-intro.has-backdrop { position: relative; isolation: isolate; padding: 96px 0 150px; }
+.hero-backdrop { position: absolute; inset: 0; z-index: -2; overflow: hidden; pointer-events: none; opacity: .42;
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .12), rgba(0, 0, 0, .5) 45%, #000 78%, transparent);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .12), rgba(0, 0, 0, .5) 45%, #000 78%, transparent); }
+.hero-backdrop picture, .hero-backdrop img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-backdrop img { object-fit: cover; object-position: 50% 62%; opacity: 0; }
+.hero-backdrop img.is-on { opacity: 1; }
+.hero-backdrop::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 58% 62% at 50% 42%, rgba(255, 255, 255, .9), rgba(255, 255, 255, 0) 74%); }
+.hero-lens { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); display: inline-flex; gap: 8px; align-items: baseline; white-space: nowrap;
+  padding: 6px 14px 6px 28px; border-radius: 999px; background: rgba(255, 255, 255, .72) radial-gradient(circle at 15px 50%, var(--beam-violet, #8f62ff) 3px, transparent 3.6px) no-repeat;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: var(--ink); font-size: 14px; text-decoration: none; box-shadow: 0 1px 0 rgba(255, 255, 255, .6) inset, 0 6px 18px rgba(15, 30, 45, .08); }
+.horizon-intro.has-backdrop .button-secondary { background: rgba(255, 255, 255, .78); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.hero-lens-label { color: var(--label, #33414f); font-weight: 600; }
+.hero-lens:hover { color: var(--accent); }
+@media (max-width: 640px) { .design--horizon .horizon-intro.has-backdrop { padding: 48px 0 104px; } .hero-lens { bottom: 18px; font-size: 13px; } }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-backdrop img { transition: opacity 2.6s ease; }
+  .hero-backdrop img.is-on { animation: hero-drift 14s ease-out both; }
+  @keyframes hero-drift { from { transform: scale(1.07); } to { transform: scale(1); } }
+}
