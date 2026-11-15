@@ -1,22 +1,31 @@
-/* Home page: the research cards carry the same live drawings as the Research page (research-scenes.js), and the
-   paper, timeline and "Beyond the lab" entries answer the pointer. Everything here moves on hover only. */
+/* Home page: the research cards carry small playable scenes (research-scenes.js), the paper, timeline and
+   "Beyond the lab" entries answer the pointer, and the landscape photographs sit behind the hero.
+   Apart from the hero's slow crossfade, everything here moves on hover only. */
 .project-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
-/* research cards: a dark drawing across the top, bleeding to the card's edges */
-.design--horizon .horizon-research-card { overflow: hidden; }
-.design--horizon .horizon-research-card .project-thumb { align-self: stretch; margin: -34px -30px 28px; }
-@media (max-width: 860px) { .design--horizon .horizon-research-card .project-thumb { margin: -28px -22px 24px; } }
-@media (max-width: 640px) { .design--horizon .horizon-research-card .project-thumb { margin: -28px -28px 22px; } }
-/* each drawing says how to play with it, in a caption line between the drawing and the title */
-.horizon-research-card .project-thumb[data-hint] { overflow: visible; margin-bottom: 52px; }
-.horizon-research-card .project-thumb[data-hint]::before { content: attr(data-hint); position: absolute; left: 30px; right: 30px; top: calc(100% + 14px);
-  padding-left: 16px; color: var(--label, #33414f); font-size: 13px; font-weight: 500; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none;
-  background: radial-gradient(circle at 4px 50%, var(--beam-violet, #8f62ff) 3px, transparent 3.6px); transition: color .3s; }
-.horizon-research-card:hover .project-thumb[data-hint]::before { color: var(--accent); }
-@media (max-width: 860px) { .horizon-research-card .project-thumb[data-hint]::before { left: 22px; right: 22px; } .horizon-research-card .project-thumb[data-hint] { margin-bottom: 46px; } }
-@media (max-width: 640px) { .horizon-research-card .project-thumb[data-hint]::before { left: 28px; right: 28px; } }
-@media (hover: none) { .horizon-research-card .project-thumb[data-hint]::before { content: attr(data-hint-touch); } }
+/* research cards: a dark drawing across the top, bleeding to the card's edges (--pad mirrors the card's padding) */
+.design--horizon .horizon-research-card { --pad-y: 34px; --pad-x: 30px; overflow: hidden; }
+@media (max-width: 860px) { .design--horizon .horizon-research-card { --pad-y: 28px; --pad-x: 22px; } }
+@media (max-width: 640px) { .design--horizon .horizon-research-card { --pad-x: 28px; } }
+.design--horizon .horizon-research-card .project-thumb { align-self: stretch; margin: calc(var(--pad-y) * -1) calc(var(--pad-x) * -1) 26px; }
 .horizon-research-card .project-thumb.is-live { cursor: crosshair; }
+/* how to play it: a caption line under the drawing, there only while the scene is live (not for the still SVG) */
+.scene-hint { display: none; padding-left: 16px; font-weight: 500; line-height: 1.4;
+  background: radial-gradient(circle at 4px .7em, var(--beam-violet, #8f62ff) 3px, transparent 3.6px) no-repeat; transition: color .3s; }
+.design--horizon .horizon-research-card .scene-hint { margin: 0 0 16px; color: var(--label, #33414f); font-size: 13px; }
+.project-thumb.is-live + .scene-hint { display: block; }
+.horizon-research-card:hover .scene-hint { color: var(--accent); }
+.hint-touch { display: none; }
+@media (hover: none) { .hint-hover { display: none; } .hint-touch { display: inline; } }
+/* between phone and desktop widths three columns would shrink the drawings too far to play: one card per row,
+   drawing on the left, text on the right */
+@media (min-width: 641px) and (max-width: 1000px) {
+  .design--horizon .horizon-research-grid { grid-template-columns: 1fr; }
+  .design--horizon .horizon-research-card { display: grid; grid-template-columns: minmax(280px, 46%) minmax(0, 1fr); column-gap: 28px; align-content: center; align-items: start; }
+  .design--horizon .horizon-research-card > * { grid-column: 2; }
+  .design--horizon .horizon-research-card .project-thumb { grid-column: 1; grid-row: 1 / span 6; align-self: center; margin: 0; border-radius: 16px; overflow: hidden; }
+  .design--horizon .horizon-research-card p { margin-bottom: 18px; }
+}
 
 /* "Beyond the lab": a small glyph for each entry */
 .design--horizon .horizon-outside-grid article { position: relative; }
@@ -66,16 +75,31 @@
 .hero-backdrop picture, .hero-backdrop img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hero-backdrop img { object-fit: cover; object-position: 50% 62%; opacity: 0; }
 .hero-backdrop img.is-on { opacity: 1; }
-.hero-backdrop::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 58% 62% at 50% 42%, rgba(255, 255, 255, .9), rgba(255, 255, 255, 0) 74%); }
+/* the veil belongs to the text block, so the copy keeps its contrast at every width and over every photograph */
+.horizon-intro.has-backdrop .horizon-intro-copy { position: relative; }
+.horizon-intro.has-backdrop .horizon-intro-copy::before { content: ""; position: absolute; inset: -56px 0 -44px; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse closest-side, rgba(255, 255, 255, .96) 62%, rgba(255, 255, 255, 0)); }
+/* where the browser can clip sideways without clipping the glow above, the veil reaches past the text block */
+@supports (overflow-x: clip) {
+  .design--horizon .horizon-intro.has-backdrop { overflow-x: clip; }
+  .horizon-intro.has-backdrop .horizon-intro-copy::before { inset: -56px -8% -44px; }
+}
+.design--horizon .horizon-intro.has-backdrop .horizon-bio { color: #3f4954; }
+.design--horizon .horizon-intro.has-backdrop .horizon-bio a { text-decoration-color: #8b9aa8; }
 .hero-lens { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); display: inline-flex; gap: 8px; align-items: baseline; white-space: nowrap;
   padding: 6px 14px 6px 28px; border-radius: 999px; background: rgba(255, 255, 255, .72) radial-gradient(circle at 15px 50%, var(--beam-violet, #8f62ff) 3px, transparent 3.6px) no-repeat;
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: var(--ink); font-size: 14px; text-decoration: none; box-shadow: 0 1px 0 rgba(255, 255, 255, .6) inset, 0 6px 18px rgba(15, 30, 45, .08); }
 .horizon-intro.has-backdrop .button-secondary { background: rgba(255, 255, 255, .78); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 .hero-lens-label { color: var(--label, #33414f); font-weight: 600; }
 .hero-lens:hover { color: var(--accent); }
-@media (max-width: 640px) { .design--horizon .horizon-intro.has-backdrop { padding: 48px 0 104px; } .hero-lens { bottom: 18px; font-size: 13px; } }
+@media (max-width: 640px) {
+  .design--horizon .horizon-intro.has-backdrop { padding: 48px 0 150px; }
+  /* on a phone the text fills the block to its corners, so the veil is a soft-edged panel, not an ellipse */
+  .horizon-intro.has-backdrop .horizon-intro-copy::before { inset: -22px -6px -18px; border-radius: 36px; background: rgba(255, 255, 255, .9); filter: blur(16px); }
+  .hero-lens { bottom: 18px; font-size: 13px; }
+}
 @media (prefers-reduced-motion: no-preference) {
   .hero-backdrop img { transition: opacity 2.6s ease; }
-  .hero-backdrop img.is-on { animation: hero-drift 14s ease-out both; }
+  .hero-backdrop img.is-drift { animation: hero-drift 14s ease-out both; }
   @keyframes hero-drift { from { transform: scale(1.07); } to { transform: scale(1); } }
 }

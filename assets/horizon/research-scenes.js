@@ -1,6 +1,7 @@
 /* Research thumbnails come alive: each card's drawing is replaced by a small running simulation of its physics on a
    canvas. A scene plays only while the pointer is on (or right beside) its card, and the pointer steers it: the
-   closer to the drawing, the stronger the effect. Every other card holds a still frame. The SVG line drawings stay
+   closer to the drawing, the stronger the effect. Every other card holds a still frame, and with nothing playing the
+   animation loop sleeps. A scene is built the first time it comes near the viewport. The SVG line drawings stay
    underneath as the fallback (no JavaScript, reduced motion). */
 (() => {
   'use strict';
@@ -14,10 +15,19 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const ease = (t) => t * t * (3 - 2 * t);
   // the beam palette as a ramp: 0 dark, then cyan, violet, coral
+  // (quantised and cached: scenes ask for these strings hundreds of times a frame)
+  const ramps = new Map();
   const ramp = (t, a = 1) => {
-    t = Math.round(clamp(t) * 64) / 64 * 3; const i = Math.min(2, t | 0), u = t - i, p = STOPS[i], q = STOPS[i + 1];
-    return `rgba(${p.map((c, k) => Math.round(c + (q[k] - c) * u)).join(',')},${a})`;
+    const n = Math.round(clamp(t) * 64), key = n * 101 + Math.round(clamp(a) * 100);
+    let c = ramps.get(key);
+    if (!c) {
+      const v = n / 64 * 3, i = Math.min(2, v | 0), u = v - i, p = STOPS[i], q = STOPS[i + 1];
+      ramps.set(key, c = `rgba(${p.map((x, k) => Math.round(x + (q[k] - x) * u)).join(',')},${Math.round(clamp(a) * 100) / 100})`);
+    }
+    return c;
   };
+  const tint = (rgb) => { const t = Array.from({ length: 51 }, (_, i) => `rgba(${rgb},${i / 50})`); return (a) => t[Math.round(clamp(a) * 50)]; };
+  const white = tint('255,255,255'), cyan = tint('111,227,255');
   const beamAt = (t, a = 1) => ramp(1 / 3 + clamp(t) * 2 / 3, a); // cyan → coral only
   const CY = '#6fe3ff', VI = '#b48cff', CO = '#ff6f7d';
 
@@ -37,13 +47,15 @@
     ctx.save(); ctx.lineWidth = width; ctx.lineCap = ctx.lineJoin = 'round';
     ctx.shadowColor = color; ctx.shadowBlur = blur * s.dpr; ctx.strokeStyle = s.beam; ctx.stroke(); ctx.restore();
   };
-  const faint = (ctx, a = .18, w = 1.1) => { ctx.strokeStyle = `rgba(255,255,255,${a})`; ctx.lineWidth = w; ctx.stroke(); };
+  const faint = (ctx, a = .18, w = 1.1) => { ctx.strokeStyle = white(a); ctx.lineWidth = w; ctx.stroke(); };
   const rand = (seed) => () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
   const dist2 = (ax, ay, bx, by) => (ax - bx) ** 2 + (ay - by) ** 2;
   const within = (poly, x, y) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const [xi, yi] = poly[i], [xj, yj] = poly[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c; } return c; };
 
   /* Every scene gets: s.W × 160 drawing space, s.x/s.y the steered point (pointer when near, a slow drift
-     otherwise), s.near 0–1, s.inside, s.t seconds, dt. init() builds state, draw() runs one frame. */
+     otherwise), s.near 0–1, s.inside, s.t seconds, dt. init() builds state, draw() runs one frame.
+     s.clicked = { x, y, touch } for one frame after a click or tap on the drawing; a scene sets s.hold while
+     it has something to finish (a reward, an automatic run) so the engine keeps it playing. */
   const scenes = {
     // an exciton (the pointer) moves through a Bose gas; nearby bosons gather into a dressing cloud and the
     // spectrum below splits into attractive and repulsive polaron peaks
@@ -59,7 +71,7 @@
           const dx = ex - b.x, dy = ey - b.y, d = Math.hypot(dx, dy) || 1, shell = 16 + 4 * Math.sin(s.t * 3 + b.x);
           const f = d < 70 ? pull * (d - shell) / d * Math.exp(-d / 40) : 0;
           b.vx += (dx * f * 6 + (Math.random() - .5) * 60) * dt; b.vy += (dy * f * 6 + (Math.random() - .5) * 60) * dt;
-          b.vx *= .92; b.vy *= .92; b.x += b.vx * dt; b.y += b.vy * dt;
+          const damp = Math.exp(-dt * 5); b.vx *= damp; b.vy *= damp; b.x += b.vx * dt; b.y += b.vy * dt;
           if (b.x < 0) b.x += s.W; if (b.x > s.W) b.x -= s.W; b.y = clamp(b.y, 6, 118);
           b.d = lerp(b.d, d < 34 ? 1 : 0, dt * 4); dressed += b.d;
           glow(ctx, b.x, b.y, 3 + 4 * b.d, b.d > .3 ? 'rgba(180,140,255,.9)' : 'rgba(255,255,255,.5)');
@@ -274,7 +286,7 @@
         for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
           const n = j * nx + i; s.show[n] += ((spin[n] + 1) / 2 - s.show[n]) * a; const v = s.show[n];
           const near = s.near * Math.exp(-((i - gx) ** 2 + (j - gy) ** 2) / 30);
-          ctx.fillStyle = v > .5 ? (near > .15 ? beamAt(near, .5 + .45 * v) : `rgba(111,227,255,${.12 + .66 * v})`) : `rgba(255,255,255,${.05 + .1 * v})`;
+          ctx.fillStyle = v > .5 ? (near > .15 ? beamAt(near, .5 + .45 * v) : cyan(.12 + .66 * v)) : white(.05 + .1 * v);
           const sz = c - 2.4 + v * .8; ctx.fillRect(s.ox + i * c + (c - sz) / 2, s.oy + j * c + (c - sz) / 2, sz, sz);
         }
         if (s.near > .05) { ctx.beginPath(); ctx.arc(s.x, s.y, 24, 0, TAU); ctx.strokeStyle = `rgba(255,111,125,${.6 * s.near})`; ctx.setLineDash([3, 4]); ctx.lineDashOffset = s.t * 10; ctx.lineWidth = 1.2; ctx.stroke(); ctx.setLineDash([]); }
@@ -306,10 +318,13 @@
     // a three-neuron network learns Planck's law: signals run along its edges, and the fitted curve chases the
     // blackbody data; the pointer sets the temperature, so the peak moves (Wien's law)
     neural: {
-      init(s) { s.fit = 1; s.pulses = []; s.spawn = 0; s.out = 0; const r = rand(11); s.noise = Array.from({ length: 22 }, () => r() - .5); },
+      init(s) {
+        s.fit = 1; s.pulses = []; s.spawn = 0; s.out = 0; const r = rand(11); s.noise = Array.from({ length: 22 }, () => r() - .5);
+        s.ins = [[34, 52], [34, 108]]; s.hid = [[94, 36], [94, 80], [94, 124]]; s.outs = [[150, 80]];
+        s.edges = [...s.ins.flatMap((a) => s.hid.map((b) => [a, b])), ...s.hid.map((a) => [a, s.outs[0]])];
+      },
       draw(s, ctx, dt) {
-        const ins = [[34, 52], [34, 108]], hid = [[94, 36], [94, 80], [94, 124]], out = [[150, 80]];
-        const edges = [...ins.flatMap((a) => hid.map((b) => [a, b])), ...hid.map((a) => [a, out[0]])];
+        const { ins, hid, edges } = s, out = s.outs;
         edges.forEach(([a, b]) => { ctx.beginPath(); ctx.moveTo(...a); ctx.lineTo(...b); faint(ctx, .16); });
         s.spawn -= dt; if (s.spawn <= 0) { s.spawn = .5 / (1 + 4 * s.near); const e = edges[(Math.random() * 6) | 0]; s.pulses.push({ e, u: 0, next: true }); }
         ctx.globalCompositeOperation = 'lighter';
@@ -340,7 +355,7 @@
     // the lab heatmap tool: hot spots drift, the pointer brings its own, and the cell under it is "clicked" —
     // its spectrum and fitted curve appear in the side panel
     heatmap: {
-      init(s) { s.cell = 12; s.cols = Math.floor((s.W * .64 - 20) / s.cell); s.rows = Math.floor((H - 20) / s.cell); s.sel = [0, 0]; s.amp = 0; },
+      init(s) { s.cell = 12; s.cols = Math.floor((s.W * .64 - 20) / s.cell); s.rows = Math.floor((H - 20) / s.cell); s.amp = 0; },
       draw(s, ctx, dt) {
         const { cell, cols, rows } = s, ox = 14, oy = (H - rows * cell) / 2;
         const b1 = [cols * (.3 + .1 * Math.sin(s.t * .5)), rows * (.35 + .15 * Math.cos(s.t * .4))], b2 = [cols * (.72 + .08 * Math.cos(s.t * .6)), rows * (.65 + .1 * Math.sin(s.t * .7))];
@@ -439,13 +454,15 @@
           s.em = []; const groups = [];
           for (let k = 0; k < 4; k++) {
             let x, y, tries = 0;
-            do { x = cx + (r() - .5) * R * 1.6; y = cy + (r() - .5) * R * 1.4; tries++; } while (tries < 200 && (!within(s.flake, x, y) || groups.some((g) => dist2(g[0], g[1], x, y) < 26 * 26)));
+            // the single emitter (k = 0) never starts under the spot, so a round cannot win itself
+            do { x = cx + (r() - .5) * R * 1.6; y = cy + (r() - .5) * R * 1.4; tries++; }
+            while (tries < 200 && (!within(s.flake, x, y) || groups.some((g) => dist2(g[0], g[1], x, y) < 26 * 26) || (!k && s.lp && dist2(s.lp.x, s.lp.y, x, y) < 34 * 34)));
             groups.push([x, y]);
             const n = k ? 3 + (r() * 2 | 0) : 1, lam = .15 + .7 * r();
             for (let j = 0; j < n; j++) s.em.push({ x: x + (j ? (r() - .5) * 5 : 0), y: y + (j ? (r() - .5) * 5 : 0), b: k ? .42 + .18 * r() : .9, lam: lam + (j ? (r() - .5) * .07 : 0), single: !k });
           }
           s.target = s.em.find((e) => e.single);
-          s.map.fill(0); s.locked = false; s.lockT = 0; s.good = 0; s.auto = false; s.path = 0;
+          s.map.fill(0); s.locked = false; s.lockT = 0; s.good = 0; s.auto = false; s.path = 0; s.autoT = 0;
           s.lp = s.lp || { x: lerp(s.mx0, s.mx1, .78), y: H * .3 };
         };
         s.round(rand(21));
@@ -455,7 +472,9 @@
       draw(s, ctx, dt) {
         const onFlake = (x, y) => within(s.flake, x, y);
         const pl = (x, y, w) => (onFlake(x, y) ? .2 : 0) + s.em.reduce((t, e) => t + e.b * Math.exp(-dist2(x, y, e.x, e.y) / (2 * w * w)), 0);
-        if (s.clicked) { s.clicked = false; if (!s.locked) { s.auto = true; s.path = 0; } }
+        if (s.clicked && !s.locked) { s.auto = true; s.path = 0; s.autoT = 0; }
+        if (s.auto && (s.autoT += dt) > 12) s.auto = false; // never scan forever
+        s.hold = s.auto || s.locked;
         // where the spot goes
         if (s.locked) { s.lp.x = lerp(s.lp.x, s.target.x, Math.min(1, dt * 6)); s.lp.y = lerp(s.lp.y, s.target.y, Math.min(1, dt * 6)); }
         else if (s.auto) {
@@ -516,9 +535,10 @@
       },
     },
     // dress an exciton: in a 2D heterostructure the pointer is an exciton moving through a Bose medium that pools
-    // in moiré pockets. Bosons it passes slowly cling to it as a dressing cloud, and the attractive-polaron peak in
-    // the spectrum shifts red with every one; move too fast and the cloud is stripped away. Reach the dashed target
-    // and the Bose polaron locks; then the pockets move and a new target is set. A click pumps fresh bosons in
+    // in moiré pockets. Bosons it passes at an easy pace cling to it as a dressing cloud, and the attractive-polaron
+    // peak in the spectrum shifts red with every one; rush and the cloud is stripped away. Reach the dashed target
+    // and the Bose polaron locks; then the pockets move and a new target is set. A click pumps a ring of fresh
+    // bosons in (it recharges); on a touch screen a tap sends the exciton to that point instead
     bosepolaron: {
       init(s) {
         const g = (r) => (r() + r() + r() - 1.5) * 1.15;
@@ -531,87 +551,123 @@
             while (++n < 80 && ((s.ex && dist2(p.x, p.y, s.ex.x, s.ex.y) < 85 * 85) || s.pud.some((o) => dist2(o.x, o.y, p.x, p.y) < 62 * 62)));
             s.pud.push(p);
           }
-          s.travel = 0;
-          s.Nt = 13 + (r() * 6 | 0); s.locked = false; s.lockT = 0; s.good = 0;
-          s.b.forEach((b, i) => { if (b.pump) return; const p = s.pud[i % 3]; b.hx = clamp(p.x + g(r) * p.w * .75, 6, s.W - 6); b.hy = clamp(p.y + g(r) * p.w * .65, 6, 110); });
+          let i = 0;
+          for (const b of s.b) {
+            if (b.extra) { b.gone = b.gone ?? .7; continue; } // pumped bosons last one round, then fade out
+            const p = s.pud[i++ % 3]; b.hx = clamp(p.x + g(r) * p.w * .75, 6, s.W - 6); b.hy = clamp(p.y + g(r) * p.w * .65, 6, 110);
+          }
+          // the target is more than one pocket holds (32 each): a round means carrying the cloud between them
+          s.Nt = 34 + (r() * 10 | 0); s.locked = false; s.lockT = 0; s.good = 0; s.travel = 0; s.extras = 0;
         };
         const r = rand(41);
-        s.b = Array.from({ length: 96 }, () => ({ x: 0, y: 0, vx: 0, vy: 0, hx: 0, hy: 0, bound: false, a: 0, pump: false, cool: 0 }));
+        s.b = Array.from({ length: 96 }, () => ({ x: 0, y: 0, vx: 0, vy: 0, hx: 0, hy: 0, bound: false, a: 0, cool: 0, extra: false }));
         s.round(r); s.b.forEach((b) => { b.x = b.hx; b.y = b.hy; });
-        s.ex = { x: s.W * .08, y: 64 }; s.v = 0; s.pulses = []; s.flash = 0;
+        s.ex = { x: s.W * .12, y: 64 }; s.v = 0; s.pulses = []; s.flash = 0; s.recharge = 0; s.goal = null; s.chase = false; s.was = false; s.rush = 0;
       },
       draw(s, ctx, dt) {
-        const ex = s.ex, k = 1 - Math.exp(-dt * 10), ox = ex.x, oy = ex.y;
-        ex.x += (s.x - ex.x) * k; ex.y += (Math.min(s.y, 110) - ex.y) * k;
-        s.v = lerp(s.v, dt ? Math.hypot(ex.x - ox, ex.y - oy) / dt : 0, Math.min(1, dt * 6));
-        if (s.near > .2) s.travel += Math.hypot(ex.x - ox, ex.y - oy);
-        const fast = s.v > 120 && !s.locked;
+        const ex = s.ex, ox = ex.x, oy = ex.y, FLOOR = 110; // the medium lives above the spectrum strip
+        // input: the pointer carries the exciton while it is on the drawing; a tap sets a point to glide to
         if (s.clicked) {
-          s.clicked = false; s.pulses.push({ x: s.x, y: Math.min(s.y, 110), t: 0 });
-          // a pump pulse: a few free bosons move their home to the spot (pumped bosons stay in place)
-          const free = s.b.filter((b) => !b.bound).sort((p, q) => dist2(p.x, p.y, s.x, s.y) - dist2(q.x, q.y, s.x, s.y)).slice(12, 24);
-          free.forEach((b, i) => { const a = i / free.length * TAU; b.x = s.x + Math.cos(a) * 4; b.y = Math.min(s.y, 110) + Math.sin(a) * 4; b.hx = clamp(s.x + Math.cos(a) * 12, 6, s.W - 6); b.hy = clamp(Math.min(s.y, 110) + Math.sin(a) * 10, 6, 110); b.vx = Math.cos(a) * 60; b.vy = Math.sin(a) * 60; b.pump = true; });
+          const c = { x: clamp(s.clicked.x, 6, s.W - 6), y: clamp(s.clicked.y, 6, FLOOR) };
+          if (s.clicked.touch) s.goal = c;
+          else if (s.recharge <= 0 && s.extras < 30 && !s.locked) {
+            // a pump pulse creates a ring of fresh bosons around the spot: close, but not on top of the exciton
+            s.recharge = 1.4; s.pulses.push({ x: c.x, y: c.y, t: 0 });
+            for (let i = 0; i < 10; i++) {
+              const a = i / 10 * TAU + Math.random(), hx = clamp(c.x + Math.cos(a) * 22, 6, s.W - 6), hy = clamp(c.y + Math.sin(a) * 18, 6, FLOOR);
+              s.b.push({ x: c.x + Math.cos(a) * 5, y: c.y + Math.sin(a) * 5, vx: Math.cos(a) * 70, vy: Math.sin(a) * 70, hx, hy, bound: false, a: 0, cool: .7, extra: true });
+            }
+            s.extras += 10;
+          }
         }
+        s.recharge = Math.max(0, s.recharge - dt);
+        if (s.inside) s.goal = null;
+        // coming back onto the drawing, the exciton first catches up with the pointer: that dash strips nothing
+        if (s.inside && !s.was) s.chase = true;
+        s.was = s.inside;
+        if (s.inside) {
+          const k = 1 - Math.exp(-dt * (s.chase ? 16 : 10)), ty = Math.min(s.y, FLOOR);
+          ex.x += (s.x - ex.x) * k; ex.y += (ty - ex.y) * k;
+          if (s.chase && dist2(ex.x, ex.y, s.x, ty) < 64) s.chase = false;
+        } else if (s.goal) {
+          const dx = s.goal.x - ex.x, dy = s.goal.y - ex.y, d = Math.hypot(dx, dy), step = 70 * dt;
+          if (d <= step) { ex.x = s.goal.x; ex.y = s.goal.y; s.goal = null; } else { ex.x += dx / d * step; ex.y += dy / d * step; }
+          s.chase = false;
+        } else s.chase = false;
+        const steered = (s.inside && !s.chase) || !!s.goal, moved = Math.hypot(ex.x - ox, ex.y - oy);
+        s.v = steered ? lerp(s.v, dt ? moved / dt : 0, Math.min(1, dt * 6)) : 0; // the catch-up dash is not a speed
+        if (steered) s.travel += moved;
+        // too fast only once it has lasted a moment: a quick exit from the card or a flick costs nothing
+        s.rush = steered && s.v > 185 && !s.locked ? s.rush + dt : 0;
+        const fast = s.rush > .15;
         // the medium, and the dressing cloud
-        let N = 0;
+        let N = 0, expired = false;
         for (const b of s.b) {
+          if (b.gone !== undefined && (b.gone -= dt) <= 0) expired = true;
           if (b.bound) {
             b.a += dt * 1.6; const rr = 9 + 3.5 * Math.sin(b.a * 1.7 + b.hx);
             b.x = lerp(b.x, ex.x + Math.cos(b.a) * rr, Math.min(1, dt * 9)); b.y = lerp(b.y, ex.y + Math.sin(b.a) * rr, Math.min(1, dt * 9));
-            if (fast && Math.random() < dt * 4) { b.bound = false; b.cool = .6; const a = Math.atan2(b.y - ex.y, b.x - ex.x); b.vx = Math.cos(a) * 110; b.vy = Math.sin(a) * 110; }
+            // the further over the limit, the faster the cloud is shed: a brisk move costs a few, a shake costs all
+            if (fast && Math.random() < dt * Math.min(7, 1.5 + 5 * (s.v - 185) / 185)) { b.bound = false; b.cool = .6; const a = Math.atan2(b.y - ex.y, b.x - ex.x); b.vx = Math.cos(a) * 110; b.vy = Math.sin(a) * 110; }
             else N++;
             continue;
           }
           const dx = ex.x - b.x, dy = ex.y - b.y, d = Math.hypot(dx, dy) || 1;
           b.cool = Math.max(0, b.cool - dt);
-          if (d < 28 && !fast && !b.cool) { const f = 70 * (1 - d / 28); b.vx += dx / d * f * dt * 3; b.vy += dy / d * f * dt * 3; }
-          // only the pointer dresses the exciton, not the idle drift
-          // only bosons settled in a pocket dress the exciton: after a release they first cool down and migrate,
-          // so the next polaron has to be gathered again rather than re-forming on the spot
-          const settled = !b.cool && dist2(b.x, b.y, b.hx, b.hy) < 900;
-          if (d < 11 && s.v < 75 && s.near > .2 && !s.locked && settled) { b.bound = true; b.a = Math.atan2(-dy, -dx); }
+          if (d < 28 && steered && !fast && !b.cool) { const f = 70 * (1 - d / 28); b.vx += dx / d * f * dt * 3; b.vy += dy / d * f * dt * 3; }
+          // only bosons settled in a pocket dress the exciton, and only while it is being steered: after a release
+          // they first cool down and migrate, so the next polaron has to be gathered again
+          if (d < 11 && steered && s.v < 110 && !s.locked && !b.cool && b.gone === undefined && dist2(b.x, b.y, b.hx, b.hy) < 900) { b.bound = true; b.a = Math.atan2(-dy, -dx); }
           b.vx += ((b.hx - b.x) * 1.2 + (Math.random() - .5) * 90) * dt; b.vy += ((b.hy - b.y) * 1.2 + (Math.random() - .5) * 90) * dt;
-          b.vx *= Math.exp(-dt * 3); b.vy *= Math.exp(-dt * 3);
-          b.x = clamp(b.x + b.vx * dt, 4, s.W - 4); b.y = clamp(b.y + b.vy * dt, 4, 112);
+          const damp = Math.exp(-dt * 3); b.vx *= damp; b.vy *= damp;
+          b.x = clamp(b.x + b.vx * dt, 4, s.W - 4); b.y = clamp(b.y + b.vy * dt, 4, FLOOR + 2);
         }
+        if (expired) s.b = s.b.filter((b) => !(b.gone <= 0));
         // a lock needs the target and some travel since the last round, so lingering can never re-trigger it
-        if (!s.locked) { s.good = N >= s.Nt && s.travel > 120 ? s.good + dt : 0; if (s.good > .4) { s.locked = true; s.lockT = 0; s.flash = 1; } }
-        else {
-          s.lockT += dt;
-          if (s.lockT > 2.4) { // release the cloud and move the pockets
-            s.b.forEach((b) => { b.cool = 1.6; if (b.bound) { b.bound = false; b.cool = 2.2; const a = Math.random() * TAU; b.vx = Math.cos(a) * 90; b.vy = Math.sin(a) * 90; } b.pump = false; });
-            s.round(Math.random);
-          }
+        const enough = N >= s.Nt, roamed = s.travel > 120;
+        if (!s.locked) { s.good = enough && roamed ? s.good + dt : 0; if (s.good > .4) { s.locked = true; s.lockT = 0; s.flash = 1; s.goal = null; } }
+        else if ((s.lockT += dt) > 2.4) { // release the cloud and move the pockets
+          s.b.forEach((b) => { b.cool = 1.6; if (b.bound) { b.bound = false; b.cool = 2.2; const a = Math.random() * TAU; b.vx = Math.cos(a) * 90; b.vy = Math.sin(a) * 90; } });
+          s.round(Math.random);
         }
+        s.hold = s.locked || !!s.goal;
         s.flash *= Math.exp(-dt * 2);
         const q = clamp(N / s.Nt);
         // moiré pockets: where the medium is dense
         ctx.globalCompositeOperation = 'lighter';
         for (const p of s.pud) glow(ctx, p.x, p.y, p.w * 2.6, 'rgba(180,140,255,1)', .12);
-        for (const b of s.b) glow(ctx, b.x, b.y, b.bound ? 5 : 3.2, b.bound ? (s.locked ? 'rgba(111,227,255,1)' : 'rgba(180,140,255,1)') : 'rgba(255,255,255,1)', b.bound ? .95 : .5);
+        for (const b of s.b) {
+          const fade = b.gone === undefined ? 1 : Math.max(0, b.gone / .7);
+          if (b.bound) glow(ctx, b.x, b.y, 5, s.locked ? 'rgba(111,227,255,1)' : 'rgba(180,140,255,1)', .95);
+          else if (b.extra) glow(ctx, b.x, b.y, 4.2, 'rgba(255,196,204,1)', .9 * fade); // freshly pumped: warmer and brighter
+          else glow(ctx, b.x, b.y, 3.2, 'rgba(255,255,255,1)', .5);
+        }
         for (let i = s.pulses.length - 1; i >= 0; i--) {
           const p = s.pulses[i]; p.t += dt; if (p.t > .8) { s.pulses.splice(i, 1); continue; }
-          ctx.beginPath(); ctx.arc(p.x, p.y, 4 + p.t * 50, 0, TAU); ctx.strokeStyle = `rgba(255,111,125,${(.8 * (1 - p.t / .8)).toFixed(2)})`; ctx.lineWidth = 1.5; ctx.stroke();
+          ctx.beginPath(); ctx.arc(p.x, p.y, 4 + p.t * 50, 0, TAU); ctx.strokeStyle = ramp(1, .8 * (1 - p.t / .8)); ctx.lineWidth = 1.5; ctx.stroke();
         }
-        const R = 15 + N * .7 + 6 * s.flash;
-        glow(ctx, ex.x, ex.y, R * 1.8, s.locked ? 'rgba(111,227,255,1)' : 'rgba(111,227,255,1)', .25 + .35 * q + .4 * s.flash);
+        if (s.goal) { glow(ctx, s.goal.x, s.goal.y, 9, 'rgba(255,255,255,1)', .5 + .3 * Math.sin(s.t * 8)); }
+        const R = 15 + 13 * q + 6 * s.flash;
+        glow(ctx, ex.x, ex.y, R * 1.8, 'rgba(111,227,255,1)', .25 + .35 * q + .4 * s.flash);
         glow(ctx, ex.x, ex.y, 6, 'rgba(255,255,255,1)', 1);
         ctx.globalCompositeOperation = 'source-over';
         ctx.beginPath(); ctx.arc(ex.x, ex.y, R, 0, TAU); ctx.setLineDash([3, 4]); ctx.lineDashOffset = -s.t * 14;
-        ctx.strokeStyle = fast ? `rgba(255,111,125,${(.5 + .5 * Math.sin(s.t * 40)).toFixed(2)})` : beamAt(1 - q, .85); ctx.lineWidth = 1.3; ctx.stroke(); ctx.setLineDash([]);
+        ctx.strokeStyle = fast ? ramp(1, .5 + .5 * Math.sin(s.t * 40)) : beamAt(1 - q, .85); ctx.lineWidth = 1.3; ctx.stroke(); ctx.setLineDash([]);
+        // the pump recharging: a short arc that closes around the exciton
+        if (s.recharge > 0) { ctx.beginPath(); ctx.arc(ex.x, ex.y, R + 4, -Math.PI / 2, -Math.PI / 2 + TAU * (1 - s.recharge / 1.4)); ctx.strokeStyle = ramp(1, .7); ctx.lineWidth = 1.2; ctx.stroke(); }
         // spectrum: attractive polaron shifts red with the dressing, the repulsive branch fades; dashed: the target
-        const base = H - 8, c = s.W * .64, shift = (n) => 8 + 7.2 * n, xa = c - shift(N), xr = c + 10 + 2.6 * N, xt = c - shift(s.Nt);
+        const base = H - 8, c = s.W * .64, xt = s.W * .16, xa = c - 8 - (c - 8 - xt) * Math.min(1.06, N / s.Nt), xr = c + 10 + 30 * q;
         ctx.fillStyle = 'rgba(11,16,22,.55)'; ctx.fillRect(0, 118, s.W, H - 118);
         ctx.beginPath(); ctx.moveTo(14, base); ctx.lineTo(s.W - 14, base); faint(ctx, .2);
-        ctx.beginPath(); ctx.moveTo(xt, 122); ctx.lineTo(xt, base); ctx.setLineDash([3, 3]); ctx.strokeStyle = 'rgba(111,227,255,.75)'; ctx.lineWidth = 1.1; ctx.stroke(); ctx.setLineDash([]);
-        curve(ctx, 14, s.W - 14, (x) => base - (8 + 20 * q) / (1 + ((x - xa) / 4.5) ** 2) - Math.max(5, 24 - 1.5 * N) / (1 + ((x - xr) / 6.5) ** 2), 1);
+        ctx.beginPath(); ctx.moveTo(xt, 122); ctx.lineTo(xt, base); ctx.setLineDash([3, 3]); ctx.strokeStyle = cyan(.75); ctx.lineWidth = 1.1; ctx.stroke(); ctx.setLineDash([]);
+        curve(ctx, 14, s.W - 14, (x) => base - (8 + 20 * q) / (1 + ((x - xa) / 4.5) ** 2) - (24 - 18 * q) / (1 + ((x - xr) / 6.5) ** 2), 1);
         ctx.save(); ctx.lineWidth = 1.8; ctx.lineJoin = 'round'; ctx.shadowColor = beamAt(1 - q, .8); ctx.shadowBlur = (s.locked ? 14 : 5) * s.dpr; ctx.strokeStyle = beamAt(1 - q); ctx.stroke(); ctx.restore();
         // meter
         const mw = 50, mx = s.W - mw - 12, my = 12;
-        ctx.fillStyle = 'rgba(255,255,255,.1)'; ctx.fillRect(mx, my, mw, 3); ctx.fillStyle = beamAt(1 - q); ctx.fillRect(mx, my, mw * q, 3);
+        ctx.fillStyle = white(.1); ctx.fillRect(mx, my, mw, 3); ctx.fillStyle = beamAt(1 - q); ctx.fillRect(mx, my, mw * q, 3);
         ctx.font = '600 9px system-ui, sans-serif'; ctx.textAlign = 'right';
-        ctx.fillStyle = fast ? 'rgba(255,111,125,.95)' : 'rgba(255,255,255,.62)';
-        ctx.fillText(s.locked ? 'Bose polaron ✓' : fast ? 'too fast' : `dressed ${N} / ${s.Nt}`, mx - 6, my + 4);
+        ctx.fillStyle = fast ? ramp(1, .95) : white(.62);
+        ctx.fillText(s.locked ? 'Bose polaron ✓' : fast ? 'too fast' : enough && !roamed ? 'keep moving' : `dressed ${N} / ${s.Nt}`, mx - 6, my + 4);
       },
     },
     // fit the peak: the pointer moves a Lorentzian (left–right: centre, up–down: height) over noisy data, the
@@ -627,7 +683,8 @@
       },
       draw(s, ctx, dt) {
         const top = 24, base = H - 40, Y = (v) => base - v * (base - top), M = (x) => s.A / (1 + ((x - s.xc) / s.w0) ** 2) + .04;
-        if (s.clicked) { s.clicked = false; if (!s.locked) s.auto = true; }
+        if (s.clicked && !s.locked) s.auto = true;
+        s.hold = s.auto || s.locked;
         if (s.locked) { s.lockT += dt; s.xc = lerp(s.xc, s.x0, Math.min(1, dt * 8)); s.A = lerp(s.A, s.A0, Math.min(1, dt * 8)); if (s.lockT > 1.9) s.fresh(Math.random); }
         else if (s.auto) { s.xc = lerp(s.xc, s.x0, Math.min(1, dt * 3.5)); s.A = lerp(s.A, s.A0, Math.min(1, dt * 3.5)); }
         else if (s.inside) { const k = 1 - Math.exp(-dt * 12); s.xc += (s.x - s.xc) * k; s.A += (clamp((base - s.y) / (base - top), .04, 1.1) - s.A) * k; }
@@ -659,85 +716,128 @@
 
   // ---------- engine ----------
   // A scene plays only while the pointer is on its card (or within HALO px of it), and only the nearest card plays;
-  // everywhere else it holds a still frame. Leaving a card lets its scene coast to a stop.
+  // everywhere else it holds a still frame. Leaving a card lets its scene coast to a stop, and once nothing is
+  // playing the frame loop stops too, until the pointer, a tap or a scroll wakes it.
   const HALO = 36, CARD = '.project-item, .horizon-research-card'; // Research page cards, and the home page research cards
-  const pointer = { x: -1e4, y: -1e4, on: false, card: null, chrome: false };
+  const pointer = { x: -1e4, y: -1e4, on: false, card: null, chrome: false, stale: false };
+  let last = 0, raf = 0, stopped = false;
+  const over = (el) => { pointer.card = el?.closest(CARD) || null; pointer.chrome = !!el?.closest('.site-header'); }; // under the sticky header nothing should wake up
   addEventListener('pointermove', (e) => {
-    pointer.x = e.clientX; pointer.y = e.clientY; pointer.on = e.pointerType !== 'touch';
-    const el = e.target instanceof Element ? e.target : null;
-    // over the sticky header nothing beneath it should wake up
-    pointer.card = el?.closest(CARD) || null; pointer.chrome = !!el?.closest('.site-header');
+    pointer.x = e.clientX; pointer.y = e.clientY; pointer.on = e.pointerType !== 'touch'; pointer.stale = false;
+    over(e.target instanceof Element ? e.target : null); wake();
   }, { passive: true });
-  document.documentElement.addEventListener('pointerleave', () => { pointer.on = false; });
-  addEventListener('blur', () => { pointer.on = false; });
+  // scrolling slides the page under a resting pointer, so what it is over has to be looked up again
+  addEventListener('scroll', () => { if (pointer.on) { pointer.stale = true; wake(); } }, { passive: true, capture: true });
+  const away = () => { if (pointer.on) { pointer.on = false; wake(); } };
+  document.documentElement.addEventListener('pointerleave', away);
+  addEventListener('blur', away);
 
   const live = [];
   thumbs.forEach((thumb, n) => {
     const scene = scenes[thumb.dataset.scene]; if (!scene) return;
     const canvas = document.createElement('canvas'); canvas.className = 'project-canvas'; canvas.setAttribute('aria-hidden', 'true');
     const ctx = canvas.getContext('2d'); if (!ctx) return;
-    thumb.append(canvas);
-    const s = { thumb, card: thumb.closest(CARD) || thumb, canvas, ctx, scene, seed: n * 1.7 + .4, near: 0, act: 0, still: false, tap: 0,
-      t: n * 3.1, x: 0, y: 0, visible: false, ready: false, inside: false };
-    // a click reaches the scene as s.clicked; touch screens have no hover, so a tap also plays it for a few seconds
-    thumb.addEventListener('pointerdown', (e) => { s.clicked = true; if (e.pointerType === 'touch') s.tap = performance.now() + 5000; });
+    const s = { thumb, card: thumb.closest(CARD) || thumb, canvas, ctx, scene, seed: n * 1.7 + .4, near: 0, act: 0, still: false, tap: 0, clicked: null, hold: false,
+      t: n * 3.1, x: 0, y: 0, visible: false, ready: false, dead: false, inside: false };
+    // a click (not a press: touching a drawing to scroll the page must not start it) reaches the scene for one
+    // frame as s.clicked; touch screens have no hover, so a tap also plays the scene for a few seconds
+    let touch = false;
+    thumb.addEventListener('pointerdown', (e) => { touch = e.pointerType === 'touch'; }, { passive: true });
+    thumb.addEventListener('click', (e) => {
+      if (!s.ready) return;
+      const r = thumb.getBoundingClientRect();
+      s.clicked = { x: (e.clientX - r.left) / s.k, y: (e.clientY - r.top) / s.k, touch };
+      if (touch) s.tap = performance.now() + 5000;
+      wake();
+    });
     live.push(s);
   });
   if (!live.length) return;
 
-  const paint = (s, dt, lx, ly) => {
-    const { ctx } = s;
-    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, s.canvas.width, s.canvas.height);
+  const paint = (s, dt, lx, ly, ctx = s.ctx) => {
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.setTransform(s.k * s.dpr, 0, 0, s.k * s.dpr, 0, 0);
     try {
       s.scene.draw(s, ctx, dt);
       // a soft beam-coloured light under the pointer itself
       if (s.inside && s.near > .02) { ctx.globalCompositeOperation = 'lighter'; glow(ctx, lx, ly, 46, 'rgba(111,227,255,1)', .14 * s.near); glow(ctx, lx, ly, 18, 'rgba(180,140,255,1)', .22 * s.near); }
-    } catch (err) { s.ready = false; s.thumb.classList.remove('is-live'); console.error(err); }
+    } catch (err) { // a broken scene steps aside for its SVG drawing
+      s.dead = true; s.ready = false; s.thumb.classList.remove('is-live'); s.canvas.remove(); console.error(err);
+    }
+    s.clicked = null;
     ctx.globalCompositeOperation = 'source-over'; ctx.setLineDash([]); ctx.globalAlpha = 1;
   };
-  const size = (s) => {
-    const r = s.thumb.getBoundingClientRect(); if (!r.width || !r.height) return;
+  const measure = (s) => {
+    const r = s.thumb.getBoundingClientRect(); if (!r.width || !r.height) return false;
     s.dpr = Math.min(2, devicePixelRatio || 1); s.k = r.height / H; s.W = r.width / s.k;
     s.canvas.width = Math.round(r.width * s.dpr); s.canvas.height = Math.round(r.height * s.dpr);
     s.beam = s.ctx.createLinearGradient(16, 0, s.W - 16, 0);
     s.beam.addColorStop(0, CY); s.beam.addColorStop(.55, VI); s.beam.addColorStop(1, CO);
-    const keep = s.ready && s.lastW && Math.abs(s.lastW - s.W) < 2; s.lastW = s.W;
-    if (!s.ready) { s.x = s.W * (.5 + .32 * Math.sin(s.t * .37 + s.seed)); s.y = H * (.5 + .26 * Math.sin(s.t * .53 + s.seed * 2)); }
-    if (!keep) {
-      // run the scene briefly off screen so its still frame is a settled state, not the raw initial one
-      s.scene.init(s); for (let k = 0; k < 40; k++) paint(s, 1 / 30, 0, 0);
-    }
-    if (!s.ready) { s.ready = true; s.thumb.classList.add('is-live'); }
-    s.still = false; // the canvas was cleared by the resize: paint the still frame again
+    return true;
   };
-  const ro = new ResizeObserver((entries) => entries.forEach((e) => { const s = live.find((l) => l.thumb === e.target); if (s) size(s); }));
-  const io = new IntersectionObserver((entries) => entries.forEach((e) => { const s = live.find((l) => l.thumb === e.target); if (s) s.visible = e.isIntersecting; }), { rootMargin: '80px' });
+  // Building a scene: run it briefly so its still frame is a settled state, not the raw initial one. Those frames are
+  // drawn into a throwaway 2 px canvas (nearly free to rasterise); only the last one goes to the real canvas.
+  const scratch = document.createElement('canvas'); scratch.width = scratch.height = 2;
+  const blank = scratch.getContext('2d');
+  const build = (s) => {
+    if (s.dead || !measure(s)) return;
+    if (!s.ready) { s.x = s.W * (.5 + .32 * Math.sin(s.t * .37 + s.seed)); s.y = H * (.5 + .26 * Math.sin(s.t * .53 + s.seed * 2)); }
+    s.near = 0; s.inside = false; s.hold = false; s.clicked = null;
+    try { s.scene.init(s); } catch (err) { s.dead = true; console.error(err); return; }
+    for (let k = 0; k < 39 && !s.dead; k++) paint(s, 1 / 30, 0, 0, blank);
+    if (s.dead) return;
+    paint(s, 1 / 30, 0, 0); if (s.dead) return;
+    s.builtW = s.W; s.still = true;
+    if (!s.ready) { s.ready = true; s.thumb.append(s.canvas); s.thumb.classList.add('is-live'); }
+  };
+  // scenes are built one per frame, so a page of them never blocks in one long task
+  const queue = [];
+  const drain = () => { const s = queue.shift(); if (s && !s.ready) build(s); if (queue.length) requestAnimationFrame(drain); else wake(); };
+  const want = (s) => { if (!s.ready && !s.dead && !queue.includes(s)) { queue.push(s); if (queue.length === 1) requestAnimationFrame(drain); } };
+  const find = (el) => live.find((l) => l.thumb === el);
+  const ro = new ResizeObserver((entries) => entries.forEach((e) => {
+    const s = find(e.target); if (!s || !s.ready) return;
+    // a new shape rebuilds the scene; the same shape at a new size only needs its frame redrawn
+    const w = s.builtW; if (!measure(s)) return;
+    if (Math.abs(s.W - w) >= 2) build(s); else { paint(s, 0, 0, 0); s.still = true; }
+  }));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      const s = find(e.target); if (!s) return;
+      s.visible = e.isIntersecting;
+      if (s.visible) want(s); else { s.act = 0; s.near = 0; s.tap = 0; s.inside = false; } // scrolled away: it stops where it is
+    });
+    wake();
+  }, { rootMargin: '240px' });
   live.forEach((s) => { ro.observe(s.thumb); io.observe(s.thumb); });
 
   const gap = (r) => Math.hypot(Math.max(r.left - pointer.x, 0, pointer.x - r.right), Math.max(r.top - pointer.y, 0, pointer.y - r.bottom));
-  let last = performance.now(), raf = 0;
-  const frame = (now) => {
-    raf = requestAnimationFrame(frame);
+  function wake() { if (!raf && !stopped) { last = performance.now(); raf = requestAnimationFrame(frame); } }
+  function frame(now) {
+    raf = 0;
     // the simulation steps at most 50 ms at a time; easing in and out follows real time, so a throttled tab still settles
     const real = Math.min(1, (now - last) / 1000), dt = Math.min(.05, real); last = now;
+    if (pointer.stale) { pointer.stale = false; over(document.elementFromPoint(pointer.x, pointer.y)); }
     const shown = live.filter((s) => s.visible && s.ready && !s.thumb.closest('[hidden]'));
     // the one card the pointer is on, or closest to within HALO
-    let active = null, best = HALO;
+    let active = null, best = HALO, busy = false;
     if (pointer.on && !pointer.chrome) {
       active = pointer.card && shown.find((s) => s.card === pointer.card);
       if (!active) for (const s of shown) { const d = gap(s.card.getBoundingClientRect()); if (d <= best) { best = d; active = s; } }
     }
     for (const s of shown) {
-      const tapped = s.tap > now, on = s === active || tapped;
-      s.act += ((on ? 1 : 0) - s.act) * (1 - Math.exp(-real * (on ? 6 : 3)));
-      if (!on && s.act < .004) { s.act = 0; s.near = 0; if (!s.still) { paint(s, 0, 0, 0); s.still = true; } continue; }
-      s.still = false;
+      const on = s === active || s.tap > now || s.hold || !!s.clicked;
+      s.act += ((on ? 1 : 0) - s.act) * (1 - Math.exp(-real * (on ? 6 : 5)));
+      if (!on && s.act < .004) {
+        if (s.act || !s.still) { s.act = 0; s.near = 0; s.inside = false; paint(s, 0, 0, 0); s.still = true; }
+        continue;
+      }
+      busy = true; s.still = false;
       const r = s.thumb.getBoundingClientRect(), d = s === active ? gap(r) : Infinity;
       s.inside = d === 0;
       // strength of the pointer's effect: full over the drawing, fading over the rest of the card
-      const want = s === active ? Math.max(.35, ease(clamp(1 - d / 160))) : 0;
-      s.near += (want - s.near) * (1 - Math.exp(-real * 5));
+      const pull = s === active ? Math.max(.35, ease(clamp(1 - d / 160))) : 0;
+      s.near += (pull - s.near) * (1 - Math.exp(-real * 5));
       const step = dt * s.act; s.t += step;
       // the steered point: a slow drift on its own, pulled toward the pointer as it approaches
       const gx = s.W * (.5 + .32 * Math.sin(s.t * .37 + s.seed)), gy = H * (.5 + .26 * Math.sin(s.t * .53 + s.seed * 2));
@@ -746,7 +846,11 @@
       s.x += (tx - s.x) * follow; s.y += (ty - s.y) * follow;
       paint(s, step, lx, ly);
     }
-  };
-  raf = requestAnimationFrame(frame);
-  reduce.addEventListener('change', (e) => { if (e.matches) { cancelAnimationFrame(raf); live.forEach((s) => { s.thumb.classList.remove('is-live'); s.canvas.remove(); }); } });
+    if (busy) raf = requestAnimationFrame(frame);
+  }
+  reduce.addEventListener('change', (e) => {
+    if (!e.matches) return;
+    stopped = true; cancelAnimationFrame(raf); queue.length = 0; ro.disconnect(); io.disconnect();
+    live.forEach((s) => { s.dead = true; s.ready = false; s.thumb.classList.remove('is-live'); s.canvas.remove(); });
+  });
 })();
