@@ -925,7 +925,15 @@
   // scenes are built one per frame, so a page of them never blocks in one long task
   const queue = [];
   const drain = () => { const s = queue.shift(); if (s && !s.ready) build(s); if (queue.length) requestAnimationFrame(drain); else wake(); };
-  const want = (s) => { if (!s.ready && !s.dead && !queue.includes(s)) { queue.push(s); if (queue.length === 1) requestAnimationFrame(drain); } };
+  // a scene still below the fold when the page arrives by a transition is built once that has finished
+  const onScreen = (s) => { const r = s.thumb.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; };
+  const begin = () => requestAnimationFrame(drain);
+  const want = (s) => {
+    if (s.ready || s.dead || queue.includes(s)) return;
+    queue.push(s); if (queue.length > 1) return;
+    const arrival = window.horizonArrival;
+    if (arrival && !onScreen(s)) arrival.then(begin); else begin();
+  };
   const find = (el) => live.find((l) => l.thumb === el);
   const ro = new ResizeObserver((entries) => entries.forEach((e) => {
     const s = find(e.target); if (!s || !s.ready) return;

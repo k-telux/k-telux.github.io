@@ -5,6 +5,8 @@ addEventListener('pagereveal', event => {
     event.viewTransition.skipTransition();
     return;
   }
+  // Work that can wait (building the research scenes) holds off until the handover has finished.
+  window.horizonArrival = event.viewTransition.finished.then(() => {}, () => {});
   // Keep destination content visible in the snapshot; avoid a second reveal.
   document.documentElement.classList.add('cross-page-arrival');
   const routes = ['/', '/projects/', '/software/', '/publications/', '/cv/', '/resource/', '/gallery/', '/contact/'];
