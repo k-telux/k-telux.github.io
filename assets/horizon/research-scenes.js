@@ -52,6 +52,38 @@
   const dist2 = (ax, ay, bx, by) => (ax - bx) ** 2 + (ay - by) ** 2;
   const within = (poly, x, y) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const [xi, yi] = poly[i], [xj, yj] = poly[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c; } return c; };
 
+  /* For the home page games: sparks and expanding rings for a reward, and a one-line prompt.
+     Colours are indices into FXC so the glow sprites stay a fixed set. */
+  const violet = tint('180,140,255'), coral = tint('255,111,125');
+  const FXC = ['rgba(111,227,255,1)', 'rgba(180,140,255,1)', 'rgba(255,111,125,1)', 'rgba(255,255,255,1)'], FXT = [cyan, violet, coral, white];
+  const burst = (s, x, y, n, speed, c, life = .7) => {
+    for (let i = 0; i < n && s.fx.length < 140; i++) {
+      const a = Math.random() * TAU, v = speed * (.35 + .65 * Math.random());
+      s.fx.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, t: 0, life: life * (.6 + .6 * Math.random()), c: typeof c === 'number' ? c : c[i % c.length] });
+    }
+  };
+  const ring = (s, x, y, speed, c, life = .8) => s.fx.push({ x, y, grow: speed, t: 0, life, c });
+  const drawFx = (s, ctx, dt) => {
+    if (!s.act && !dt) { s.fx.length = 0; return; } // a still frame keeps no debris
+    ctx.globalCompositeOperation = 'lighter';
+    const drag = Math.exp(-dt * 3);
+    for (let i = s.fx.length - 1; i >= 0; i--) {
+      const p = s.fx[i], u = (p.t += dt) / p.life;
+      if (u >= 1) { s.fx.splice(i, 1); continue; }
+      if (p.grow) { ctx.beginPath(); ctx.arc(p.x, p.y, 4 + p.grow * p.t, 0, TAU); ctx.strokeStyle = FXT[p.c](.85 * (1 - u) ** 2); ctx.lineWidth = 1.6; ctx.stroke(); continue; }
+      p.vx *= drag; p.vy *= drag; p.x += p.vx * dt; p.y += p.vy * dt;
+      glow(ctx, p.x, p.y, 3.6 - 1.6 * u, FXC[p.c], 1 - u);
+    }
+    ctx.globalCompositeOperation = 'source-over';
+  };
+  // how to play, said once inside the drawing: there only under the pointer, and gone for good after the first win
+  const touchy = matchMedia('(hover: none)').matches;
+  const cue = (s, ctx, dt, text, x, y) => {
+    s.cue = lerp(s.cue, !touchy && s.inside && !s.wins && !s.hold ? 1 : 0, Math.min(1, dt * 5));
+    if (s.cue < .03) return;
+    ctx.font = '500 8px system-ui, sans-serif'; ctx.textAlign = 'left'; ctx.fillStyle = white(.58 * s.cue); ctx.fillText(text, x, y);
+  };
+
   /* Every scene gets: s.W × 160 drawing space, s.x/s.y the steered point (pointer when near, a slow drift
      otherwise), s.near 0–1, s.inside, s.t seconds, dt. init() builds state, draw() runs one frame.
      s.clicked = { x, y, touch } for one frame after a click or tap on the drawing; a scene sets s.hold while
@@ -441,16 +473,19 @@
 
     // find a single-photon emitter: the pointer is the laser spot of a confocal scan over a WSe₂ flake. Where it has
     // been, the PL map fills in, and the live spectrum and g²(0) tell what sits under the spot. Clusters of emitters
-    // give g²(0) near 1; park on the one true single emitter (g²(0) < 0.5) and it locks. A click raster-scans for you
+    // send their photons out in bunches and give g²(0) near 1; park on the one true single emitter (photons strictly
+    // one at a time, g²(0) < 0.5) and it locks. A click raster-scans for you
     spe: {
       init(s) {
         s.mx0 = 10; s.mx1 = Math.round(s.W * .58); s.my0 = 10; s.my1 = H - 10;
         s.gw = 36; s.gh = 30; s.cw = (s.mx1 - s.mx0) / s.gw; s.ch = (s.my1 - s.my0) / s.gh; s.map = new Float32Array(s.gw * s.gh);
         s.hist = new Float32Array(31).fill(1); const nr = rand(5); s.noise = Array.from({ length: 31 }, () => (nr() - .5) * .1);
-        s.ph = []; s.emit = 0; s.g2 = s.raw = 1;
+        s.ph = []; s.emit = 0; s.g2 = s.raw = 1; s.fx = []; s.wins = 0; s.cue = 0; s.hit = 0;
         s.round = (r) => {
           const cx = (s.mx0 + s.mx1) / 2, cy = H / 2, R = Math.min(s.mx1 - s.mx0, H) * .4;
           s.flake = Array.from({ length: 7 }, (_, i) => { const a = (i + r() * .6) / 7 * TAU, rr = R * (.8 + .32 * r()); return [cx + Math.cos(a) * rr * 1.15, cy + Math.sin(a) * rr]; });
+          // a second, smaller layer lying on the first
+          s.flake2 = s.flake.map(([x, y]) => [cx + (x - cx) * .5 + R * .2, cy + (y - cy) * .55 - R * .1]);
           s.em = []; const groups = [];
           for (let k = 0; k < 4; k++) {
             let x, y, tries = 0;
@@ -491,8 +526,14 @@
         const tot = sig.reduce((a, b) => a + b, 0); s.sig = tot;
         const g2 = 1 - sig.reduce((a, b) => a + b * b, 0) / (tot + B) ** 2; s.raw = g2; s.g2 = lerp(s.g2, g2, Math.min(1, dt * 8));
         const ok = s.g2 < .5 && tot > .4;
-        if (!s.locked) { s.good = ok ? s.good + dt : 0; if (s.good > .35) { s.locked = true; s.auto = false; s.lockT = 0; } }
-        else { s.lockT += dt; if (s.lockT > 2.6) { s.round(Math.random); s.g2 = 1; } }
+        if (!s.locked) {
+          s.good = ok ? s.good + dt : 0;
+          if (s.good > .35) {
+            s.locked = true; s.auto = false; s.lockT = 0; s.wins++;
+            ring(s, s.target.x, s.target.y, 130, 0, .9); ring(s, s.target.x, s.target.y, 70, 1, 1.1); burst(s, s.target.x, s.target.y, 28, 95, [0, 3, 1]);
+          }
+        } else { s.lockT += dt; if (s.lockT > 2.6) { s.round(Math.random); s.g2 = 1; } }
+        const live = s.inside || s.auto || s.locked, single = s.g2 < .5;
         // PL map: cells under the spot fill in; when locked the whole map is revealed outward from the emitter
         const reveal = s.locked ? s.lockT * 150 : 0;
         for (let j = 0; j < s.gh; j++) for (let i = 0; i < s.gw; i++) {
@@ -500,45 +541,65 @@
           if (dist2(x, y, s.lp.x, s.lp.y) < 110 || (reveal && dist2(x, y, s.target.x, s.target.y) < reveal * reveal)) s.map[n] = Math.max(s.map[n], pl(x, y, 3.4));
           const v = s.map[n]; if (v > .01) { ctx.fillStyle = ramp(.05 + .92 * Math.min(1, v) ** 1.5, .35 + .6 * Math.min(1, v / .8)); ctx.fillRect(x - s.cw / 2, y - s.ch / 2, s.cw - .6, s.ch - .6); }
         }
-        ctx.beginPath(); s.flake.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath();
-        ctx.fillStyle = 'rgba(180,140,255,.06)'; ctx.fill(); ctx.setLineDash([3, 4]); ctx.strokeStyle = 'rgba(255,255,255,.32)'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
-        // the laser spot
-        ctx.globalCompositeOperation = 'lighter';
-        const hue = s.locked ? 'rgba(111,227,255,1)' : 'rgba(255,111,125,1)';
-        glow(ctx, s.lp.x, s.lp.y, 18, hue, .55); glow(ctx, s.lp.x, s.lp.y, 4, 'rgba(255,255,255,1)', .9);
-        if (s.locked) { // a regular train of single photons heads for the detector
-          s.emit -= dt; if (s.emit <= 0) { s.emit = .16; s.ph.push({ x: s.target.x, y: s.target.y }); }
-        }
+        const outline = (poly) => { ctx.beginPath(); poly.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath(); };
+        outline(s.flake); ctx.fillStyle = violet(.06); ctx.fill(); ctx.setLineDash([3, 4]); ctx.strokeStyle = white(.32); ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+        outline(s.flake2); ctx.fillStyle = violet(.06); ctx.fill(); ctx.strokeStyle = white(.14); ctx.lineWidth = .8; ctx.stroke();
+        // the scan cursor: hairlines across the map through the spot
+        if (live) { ctx.beginPath(); ctx.moveTo(s.mx0, s.lp.y); ctx.lineTo(s.mx1, s.lp.y); ctx.moveTo(s.lp.x, s.my0); ctx.lineTo(s.lp.x, s.my1); faint(ctx, .12, .8); }
+        // photons leave for the detectors: clusters send them in bunches, the single emitter strictly one at a time
         const px0 = Math.round(s.W * .63);
-        for (let i = s.ph.length - 1; i >= 0; i--) { const p = s.ph[i]; p.x += 150 * dt; p.y = lerp(p.y, 54, Math.min(1, dt * 3)); if (p.x > px0 - 4) { s.ph.splice(i, 1); continue; } glow(ctx, p.x, p.y, 4.5, 'rgba(255,255,255,1)', .95); }
+        if (live && tot > .15) {
+          s.emit -= dt * (s.locked ? 1 : Math.min(1.3, tot));
+          if (s.emit <= 0) {
+            const n = single ? 1 : 2 + (Math.random() * 2 | 0);
+            for (let i = 0; i < n; i++) s.ph.push({ x: s.lp.x - i * 4.5, y: s.lp.y + (single ? 0 : (Math.random() - .5) * 8), c: single ? 0 : 2 });
+            s.emit = single ? .16 : .36;
+          }
+        }
+        if (!s.act && !dt) s.ph.length = 0;
+        ctx.globalCompositeOperation = 'lighter';
+        glow(ctx, s.lp.x, s.lp.y, 18, FXC[single ? 0 : 2], .55); glow(ctx, s.lp.x, s.lp.y, 4, FXC[3], .9);
+        for (let i = s.ph.length - 1; i >= 0; i--) {
+          const p = s.ph[i]; p.x += 150 * dt; p.y = lerp(p.y, 54, Math.min(1, dt * 3));
+          if (p.x > px0 - 3) { s.ph.splice(i, 1); s.hit = 1; continue; }
+          glow(ctx, p.x - 5, p.y, 3.6, FXC[p.c], .55); glow(ctx, p.x, p.y, 4.4, FXC[p.c ? 2 : 3], .95);
+        }
+        s.hit *= Math.exp(-dt * 9); glow(ctx, px0, 54, 8, FXC[single ? 0 : 2], .8 * s.hit); // each arrival blinks on the detector
         ctx.globalCompositeOperation = 'source-over';
+        // the reticle takes the colour of g²(0); a ripple leaves it while it collects, and a locked emitter gets a turning ring
         ctx.beginPath(); ctx.arc(s.lp.x, s.lp.y, 8, 0, TAU); ctx.moveTo(s.lp.x - 13, s.lp.y); ctx.lineTo(s.lp.x - 10, s.lp.y); ctx.moveTo(s.lp.x + 10, s.lp.y); ctx.lineTo(s.lp.x + 13, s.lp.y);
-        ctx.strokeStyle = s.locked ? CY : CO; ctx.lineWidth = 1.3; ctx.stroke();
+        ctx.strokeStyle = beamAt(s.g2); ctx.lineWidth = 1.3; ctx.stroke();
+        if (live) { const u = (s.t * 1.1) % 1; ctx.beginPath(); ctx.arc(s.lp.x, s.lp.y, 8 + 13 * u, 0, TAU); ctx.strokeStyle = beamAt(s.g2, .5 * (1 - u)); ctx.lineWidth = 1; ctx.stroke(); }
+        if (s.locked) { ctx.beginPath(); ctx.arc(s.target.x, s.target.y, 14, 0, TAU); ctx.setLineDash([2, 3.5]); ctx.lineDashOffset = -s.t * 22; ctx.strokeStyle = cyan(.85); ctx.lineWidth = 1.2; ctx.stroke(); ctx.setLineDash([]); ctx.lineDashOffset = 0; }
         // panel: the spectrum under the spot, then the coincidence histogram and its g²(0)
         const px1 = s.W - 12, sb = 78, gb = 142;
         ctx.beginPath(); ctx.moveTo(px0, 26); ctx.lineTo(px0, sb); ctx.lineTo(px1, sb); faint(ctx, .22);
         curve(ctx, px0, px1, (x) => { const u = (x - px0) / (px1 - px0); return sb - 32 * (B * .9 * Math.exp(-(((u - .5) / .3) ** 2)) + s.em.reduce((t, e, k) => t + sig[k] / (1 + ((u - e.lam) / .016) ** 2), 0)); }, 1);
         ctx.save(); ctx.lineWidth = 1.8; ctx.lineJoin = 'round'; ctx.shadowColor = beamAt(s.g2, .8); ctx.shadowBlur = 6 * s.dpr; ctx.strokeStyle = beamAt(s.g2); ctx.stroke(); ctx.restore();
+        ctx.lineTo(px1, sb); ctx.lineTo(px0, sb); ctx.closePath(); ctx.fillStyle = beamAt(s.g2, .12); ctx.fill();
         const bw = (px1 - px0) / 31, hh = 36;
         for (let i = 0; i < 31; i++) {
           const tau = i / 15 - 1, want = 1 - (1 - s.g2) * Math.exp(-Math.abs(tau) / .13) + s.noise[i] * (1 - Math.abs(tau) * .3);
           s.hist[i] = lerp(s.hist[i], want, Math.min(1, dt * 5));
-          ctx.fillStyle = beamAt(s.g2, .7); ctx.fillRect(px0 + i * bw + bw * .18, gb - hh * s.hist[i], bw * .64, hh * s.hist[i]);
+          ctx.fillStyle = beamAt(s.g2, i === 15 ? .95 : .62); ctx.fillRect(px0 + i * bw + bw * .18, gb - hh * s.hist[i], bw * .64, hh * s.hist[i]);
         }
-        ctx.beginPath(); ctx.moveTo(px0, gb - hh * .5); ctx.lineTo(px1, gb - hh * .5); ctx.setLineDash([2, 3]); ctx.strokeStyle = 'rgba(111,227,255,.55)'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+        ctx.beginPath(); ctx.moveTo(px0, gb - hh * .5); ctx.lineTo(px1, gb - hh * .5); ctx.setLineDash([2, 3]); ctx.strokeStyle = cyan(.55); ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
         ctx.beginPath(); ctx.moveTo(px0, gb); ctx.lineTo(px1, gb); faint(ctx, .22);
+        drawFx(s, ctx, dt);
         // meter, as in the fit: shorter is better
         const mw = 50, mx = s.W - mw - 12, my = 12;
-        ctx.fillStyle = 'rgba(255,255,255,.1)'; ctx.fillRect(mx, my, mw, 3); ctx.fillStyle = beamAt(s.g2); ctx.fillRect(mx, my, mw * clamp(s.g2), 3);
-        ctx.fillStyle = 'rgba(255,255,255,.62)'; ctx.font = '600 9px system-ui, sans-serif'; ctx.textAlign = 'right';
+        ctx.fillStyle = white(.1); ctx.fillRect(mx, my, mw, 3); ctx.fillStyle = beamAt(s.g2); ctx.fillRect(mx, my, mw * clamp(s.g2), 3);
+        ctx.fillStyle = white(.62); ctx.font = '600 9px system-ui, sans-serif'; ctx.textAlign = 'right';
         ctx.fillText(s.locked ? 'single photon ✓' : `g²(0) ${s.g2.toFixed(2)}`, mx - 6, my + 4);
+        cue(s, ctx, dt, 'scan for the single emitter · click: auto-scan', 12, H - 2.5);
       },
     },
-    // dress an exciton: in a 2D heterostructure the pointer is an exciton moving through a Bose medium that pools
-    // in moiré pockets. Bosons it passes at an easy pace cling to it as a dressing cloud, and the attractive-polaron
-    // peak in the spectrum shifts red with every one; rush and the cloud is stripped away. Reach the dashed target
-    // and the Bose polaron locks; then the pockets move and a new target is set. A click pumps a ring of fresh
-    // bosons in (it recharges); on a touch screen a tap sends the exciton to that point instead
+    // dress an exciton: in a 2D heterostructure the pointer is an exciton (an electron and a hole circling each other)
+    // moving over a moiré lattice, through a Bose medium that pools in its pockets. Bosons it passes at an easy pace
+    // settle into shells around it, and the attractive-polaron peak in the spectrum shifts red with every one; rush
+    // and the cloud is stripped away. Reach the dashed target and the Bose polaron locks; then the pockets move and
+    // a new target is set. A click fires a pump pulse that creates a ring of fresh bosons (it recharges); on a touch
+    // screen a tap sends the exciton to that point instead
     bosepolaron: {
       init(s) {
         const g = (r) => (r() + r() + r() - 1.5) * 1.15;
@@ -560,9 +621,12 @@
           s.Nt = 34 + (r() * 10 | 0); s.locked = false; s.lockT = 0; s.good = 0; s.travel = 0; s.extras = 0;
         };
         const r = rand(41);
-        s.b = Array.from({ length: 96 }, () => ({ x: 0, y: 0, vx: 0, vy: 0, hx: 0, hy: 0, bound: false, a: 0, cool: 0, extra: false }));
+        s.b = Array.from({ length: 96 }, () => ({ x: 0, y: 0, vx: 0, vy: 0, hx: 0, hy: 0, bound: false, a: 0, sh: 0, cool: 0, extra: false }));
         s.round(r); s.b.forEach((b) => { b.x = b.hx; b.y = b.hy; });
         s.ex = { x: s.W * .12, y: 64 }; s.v = 0; s.pulses = []; s.flash = 0; s.recharge = 0; s.goal = null; s.chase = false; s.was = false; s.rush = 0;
+        s.fx = []; s.wins = 0; s.cue = 0; s.trail = []; s.N = 0; s.kick = 0; s.nb = [];
+        // the moiré lattice the medium lives on
+        s.lat = []; for (let j = 0, y = 7; y < 114; j++, y += 10.4) for (let x = j % 2 ? 6 : 12; x < s.W - 3; x += 12) s.lat.push(x, y);
       },
       draw(s, ctx, dt) {
         const ex = s.ex, ox = ex.x, oy = ex.y, FLOOR = 110; // the medium lives above the spectrum strip
@@ -572,10 +636,10 @@
           if (s.clicked.touch) s.goal = c;
           else if (s.recharge <= 0 && s.extras < 30 && !s.locked) {
             // a pump pulse creates a ring of fresh bosons around the spot: close, but not on top of the exciton
-            s.recharge = 1.4; s.pulses.push({ x: c.x, y: c.y, t: 0 });
+            s.recharge = 1.4; s.pulses.push({ x: c.x, y: c.y, t: 0 }); burst(s, c.x, c.y, 10, 75, [2, 3], .5);
             for (let i = 0; i < 10; i++) {
               const a = i / 10 * TAU + Math.random(), hx = clamp(c.x + Math.cos(a) * 22, 6, s.W - 6), hy = clamp(c.y + Math.sin(a) * 18, 6, FLOOR);
-              s.b.push({ x: c.x + Math.cos(a) * 5, y: c.y + Math.sin(a) * 5, vx: Math.cos(a) * 70, vy: Math.sin(a) * 70, hx, hy, bound: false, a: 0, cool: .7, extra: true });
+              s.b.push({ x: c.x + Math.cos(a) * 5, y: c.y + Math.sin(a) * 5, vx: Math.cos(a) * 70, vy: Math.sin(a) * 70, hx, hy, bound: false, a: 0, sh: 0, cool: .7, extra: true });
             }
             s.extras += 10;
           }
@@ -600,16 +664,18 @@
         // too fast only once it has lasted a moment: a quick exit from the card or a flick costs nothing
         s.rush = steered && s.v > 185 && !s.locked ? s.rush + dt : 0;
         const fast = s.rush > .15;
-        // the medium, and the dressing cloud
-        let N = 0, expired = false;
+        // the medium, and the dressing cloud: bound bosons fill three shells that turn in alternate directions
+        let N = 0, expired = false; const shells = [0, 0, 0];
         for (const b of s.b) {
           if (b.gone !== undefined && (b.gone -= dt) <= 0) expired = true;
           if (b.bound) {
-            b.a += dt * 1.6; const rr = 9 + 3.5 * Math.sin(b.a * 1.7 + b.hx);
+            b.a += dt * (b.sh % 2 ? -1 : 1) * (1.9 - .35 * b.sh) * (s.locked ? 2.4 : 1);
+            const rr = 10 + 6.5 * b.sh + 1.2 * Math.sin(b.a * 1.7 + b.hx);
             b.x = lerp(b.x, ex.x + Math.cos(b.a) * rr, Math.min(1, dt * 9)); b.y = lerp(b.y, ex.y + Math.sin(b.a) * rr, Math.min(1, dt * 9));
             // the further over the limit, the faster the cloud is shed: a brisk move costs a few, a shake costs all
-            if (fast && Math.random() < dt * Math.min(7, 1.5 + 5 * (s.v - 185) / 185)) { b.bound = false; b.cool = .6; const a = Math.atan2(b.y - ex.y, b.x - ex.x); b.vx = Math.cos(a) * 110; b.vy = Math.sin(a) * 110; }
-            else N++;
+            if (fast && Math.random() < dt * Math.min(7, 1.5 + 5 * (s.v - 185) / 185)) {
+              b.bound = false; b.cool = .6; const a = Math.atan2(b.y - ex.y, b.x - ex.x); b.vx = Math.cos(a) * 110; b.vy = Math.sin(a) * 110; burst(s, b.x, b.y, 1, 60, 2, .4);
+            } else { N++; shells[b.sh]++; }
             continue;
           }
           const dx = ex.x - b.x, dy = ex.y - b.y, d = Math.hypot(dx, dy) || 1;
@@ -617,99 +683,165 @@
           if (d < 28 && steered && !fast && !b.cool) { const f = 70 * (1 - d / 28); b.vx += dx / d * f * dt * 3; b.vy += dy / d * f * dt * 3; }
           // only bosons settled in a pocket dress the exciton, and only while it is being steered: after a release
           // they first cool down and migrate, so the next polaron has to be gathered again
-          if (d < 11 && steered && s.v < 110 && !s.locked && !b.cool && b.gone === undefined && dist2(b.x, b.y, b.hx, b.hy) < 900) { b.bound = true; b.a = Math.atan2(-dy, -dx); }
+          if (d < 11 && steered && s.v < 110 && !s.locked && !b.cool && b.gone === undefined && dist2(b.x, b.y, b.hx, b.hy) < 900) {
+            b.bound = true; b.sh = Math.min(2, s.N++ / 14 | 0); b.a = (s.slot = (s.slot || 0) + 1) * 2.39996; s.kick = 1; burst(s, b.x, b.y, 2, 34, 1, .35);
+          }
           b.vx += ((b.hx - b.x) * 1.2 + (Math.random() - .5) * 90) * dt; b.vy += ((b.hy - b.y) * 1.2 + (Math.random() - .5) * 90) * dt;
           const damp = Math.exp(-dt * 3); b.vx *= damp; b.vy *= damp;
           b.x = clamp(b.x + b.vx * dt, 4, s.W - 4); b.y = clamp(b.y + b.vy * dt, 4, FLOOR + 2);
         }
         if (expired) s.b = s.b.filter((b) => !(b.gone <= 0));
+        s.N = N;
         // a lock needs the target and some travel since the last round, so lingering can never re-trigger it
         const enough = N >= s.Nt, roamed = s.travel > 120;
-        if (!s.locked) { s.good = enough && roamed ? s.good + dt : 0; if (s.good > .4) { s.locked = true; s.lockT = 0; s.flash = 1; s.goal = null; } }
-        else if ((s.lockT += dt) > 2.4) { // release the cloud and move the pockets
+        if (!s.locked) {
+          s.good = enough && roamed ? s.good + dt : 0;
+          if (s.good > .4) {
+            s.locked = true; s.lockT = 0; s.flash = 1; s.goal = null; s.wins++;
+            ring(s, ex.x, ex.y, 140, 0, .9); ring(s, ex.x, ex.y, 80, 1, 1.1); burst(s, ex.x, ex.y, 34, 110, [0, 1, 3]);
+          }
+        } else if ((s.lockT += dt) > 2.4) { // release the cloud and move the pockets
           s.b.forEach((b) => { b.cool = 1.6; if (b.bound) { b.bound = false; b.cool = 2.2; const a = Math.random() * TAU; b.vx = Math.cos(a) * 90; b.vy = Math.sin(a) * 90; } });
           s.round(Math.random);
         }
         s.hold = s.locked || !!s.goal;
-        s.flash *= Math.exp(-dt * 2);
+        s.flash *= Math.exp(-dt * 2); s.kick *= Math.exp(-dt * 6);
         const q = clamp(N / s.Nt);
-        // moiré pockets: where the medium is dense
+        // the lattice: its sites are drawn in toward the exciton, the more so the heavier its cloud
+        const nb = s.nb; nb.length = 0; ctx.beginPath();
+        for (let i = 0; i < s.lat.length; i += 2) {
+          const x = s.lat[i], y = s.lat[i + 1], d2 = dist2(x, y, ex.x, ex.y);
+          if (d2 > 1600) ctx.rect(x - .6, y - .6, 1.2, 1.2); else nb.push(x, y, Math.sqrt(d2) || 1);
+        }
+        ctx.fillStyle = white(.1); ctx.fill(); ctx.beginPath();
+        for (let i = 0; i < nb.length; i += 3) {
+          const d = nb[i + 2], pull = Math.min(d, 6 * (1 - d / 40) * (.35 + .65 * q));
+          ctx.rect(nb[i] + (ex.x - nb[i]) / d * pull - .9, nb[i + 1] + (ex.y - nb[i + 1]) / d * pull - .9, 1.8, 1.8);
+        }
+        ctx.fillStyle = cyan(.5); ctx.fill();
+        // moiré pockets, where the medium is dense: contour lines of each well
+        for (const p of s.pud) for (let k = 1; k <= 2; k++) {
+          const rx = p.w * (.75 + .8 * k) + 1.2 * Math.sin(s.t * 1.3 + k * 2 + p.x);
+          ctx.beginPath(); ctx.ellipse(p.x, p.y, rx, rx * .82, 0, 0, TAU); ctx.strokeStyle = violet(.26 - .08 * k); ctx.lineWidth = .8; ctx.stroke();
+        }
         ctx.globalCompositeOperation = 'lighter';
-        for (const p of s.pud) glow(ctx, p.x, p.y, p.w * 2.6, 'rgba(180,140,255,1)', .12);
+        for (const p of s.pud) glow(ctx, p.x, p.y, p.w * 2.6, FXC[1], .12);
+        // the exciton leaves a short wake
+        const tl = s.trail, tip = tl[tl.length - 1];
+        if (!s.act && !dt) tl.length = 0;
+        if (steered && (!tip || dist2(tip.x, tip.y, ex.x, ex.y) > 9)) tl.push({ x: ex.x, y: ex.y, t: 0 });
+        for (let i = tl.length - 1; i >= 0; i--) { const p = tl[i], u = (p.t += dt) / .5; if (u >= 1) { tl.splice(i, 1); continue; } glow(ctx, p.x, p.y, 2 + 7 * (1 - u), FXC[0], .3 * (1 - u)); }
         for (const b of s.b) {
           const fade = b.gone === undefined ? 1 : Math.max(0, b.gone / .7);
-          if (b.bound) glow(ctx, b.x, b.y, 5, s.locked ? 'rgba(111,227,255,1)' : 'rgba(180,140,255,1)', .95);
+          if (b.bound) glow(ctx, b.x, b.y, 3.7, FXC[s.locked ? 0 : 1], .95);
           else if (b.extra) glow(ctx, b.x, b.y, 4.2, 'rgba(255,196,204,1)', .9 * fade); // freshly pumped: warmer and brighter
-          else glow(ctx, b.x, b.y, 3.2, 'rgba(255,255,255,1)', .5);
+          else glow(ctx, b.x, b.y, 3.2, FXC[3], .5);
         }
+        // the pump: a pulse comes down onto the sheet and a ring spreads from where it lands
         for (let i = s.pulses.length - 1; i >= 0; i--) {
           const p = s.pulses[i]; p.t += dt; if (p.t > .8) { s.pulses.splice(i, 1); continue; }
-          ctx.beginPath(); ctx.arc(p.x, p.y, 4 + p.t * 50, 0, TAU); ctx.strokeStyle = ramp(1, .8 * (1 - p.t / .8)); ctx.lineWidth = 1.5; ctx.stroke();
+          if (p.t < .35) { const a = 1 - p.t / .35; ctx.fillStyle = coral(.8 * a); ctx.fillRect(p.x - 1.2, 0, 2.4, p.y); glow(ctx, p.x, p.y, 18, FXC[2], .85 * a); }
+          ctx.beginPath(); ctx.arc(p.x, p.y, 4 + p.t * 50, 0, TAU); ctx.strokeStyle = coral(.8 * (1 - p.t / .8)); ctx.lineWidth = 1.5; ctx.stroke();
         }
-        if (s.goal) { glow(ctx, s.goal.x, s.goal.y, 9, 'rgba(255,255,255,1)', .5 + .3 * Math.sin(s.t * 8)); }
-        const R = 15 + 13 * q + 6 * s.flash;
-        glow(ctx, ex.x, ex.y, R * 1.8, 'rgba(111,227,255,1)', .25 + .35 * q + .4 * s.flash);
-        glow(ctx, ex.x, ex.y, 6, 'rgba(255,255,255,1)', 1);
+        if (s.goal) glow(ctx, s.goal.x, s.goal.y, 9, FXC[3], .5 + .3 * Math.sin(s.t * 8));
+        // the exciton: an electron and a hole circling each other inside a glow that grows with the cloud
+        const R = 17 + 13 * q + 6 * s.flash, ea = s.t * 5, ec = Math.cos(ea) * 3.2, es = Math.sin(ea) * 3.2;
+        glow(ctx, ex.x, ex.y, R * 1.8, FXC[0], .2 + .18 * q + .45 * s.flash);
+        glow(ctx, ex.x, ex.y, 6.5, FXC[3], .7); glow(ctx, ex.x + ec, ex.y + es, 4.4, FXC[0], 1); glow(ctx, ex.x - ec, ex.y - es, 4.4, FXC[2], 1);
         ctx.globalCompositeOperation = 'source-over';
+        for (let k = 0; k < 3; k++) if (shells[k]) { ctx.beginPath(); ctx.arc(ex.x, ex.y, 10 + 6.5 * k, 0, TAU); faint(ctx, .12, .7); }
         ctx.beginPath(); ctx.arc(ex.x, ex.y, R, 0, TAU); ctx.setLineDash([3, 4]); ctx.lineDashOffset = -s.t * 14;
-        ctx.strokeStyle = fast ? ramp(1, .5 + .5 * Math.sin(s.t * 40)) : beamAt(1 - q, .85); ctx.lineWidth = 1.3; ctx.stroke(); ctx.setLineDash([]);
+        ctx.strokeStyle = fast ? ramp(1, .5 + .5 * Math.sin(s.t * 40)) : beamAt(1 - q, .85); ctx.lineWidth = 1.3; ctx.stroke(); ctx.setLineDash([]); ctx.lineDashOffset = 0;
         // the pump recharging: a short arc that closes around the exciton
         if (s.recharge > 0) { ctx.beginPath(); ctx.arc(ex.x, ex.y, R + 4, -Math.PI / 2, -Math.PI / 2 + TAU * (1 - s.recharge / 1.4)); ctx.strokeStyle = ramp(1, .7); ctx.lineWidth = 1.2; ctx.stroke(); }
+        drawFx(s, ctx, dt);
         // spectrum: attractive polaron shifts red with the dressing, the repulsive branch fades; dashed: the target
         const base = H - 8, c = s.W * .64, xt = s.W * .16, xa = c - 8 - (c - 8 - xt) * Math.min(1.06, N / s.Nt), xr = c + 10 + 30 * q;
-        ctx.fillStyle = 'rgba(11,16,22,.55)'; ctx.fillRect(0, 118, s.W, H - 118);
+        const spec = (x) => base - (8 + 20 * q) / (1 + ((x - xa) / 4.5) ** 2) - (24 - 18 * q) / (1 + ((x - xr) / 6.5) ** 2);
+        ctx.fillStyle = 'rgba(11,16,22,.6)'; ctx.fillRect(0, 118, s.W, H - 118);
         ctx.beginPath(); ctx.moveTo(14, base); ctx.lineTo(s.W - 14, base); faint(ctx, .2);
-        ctx.beginPath(); ctx.moveTo(xt, 122); ctx.lineTo(xt, base); ctx.setLineDash([3, 3]); ctx.strokeStyle = cyan(.75); ctx.lineWidth = 1.1; ctx.stroke(); ctx.setLineDash([]);
-        curve(ctx, 14, s.W - 14, (x) => base - (8 + 20 * q) / (1 + ((x - xa) / 4.5) ** 2) - (24 - 18 * q) / (1 + ((x - xr) / 6.5) ** 2), 1);
+        ctx.beginPath(); ctx.moveTo(xt, 122); ctx.lineTo(xt, base); ctx.setLineDash([3, 3]); ctx.strokeStyle = cyan(enough ? 1 : .75); ctx.lineWidth = 1.1; ctx.stroke(); ctx.setLineDash([]);
+        curve(ctx, 14, s.W - 14, spec, 1);
         ctx.save(); ctx.lineWidth = 1.8; ctx.lineJoin = 'round'; ctx.shadowColor = beamAt(1 - q, .8); ctx.shadowBlur = (s.locked ? 14 : 5) * s.dpr; ctx.strokeStyle = beamAt(1 - q); ctx.stroke(); ctx.restore();
+        ctx.lineTo(s.W - 14, base); ctx.lineTo(14, base); ctx.closePath(); ctx.fillStyle = beamAt(1 - q, .14); ctx.fill();
+        // a bead rides the attractive peak and jumps with every boson that binds
+        ctx.globalCompositeOperation = 'lighter'; glow(ctx, xa, spec(xa), 5 + 6 * s.kick, FXC[enough ? 0 : 1], .9); ctx.globalCompositeOperation = 'source-over';
         // meter
         const mw = 50, mx = s.W - mw - 12, my = 12;
         ctx.fillStyle = white(.1); ctx.fillRect(mx, my, mw, 3); ctx.fillStyle = beamAt(1 - q); ctx.fillRect(mx, my, mw * q, 3);
         ctx.font = '600 9px system-ui, sans-serif'; ctx.textAlign = 'right';
         ctx.fillStyle = fast ? ramp(1, .95) : white(.62);
         ctx.fillText(s.locked ? 'Bose polaron ✓' : fast ? 'too fast' : enough && !roamed ? 'keep moving' : `dressed ${N} / ${s.Nt}`, mx - 6, my + 4);
+        cue(s, ctx, dt, 'glide through the pockets · click: pump', 12, 15);
       },
     },
-    // fit the peak: the pointer moves a Lorentzian (left–right: centre, up–down: height) over noisy data, the
-    // residuals and χ² answer live, and a good fit locks in before new data arrive; a click fits automatically
+    // fit the peak: the pointer moves a Lorentzian (left–right: centre, up–down: height) over noisy data. Each point
+    // the curve passes through lights up, the residuals and χ² answer live, and a good fit locks in before new data
+    // arrive; a click fits automatically
     fit: {
       init(s) {
         s.fresh = (r) => {
           s.x0 = s.W * (.28 + .44 * r()); s.A0 = .55 + .35 * r(); s.w0 = 11 + 6 * r();
           s.pts = Array.from({ length: 46 }, (_, i) => { const x = 18 + i * (s.W - 36) / 45; return { x, v: s.A0 / (1 + ((x - s.x0) / s.w0) ** 2) + .07 * (r() + r() + r() - 1.5) + .04 }; });
-          s.locked = false; s.lockT = 0; s.good = 0;
+          s.locked = false; s.lockT = 0; s.good = 0; s.born = 0;
         };
-        s.fresh(rand(9)); s.xc = s.W * .74; s.A = .32; s.auto = false;
+        s.fresh(rand(9)); s.xc = s.W * .74; s.A = .32; s.auto = false; s.fx = []; s.wins = 0; s.cue = 0;
       },
       draw(s, ctx, dt) {
         const top = 24, base = H - 40, Y = (v) => base - v * (base - top), M = (x) => s.A / (1 + ((x - s.xc) / s.w0) ** 2) + .04;
         if (s.clicked && !s.locked) s.auto = true;
-        s.hold = s.auto || s.locked;
+        s.hold = s.auto || s.locked; s.born += dt;
         if (s.locked) { s.lockT += dt; s.xc = lerp(s.xc, s.x0, Math.min(1, dt * 8)); s.A = lerp(s.A, s.A0, Math.min(1, dt * 8)); if (s.lockT > 1.9) s.fresh(Math.random); }
         else if (s.auto) { s.xc = lerp(s.xc, s.x0, Math.min(1, dt * 3.5)); s.A = lerp(s.A, s.A0, Math.min(1, dt * 3.5)); }
         else if (s.inside) { const k = 1 - Math.exp(-dt * 12); s.xc += (s.x - s.xc) * k; s.A += (clamp((base - s.y) / (base - top), .04, 1.1) - s.A) * k; }
         let chi = 0; for (const p of s.pts) chi += (p.v - M(p.x)) ** 2; chi /= s.pts.length * .0045;
         const q = clamp(Math.exp(-Math.max(0, chi - 1) / 4));
-        if (!s.locked) { s.good = q > .82 ? s.good + dt : 0; if (s.good > .35) { s.locked = true; s.auto = false; s.lockT = 0; } }
-        // axes
+        if (!s.locked) {
+          s.good = q > .82 ? s.good + dt : 0;
+          if (s.good > .35) {
+            s.locked = true; s.auto = false; s.lockT = 0; s.wins++;
+            ring(s, s.xc, Y(M(s.xc)), 150, 0, .9); ring(s, s.xc, Y(M(s.xc)), 80, 1, 1.1);
+            for (let i = 0; i < 12; i++) { const x = s.xc + (i - 5.5) * s.w0 * .5; burst(s, x, Y(M(x)), 2, 60, [0, 3, 1], .7); }
+          }
+        }
+        // grid and axes
+        ctx.beginPath(); for (let k = 1; k <= 3; k++) { const y = base - k * (base - top) / 3; ctx.moveTo(16, y); ctx.lineTo(s.W - 12, y); }
+        ctx.setLineDash([1, 5]); faint(ctx, .14, .8); ctx.setLineDash([]);
         ctx.beginPath(); ctx.moveTo(16, top - 8); ctx.lineTo(16, base); ctx.lineTo(s.W - 12, base); faint(ctx, .22);
         // the model, with its fill; it turns from coral (poor) to cyan (good)
         curve(ctx, 18, s.W - 18, (x) => Y(M(x)), 1.5);
-        ctx.save(); ctx.lineTo(s.W - 18, base); ctx.lineTo(18, base); ctx.closePath(); ctx.fillStyle = beamAt(1 - q, .12); ctx.fill(); ctx.restore();
-        curve(ctx, 18, s.W - 18, (x) => Y(M(x)), 1.5);
         ctx.save(); ctx.lineWidth = 2.2; ctx.lineJoin = 'round'; ctx.shadowColor = beamAt(1 - q, .8); ctx.shadowBlur = (s.locked ? 16 : 6) * s.dpr; ctx.strokeStyle = beamAt(1 - q); ctx.stroke(); ctx.restore();
-        // the data; a sparkle runs across them when the fit locks
+        ctx.lineTo(s.W - 18, base); ctx.lineTo(18, base); ctx.closePath(); ctx.fillStyle = beamAt(1 - q, .13); ctx.fill();
+        // what is being adjusted: guides from the peak to both axes, and the width at half maximum
+        const ga = Math.max(s.near, s.hold ? 1 : 0), ya = Y(M(s.xc)), yh = Y(s.A / 2 + .04);
+        if (ga > .03) {
+          ctx.beginPath(); ctx.moveTo(s.xc, ya); ctx.lineTo(s.xc, base); ctx.moveTo(16, ya); ctx.lineTo(s.xc, ya); ctx.setLineDash([2, 3]); faint(ctx, .26 * ga, .9); ctx.setLineDash([]);
+          ctx.beginPath(); ctx.moveTo(s.xc - s.w0, yh); ctx.lineTo(s.xc + s.w0, yh); ctx.moveTo(s.xc - s.w0, yh - 3); ctx.lineTo(s.xc - s.w0, yh + 3); ctx.moveTo(s.xc + s.w0, yh - 3); ctx.lineTo(s.xc + s.w0, yh + 3); faint(ctx, .42 * ga, 1);
+        }
+        // the data arrive one after another; a point the curve misses hangs from it by a coral thread
+        const born = (i) => ease(clamp((s.born - i * .012) / .3)), hit = (p) => Math.abs(p.v - M(p.x)) < .075;
+        ctx.beginPath(); s.pts.forEach((p, i) => { if (!hit(p)) { ctx.moveTo(p.x, Y(p.v * born(i))); ctx.lineTo(p.x, Y(M(p.x))); } });
+        ctx.strokeStyle = coral(.34); ctx.lineWidth = .8; ctx.stroke();
+        // every point the curve passes through lights up; a sparkle runs across them when the fit locks
         ctx.globalCompositeOperation = 'lighter';
         const sweep = s.locked ? s.lockT * 1.6 : -1;
-        s.pts.forEach((p, i) => { const sp = sweep >= 0 ? Math.exp(-(((i / 45 - sweep) * 9) ** 2)) : 0; glow(ctx, p.x, Y(p.v), 3.4 + 6 * sp, sp > .2 ? 'rgba(111,227,255,1)' : 'rgba(255,255,255,1)', .8); });
+        s.pts.forEach((p, i) => {
+          const e = born(i); if (!e) return;
+          const sp = sweep >= 0 ? Math.exp(-(((i / 45 - sweep) * 9) ** 2)) : 0, h = hit(p);
+          glow(ctx, p.x, Y(p.v * e), (h ? 4.2 : 3.2) + 6 * sp, h || sp > .2 ? FXC[0] : FXC[3], (h ? .95 : .7) * e);
+        });
+        // the handle on the peak
+        glow(ctx, s.xc, ya, 9, FXC[q > .82 ? 0 : 2], .35 + .5 * ga); glow(ctx, s.xc, ya, 3.4, FXC[3], .5 + .5 * ga);
         ctx.globalCompositeOperation = 'source-over';
         // residuals
         const rb = H - 16; ctx.beginPath(); ctx.moveTo(18, rb); ctx.lineTo(s.W - 18, rb); faint(ctx, .16);
-        s.pts.forEach((p) => { const d = clamp((p.v - M(p.x)) * 60, -14, 14); ctx.fillStyle = Math.abs(d) > 6 ? 'rgba(255,111,125,.8)' : 'rgba(111,227,255,.7)'; ctx.fillRect(p.x - 1.4, Math.min(rb, rb - d), 2.8, Math.max(.8, Math.abs(d))); });
+        s.pts.forEach((p) => { const d = clamp((p.v - M(p.x)) * 60, -14, 14); ctx.fillStyle = Math.abs(d) > 6 ? coral(.8) : cyan(.7); ctx.fillRect(p.x - 1.4, Math.min(rb, rb - d), 2.8, Math.max(.8, Math.abs(d))); });
+        drawFx(s, ctx, dt);
         // χ² meter: shorter is better
         const mw = 58, mx = s.W - mw - 14, my = 12;
-        ctx.fillStyle = 'rgba(255,255,255,.1)'; ctx.fillRect(mx, my, mw, 3); ctx.fillStyle = beamAt(1 - q); ctx.fillRect(mx, my, mw * clamp(1 - q + .04), 3);
-        ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.font = '600 9px system-ui, sans-serif'; ctx.textAlign = 'right'; ctx.fillText(s.locked ? 'fit ✓' : 'χ²', mx - 6, my + 4);
+        ctx.fillStyle = white(.1); ctx.fillRect(mx, my, mw, 3); ctx.fillStyle = beamAt(1 - q); ctx.fillRect(mx, my, mw * clamp(1 - q + .04), 3);
+        ctx.fillStyle = white(.6); ctx.font = '600 9px system-ui, sans-serif'; ctx.textAlign = 'right'; ctx.fillText(s.locked ? 'fit ✓' : 'χ²', mx - 6, my + 4);
+        cue(s, ctx, dt, 'move the peak onto the data · click: auto-fit', 24, 15);
       },
     },
   };

@@ -60,9 +60,6 @@ body.design--horizon {
 .design--horizon .horizon-outside-grid article { border-top: 1px solid #cbd7e0; padding-top: 28px; }
 .design--horizon .horizon-outside-grid h3 { margin: 0 0 14px; }
 .design--horizon .horizon-outside-grid p { max-width: 480px; margin: 0 0 22px; color: var(--muted); }
-.design--horizon .horizon-contact { text-align: center; }
-.design--horizon .horizon-contact h2 { margin: 0 0 18px; }
-.design--horizon .horizon-contact p { max-width: 590px; margin: 0 auto 26px; color: var(--muted); }
 @media (max-width: 860px) {
   .design--horizon .horizon-research-grid { gap: 16px; }
   .design--horizon .horizon-research-card { padding: 28px 22px; }

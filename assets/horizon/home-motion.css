@@ -2,6 +2,8 @@
    "Beyond the lab" entries answer the pointer, and the landscape photographs sit behind the hero.
    Apart from the hero's slow crossfade, everything here moves on hover only. */
 .project-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+/* the page ends on its last tinted section, which runs straight into the footer */
+.design--horizon[data-page='/'] .site-footer { margin-top: 0; }
 
 /* research cards: a dark drawing across the top, bleeding to the card's edges (--pad mirrors the card's padding) */
 .design--horizon .horizon-research-card { --pad-y: 34px; --pad-x: 30px; overflow: hidden; }
@@ -9,14 +11,6 @@
 @media (max-width: 640px) { .design--horizon .horizon-research-card { --pad-x: 28px; } }
 .design--horizon .horizon-research-card .project-thumb { align-self: stretch; margin: calc(var(--pad-y) * -1) calc(var(--pad-x) * -1) 26px; }
 .horizon-research-card .project-thumb.is-live { cursor: crosshair; }
-/* how to play it: a caption line under the drawing, there only while the scene is live (not for the still SVG) */
-.scene-hint { display: none; padding-left: 16px; font-weight: 500; line-height: 1.4;
-  background: radial-gradient(circle at 4px .7em, var(--beam-violet, #8f62ff) 3px, transparent 3.6px) no-repeat; transition: color .3s; }
-.design--horizon .horizon-research-card .scene-hint { margin: 0 0 16px; color: var(--label, #33414f); font-size: 13px; }
-.project-thumb.is-live + .scene-hint { display: block; }
-.horizon-research-card:hover .scene-hint { color: var(--accent); }
-.hint-touch { display: none; }
-@media (hover: none) { .hint-hover { display: none; } .hint-touch { display: inline; } }
 /* between phone and desktop widths three columns would shrink the drawings too far to play: one card per row,
    drawing on the left, text on the right */
 @media (min-width: 641px) and (max-width: 1000px) {
