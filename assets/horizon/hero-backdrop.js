@@ -1,10 +1,9 @@
 /* Home hero: the landscape photographs sit behind the introduction as a faint backdrop and crossfade slowly while
-   the hero is in view; the caption beneath names the one showing. Only the first photograph loads with the page:
+   the hero is in view. Only the first photograph loads with the page:
    the others are fetched just before their turn. With reduced motion the first one stays. */
 (() => {
   'use strict';
   const back = document.querySelector('.hero-backdrop');
-  const caption = document.querySelector('[data-lens-caption]');
   if (!back || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const imgs = [...back.querySelectorAll('img')];
   if (imgs.length < 2) return;
@@ -26,10 +25,6 @@
       // the outgoing photograph keeps drifting while it fades; the incoming one starts its drift afresh
       img.classList.remove('is-drift'); void img.offsetWidth; img.classList.add('is-drift', 'is-on');
       imgs[current].classList.remove('is-on'); current = n;
-      if (caption) {
-        caption.textContent = img.dataset.caption || '';
-        caption.animate?.([{ opacity: 0, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }], { duration: 600, easing: 'cubic-bezier(.16,1,.3,1)' });
-      }
     }).catch(() => { img.dataset.failed = '1'; }).finally(() => { loading = false; });
   };
   const run = () => { clearInterval(timer); timer = inView && !document.hidden ? setInterval(next, 7000) : 0; };

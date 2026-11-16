@@ -10,20 +10,19 @@ redirect_from:
 ---
 
 <link rel="stylesheet" href="/assets/horizon/research.css?v=research-4">
-<link rel="stylesheet" href="/assets/horizon/home-motion.css?v=home-6">
-<script src="/assets/horizon/hero-backdrop.js?v=hero-2" defer></script>
+<link rel="stylesheet" href="/assets/horizon/home-motion.css?v=home-7">
+<script src="/assets/horizon/hero-backdrop.js?v=hero-3" defer></script>
 <script src="/assets/horizon/research-scenes.js?v=scenes-7" defer></script>
 <svg class="project-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs><linearGradient id="project-beam" gradientUnits="userSpaceOnUse" x1="24" y1="0" x2="296" y2="0"><stop offset="0" stop-color="#6fe3ff"/><stop offset=".55" stop-color="#b48cff"/><stop offset="1" stop-color="#ff6f7d"/></linearGradient></defs></svg>
 
 <section class="horizon-intro section has-backdrop" aria-labelledby="intro-title">
-  <div class="hero-backdrop" aria-hidden="true"><picture><source media="(max-width:640px)" srcset="/assets/horizon/lake-blue-mobile-1000.webp"><img class="is-on" src="/assets/horizon/lake-blue-desktop-1600.webp" alt="" data-caption="Blue hour." decoding="async"></picture><picture><source media="(max-width:640px)" data-srcset="/assets/horizon/lake-sunset-mobile-1000.webp"><img data-src="/assets/horizon/lake-sunset-desktop-1600.webp" alt="" data-caption="Last light." decoding="async"></picture><picture><source media="(max-width:640px)" data-srcset="/assets/horizon/desert-mobile-1000.webp"><img data-src="/assets/horizon/desert-desktop-1600.webp" alt="" data-caption="Desert horizon." decoding="async"></picture><picture><source media="(max-width:640px)" data-srcset="/assets/horizon/garden-waterfall-mobile-1000.webp"><img data-src="/assets/horizon/garden-waterfall-desktop-1600.webp" alt="" data-caption="Water and stone." decoding="async"></picture></div>
+  <div class="hero-backdrop" aria-hidden="true"><picture><source media="(max-width:640px)" srcset="/assets/horizon/lake-blue-mobile-1000.webp"><img class="is-on" src="/assets/horizon/lake-blue-desktop-1600.webp" alt="" decoding="async"></picture><picture><source media="(max-width:640px)" data-srcset="/assets/horizon/lake-sunset-mobile-1000.webp"><img data-src="/assets/horizon/lake-sunset-desktop-1600.webp" alt="" decoding="async"></picture><picture><source media="(max-width:640px)" data-srcset="/assets/horizon/desert-mobile-1000.webp"><img data-src="/assets/horizon/desert-desktop-1600.webp" alt="" decoding="async"></picture><picture><source media="(max-width:640px)" data-srcset="/assets/horizon/garden-waterfall-mobile-1000.webp"><img data-src="/assets/horizon/garden-waterfall-desktop-1600.webp" alt="" decoding="async"></picture></div>
   <div class="shell horizon-intro-copy">
     <h1 id="intro-title" data-reveal data-delay="60">Zhongqi Xiu <span lang="zh">修中淇</span></h1>
     <p class="horizon-lede" data-reveal data-delay="120"><span class="light-sweep">Exploring light, quantum materials,<br class="horizon-desktop-break"> and the physics in between.</span></p>
     <p class="horizon-bio" data-reveal data-delay="180">I’m a second-year graduate researcher at <a href="https://www.brown.edu/">Brown University</a> in <a href="https://www.yusongbai.org/">Yusong Bai’s Group</a>,<br class="horizon-desktop-break"> studying excitonic physics, quantum states, and two-dimensional materials.</p>
     <div class="horizon-actions" data-reveal data-delay="240"><a class="button" href="/projects/">Explore research <span aria-hidden="true">→</span></a><a class="button-secondary" href="/cv/">View CV</a></div>
   </div>
-  <a class="hero-lens" href="/gallery/"><span class="hero-lens-label">Through my lens</span> <span class="hero-lens-caption" data-lens-caption>Blue hour.</span></a>
 </section>
 
 <section class="section horizon-research" aria-labelledby="research-heading">
