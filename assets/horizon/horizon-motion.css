@@ -180,7 +180,7 @@ input[type=text]:focus-visible, input[type=email]:focus-visible, input[type=sear
 /* Contact: the left column carries the introduction, the ways to get in touch and a few topics, and stays in
    view beside the longer form */
 .contact-details { display: grid; gap: 26px; align-content: start; }
-.contact-details .contact-intro { margin: 0; max-width: 34ch; color: var(--ink); font-size: 21px; line-height: 1.5; letter-spacing: -.01em; }
+.contact-details .contact-intro { margin: 0; color: var(--ink); font-size: 21px; line-height: 1.5; letter-spacing: -.01em; }
 .contact-ways { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
 .contact-ways li { border-bottom: 1px solid var(--line); }
 .contact-ways a, .contact-ways li > div { display: flex; align-items: center; gap: 16px; min-height: 76px; padding: 14px 4px 14px 0; color: var(--ink); text-decoration: none; }
@@ -194,7 +194,7 @@ input[type=text]:focus-visible, input[type=email]:focus-visible, input[type=sear
 .contact-ways a:hover strong { color: var(--accent); }
 .contact-ways a:hover .contact-go { transform: translate(2px, -2px); }
 /* hovering the WeChat row brings the code up to a size a phone can scan */
-@media (hover: hover) { .contact-ways a:hover .contact-qr { transform: scale(2.6); box-shadow: 0 14px 34px rgba(15, 30, 45, .16); } }
+@media (hover: hover) { .contact-ways a:hover .contact-qr, .contact-ways a:focus-visible .contact-qr { transform: scale(4.8); border-radius: 6px; box-shadow: 0 18px 44px rgba(15, 30, 45, .2); } }
 .contact-topics h2 { margin: 0 0 12px; font: 600 15px/1.4 var(--font); letter-spacing: 0; color: var(--ink); }
 .contact-topics ul { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .contact-topics li { padding: 6px 14px; border-radius: 999px; background: var(--surface); font-size: 15px; line-height: 1.5; }
