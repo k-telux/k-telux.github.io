@@ -200,3 +200,5 @@ input[type=text]:focus-visible, input[type=email]:focus-visible, input[type=sear
 .contact-topics li { padding: 6px 14px; border-radius: 999px; background: var(--surface); font-size: 15px; line-height: 1.5; }
 @media (min-width: 900px) { .contact-details { position: sticky; top: 112px; } }
 @media (max-width: 720px) { .contact-details .contact-intro { font-size: 19px; } }
+/* a required field is marked by a small beam dot after its label (the field itself carries `required` for assistive tech) */
+.req { display: inline-block; width: 6px; height: 6px; margin-left: 6px; border-radius: 50%; background: var(--beam, var(--accent)); vertical-align: .45em; }

@@ -30,25 +30,24 @@ lede: For questions about my work, potential collaborations, or a shared interes
 
 <div class="field-row">
 <div class="field">
-<label for="name">Name <span class="optional">(optional)</span></label>
+<label for="name">Name</label>
 <input type="text" id="name" name="name" autocomplete="name">
 </div>
 <div class="field">
-<label for="email">Email <span class="required">(required)</span></label>
-<input type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-hint email-error">
-<p class="field-hint" id="email-hint">Where I can reply to you.</p>
+<label for="email">Email<span class="req" aria-hidden="true"></span></label>
+<input type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-error">
 <p class="field-error" id="email-error"></p>
 </div>
 </div>
 
 <div class="field">
-<label for="message">Message <span class="required">(required)</span></label>
+<label for="message">Message<span class="req" aria-hidden="true"></span></label>
 <textarea id="message" name="message" rows="6" aria-describedby="message-error" placeholder="What would you like to discuss?" required></textarea>
 <p class="field-error" id="message-error"></p>
 </div>
 
 <div class="field">
-<label for="files">Attachments <span class="optional">(optional)</span></label>
+<label for="files">Attachments</label>
 <div class="file-picker"><span class="file-trigger"><input id="files" name="attachment" type="file" multiple aria-describedby="files-hint files-names files-error"><span class="file-button" aria-hidden="true">Choose files</span></span><span class="file-names" id="files-names" aria-live="polite">No file chosen</span></div>
 <p class="field-hint" id="files-hint">Up to 10 MB in total.</p>
 <p class="field-error" id="files-error"></p>
