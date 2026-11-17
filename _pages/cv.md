@@ -12,7 +12,7 @@ redirect_from:
   <section class="cv-focus" aria-labelledby="cv-current-heading">
     <div class="cv-focus-copy">
       <p class="cv-kicker">Brown University · 2025 — Present</p>
-      <h2 id="cv-current-heading">Light, matter,<br> and what comes next.</h2>
+      <h2 id="cv-current-heading">Light, matter,<br> and what comes next</h2>
       <p>Graduate researcher in the chemistry PhD program, studying excitonic physics, quantum states, and two-dimensional materials in <a href="https://www.yusongbai.org/">Yusong Bai’s Group</a>.</p>
     </div>
     <div class="cv-download">
@@ -33,7 +33,7 @@ redirect_from:
   </nav>
 
   <section class="cv-section" aria-labelledby="education">
-    <div class="cv-section-heading"><h2 id="education">A path through physics.</h2><p>Education & academic appointments</p></div>
+    <div class="cv-section-heading"><h2 id="education">A path through physics</h2><p>Education & academic appointments</p></div>
     <ol class="cv-timeline">
       <li><p class="cv-date">2025 — Present</p><div><h3>Brown University</h3><p>Graduate student in the chemistry PhD program</p></div></li>
       <li><p class="cv-date">2024 — 2025</p><div><h3>Rice University</h3><p>Visiting scholar at the Smalley-Curl Institute</p></div></li>
@@ -42,7 +42,7 @@ redirect_from:
   </section>
 
   <section class="cv-section" aria-labelledby="research-experience">
-    <div class="cv-section-heading"><h2 id="research-experience">Research in practice.</h2><p>From single-photon emission to the control of individual atoms.</p></div>
+    <div class="cv-section-heading"><h2 id="research-experience">Research in practice</h2></div>
     <div class="cv-research-list">
       <article class="cv-research-card" aria-labelledby="single-photon-emitter-creation-in-few-layer-2d-materials">
         <header><p class="cv-date">2024 · Rice University</p><h3 id="single-photon-emitter-creation-in-few-layer-2d-materials">Single-photon emitter creation in few-layer 2D materials</h3></header>
@@ -68,7 +68,7 @@ redirect_from:
   </section>
 
   <section class="cv-section cv-publication" aria-labelledby="paper">
-    <div class="cv-section-heading"><h2 id="paper">Selected publication.</h2><a class="text-link" href="/publications/">All publications <span aria-hidden="true">→</span></a></div>
+    <div class="cv-section-heading"><h2 id="paper">Selected publication</h2><a class="text-link" href="/publications/">All publications <span aria-hidden="true">→</span></a></div>
     <article class="cv-paper">
       <div class="cv-paper-meta"><p>Nano Letters</p><span>2025</span></div>
       <div><h3 id="ultrahigh-purity-single-photon-emission-from-2d-wse2-via-effective-suppression-of-classical-emission"><a href="https://pubs.acs.org/doi/abs/10.1021/acs.nanolett.5c01718">Ultrahigh-Purity Single-Photon Emission from 2D WSe<sub>2</sub> via Effective Suppression of Classical Emission</a></h3><p>Wenjing Wu, Alex Strasser, <strong>Zhongqi Xiu</strong> … Shuo Sun, Junichiro Kono, Xiaofeng Qian, Shengxi Huang</p><a class="text-link" href="https://doi.org/10.1021/acs.nanolett.5c01718">Read the paper <span aria-hidden="true">↗</span></a></div>
@@ -77,7 +77,7 @@ redirect_from:
 
   <section class="cv-section cv-recognition" aria-labelledby="honors">
     <div>
-      <div class="cv-section-heading"><h2 id="honors">Recognition.</h2><p>Scholarships & awards</p></div>
+      <div class="cv-section-heading"><h2 id="honors">Recognition</h2><p>Scholarships & awards</p></div>
       <ul class="cv-awards">
         <li><span>2023</span><p>Chung-Yao Chao Talent Program Scholarship</p></li>
         <li><span>2022, 2023</span><p>Outstanding Student Scholarship, Silver Prize <em>Top 10%</em></p></li>
@@ -95,7 +95,7 @@ redirect_from:
   </section>
 
   <section class="cv-section" aria-labelledby="skills">
-    <div class="cv-section-heading"><h2 id="skills">A working toolkit.</h2><p>Experimental methods, computation & academic training</p></div>
+    <div class="cv-section-heading"><h2 id="skills">A working toolkit</h2><p>Experimental methods, computation & academic training</p></div>
     <div class="cv-toolkit">
       <article aria-labelledby="operation-proficiency"><h3 id="operation-proficiency">Experimental methods</h3><h4 id="optical-path-construction">Optical path construction</h4><ul><li>Coupling and design of optical paths</li><li>Fiber alignment in different instruments and mode testing of laser beams</li></ul><h4 id="sample-characterization">Sample characterization</h4><ul><li>Optical spectroscopy: photoluminescence, time-correlated spectroscopy, Raman spectroscopy, reflectance, polarization-resolved spectroscopy, and HBT interferometry</li><li>Thin-film deposition, lithography, dry and wet etching, and 2D heterostructure stacking and transfer</li></ul></article>
       <article aria-labelledby="computational-skills"><h3 id="computational-skills">Computation & language</h3><dl class="cv-skill-list"><div><dt>Programming languages</dt><dd>Python, C/C++, HTML/CSS</dd></div><div><dt>Tools & frameworks</dt><dd>Anaconda, MATLAB, Solidworks, LabVIEW, Keil, Comsol</dd></div><div><dt>English</dt><dd>TOEFL: 99<br><span>Reading 26 · Listening 27<br>Speaking 22 · Writing 24</span></dd></div></dl></article>

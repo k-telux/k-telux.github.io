@@ -7,7 +7,6 @@ main{view-transition-name:page-content;background:var(--page)}
 ::view-transition-group(root),::view-transition-group(site-header),::view-transition-group(page-content){animation:none}
 ::view-transition-group(page-content){z-index:1}
 ::view-transition-group(site-header){z-index:2}
-::view-transition-group(nav-indicator){z-index:3;animation-duration:.34s;animation-timing-function:cubic-bezier(.22,1,.36,1)}
 ::view-transition-image-pair(root){isolation:isolate}
 ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
 /* Pages hand over instead of being pushed: the old view settles away quickly and the new one slides in.
@@ -20,7 +19,6 @@ main{view-transition-name:page-content;background:var(--page)}
 ::view-transition-new(page-title){animation:title-in .36s cubic-bezier(.16,1,.3,1) .05s both}
 ::view-transition-old(site-header){animation:none;opacity:0}
 ::view-transition-new(site-header){animation:none}
-::view-transition-old(nav-indicator),::view-transition-new(nav-indicator){animation:none;mix-blend-mode:normal}
 @keyframes page-enter{from{opacity:0;transform:translate3d(var(--page-enter-x),8px,0)}to{opacity:1;transform:none}}
 @keyframes page-leave{to{opacity:0;transform:translate3d(var(--page-leave-x),-4px,0)}}
 @keyframes title-out{to{opacity:0;transform:translateY(-6px)}}
@@ -28,7 +26,8 @@ main{view-transition-name:page-content;background:var(--page)}
 .nav-links a{position:relative}
 .nav-indicator{position:absolute;left:0;right:0;bottom:3px;height:3px;border-radius:3px;background:var(--accent);opacity:0;transform:scaleX(.5);transition:opacity .2s,transform .3s var(--ease)}
 .nav-links a:hover .nav-indicator{opacity:.25;transform:scaleX(1)}
-.nav-links a[aria-current=page] .nav-indicator{opacity:1;transform:scaleX(1);view-transition-name:nav-indicator}
+/* the current page's bar slides over from the previous one in horizon-navigation.js: it moves as itself, not as a stretched snapshot */
+.nav-links a[aria-current=page] .nav-indicator{opacity:1;transform:scaleX(1)}
 .site-header .brand-home{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:6px 10px;margin-left:-10px;position:relative;isolation:isolate;overflow:hidden;border-radius:10px;white-space:nowrap;font-size:18px;letter-spacing:-.025em;transition:color .25s,background-color .25s}
 .site-header .brand-home span{display:inline;margin:0;color:inherit;font:inherit}
 .site-header .brand-home .brand-prefix{font-weight:400}

@@ -40,3 +40,31 @@ if (!HTMLScriptElement.supports?.('speculationrules')) {
   };
   ['pointerover', 'touchstart', 'focusin'].forEach((type) => addEventListener(type, warm, { passive: true, capture: true }));
 }
+
+/* The bar under the current page's link slides from where it stood on the page being left. It is an ordinary
+   element in the new header, moved by a compositor transform, so it stays sharp and keeps moving even while the
+   new page is still busy starting up. */
+(() => {
+  const KEY = 'horizon-nav-bar';
+  const bar = () => document.querySelector('.nav-links a[aria-current="page"] .nav-indicator');
+  const save = () => {
+    const b = bar(), r = b && b.getBoundingClientRect();
+    try { if (r && r.width) sessionStorage.setItem(KEY, JSON.stringify({ x: r.left, w: r.width, t: Date.now() })); else sessionStorage.removeItem(KEY); } catch { }
+  };
+  addEventListener('pageswap', save);
+  addEventListener('pagehide', save);
+  const slide = () => {
+    let from; try { from = JSON.parse(sessionStorage.getItem(KEY)); sessionStorage.removeItem(KEY); } catch { }
+    const b = bar();
+    if (!from || !b || Date.now() - from.t > 4000 || matchMedia('(prefers-reduced-motion: reduce)').matches || !b.animate) return;
+    const r = b.getBoundingClientRect();
+    if (!r.width || (Math.abs(from.x - r.left) < 1 && Math.abs(from.w - r.width) < 1)) return;
+    b.animate([{ transform: `translateX(${from.x - r.left}px) scaleX(${from.w / r.width})`, transformOrigin: '0 50%' }, { transform: 'none', transformOrigin: '0 50%' }],
+      { duration: 420, easing: 'cubic-bezier(.22,1,.36,1)' });
+  };
+  // as soon as the new page can show its header: at the first frame of a transition, or once the header is parsed
+  let done = false;
+  const once = () => { if (!done && bar()) { done = true; slide(); } };
+  addEventListener('pagereveal', once);
+  document.addEventListener('DOMContentLoaded', once);
+})();

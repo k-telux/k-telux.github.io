@@ -32,7 +32,7 @@ lede: Open-source Agent Skills that keep scientific work auditable, from optical
 
   <div class="om-body">
     <div class="om-modes" data-tabs>
-      <div class="om-section-heading"><h3>Choose the work, preserve its boundaries.</h3><p>Five kinds of request, each starting from what may and may not change.</p></div>
+      <div class="om-section-heading"><h3>Choose the work, preserve its boundaries</h3><p>Five kinds of request, each starting from what may and may not change.</p></div>
       <div class="om-tablist" role="tablist" aria-label="OpticalModeler work modes">
         <button type="button" role="tab" id="om-tab-design" aria-controls="om-panel-design">Design</button>
         <button type="button" role="tab" id="om-tab-reconstruct" aria-controls="om-panel-reconstruct">Reconstruct</button>
@@ -49,9 +49,9 @@ lede: Open-source Agent Skills that keep scientific work auditable, from optical
     </div>
 
     <div class="om-pillars">
-      <article class="om-pillar" data-reveal><span class="om-pillar-index">01</span><h3>The optical path.</h3><p>Directed branches, actual working faces, apertures and detector endpoints. Free-space light and guided fiber keep distinct roles.</p></article>
-      <article class="om-pillar" data-reveal data-delay="80"><span class="om-pillar-index">02</span><h3>The physical structure.</h3><p>Real mounting interfaces, table holes, fasteners and continuous supports, checked in the saved scene against their neighbors.</p></article>
-      <article class="om-pillar" data-reveal data-delay="160"><span class="om-pillar-index">03</span><h3>The evidence.</h3><p>One scene lineage, fresh reopen measurements, actual image producers and a consistent manifest behind every claim.</p></article>
+      <article class="om-pillar" data-reveal><span class="om-pillar-index">01</span><h3>The optical path</h3><p>Directed branches, actual working faces, apertures and detector endpoints. Free-space light and guided fiber keep distinct roles.</p></article>
+      <article class="om-pillar" data-reveal data-delay="80"><span class="om-pillar-index">02</span><h3>The physical structure</h3><p>Real mounting interfaces, table holes, fasteners and continuous supports, checked in the saved scene against their neighbors.</p></article>
+      <article class="om-pillar" data-reveal data-delay="160"><span class="om-pillar-index">03</span><h3>The evidence</h3><p>One scene lineage, fresh reopen measurements, actual image producers and a consistent manifest behind every claim.</p></article>
     </div>
 
     <div class="om-renders">
@@ -61,7 +61,7 @@ lede: Open-source Agent Skills that keep scientific work auditable, from optical
     </div>
 
     <div class="om-verdicts" data-reveal>
-      <h3>Know what the result establishes.</h3>
+      <h3>Know what the result establishes</h3>
       <dl>
         <div><dt><span class="om-chip om-pass">PASS</span></dt><dd>The declared applicable gates have current evidence.</dd></div>
         <div><dt><span class="om-chip om-partial">PARTIAL / SCOPED</span></dt><dd>A stated subset is checked; remaining blockers stay visible.</dd></div>
@@ -74,7 +74,7 @@ lede: Open-source Agent Skills that keep scientific work auditable, from optical
 </section>
 
 <section class="tool-section" aria-labelledby="tools-heading">
-  <div class="section-heading"><h2 id="tools-heading">More Agent Skills.</h2><p>The same evidence-first approach, applied to lab software and scientific writing.</p></div>
+  <div class="section-heading"><h2 id="tools-heading">More Agent Skills</h2></div>
   <div class="tool-grid">
     <article class="tool-card" data-reveal>
       <a class="tool-shot" href="https://github.com/k-telux/Labview2Python" tabindex="-1" aria-hidden="true"><img src="/assets/horizon/software/labview2python-ui-1200.webp" srcset="/assets/horizon/software/labview2python-ui-800.webp 800w, /assets/horizon/software/labview2python-ui-1200.webp 1200w" sizes="(max-width: 720px) calc(100vw - 40px), 560px" alt="" width="1200" height="748" loading="lazy"></a>
@@ -98,7 +98,7 @@ lede: Open-source Agent Skills that keep scientific work auditable, from optical
 </section>
 
 <section class="bench-section" aria-labelledby="bench-heading">
-  <div class="section-heading"><h2 id="bench-heading">From the lab bench.</h2><a class="text-link" href="https://github.com/k-telux?tab=repositories">All repositories <span aria-hidden="true">↗</span></a></div>
+  <div class="section-heading"><h2 id="bench-heading">From the lab bench</h2><a class="text-link" href="https://github.com/k-telux?tab=repositories">All repositories <span aria-hidden="true">↗</span></a></div>
   <div class="bench-list">
     <a href="https://github.com/k-telux/SPE-purity" data-reveal><span class="bench-lang">HTML · Python</span><h3>SPE-purity</h3><p>Heatmap and spectrum-fitting plotters for single-photon emission data.</p><span class="bench-arrow" aria-hidden="true">↗</span></a>
     <a href="https://github.com/k-telux/Combine-cooling" data-reveal><span class="bench-lang">Jupyter</span><h3>Combine-cooling</h3><p>Simulations combining cavity cooling and feedback cooling.</p><span class="bench-arrow" aria-hidden="true">↗</span></a>

@@ -13,16 +13,16 @@ h3 { font-weight: 600; letter-spacing: -.004em; }
 .horizon-intro h1 span[lang=zh] { font-family: var(--font); letter-spacing: .03em; }
 
 /* the beam: under every page title, in the active nav item, the brand hover and the scroll progress */
-.page-heading::after { content: ""; display: block; width: 96px; height: 3px; margin-top: 30px; border-radius: 3px; background: var(--beam); transform-origin: 0 50%; }
+.page-heading::after { content: ""; display: block; width: 96px; height: 3px; margin-top: 22px; border-radius: 3px; background: var(--beam); transform-origin: 0 50%; }
 .nav-indicator, .brand-home::after { background: var(--beam); }
+/* a title on its own (no line beneath it): the page starts close under its beam */
+.design--horizon .page-heading { padding-block: 60px 30px; }
+.design--horizon .page-heading h1 { margin-bottom: 0; } .design--horizon .page-heading h1 + p { margin-top: 18px; }
+@media (max-width: 720px) { .design--horizon .page-heading { padding-block: 40px 24px; } }
 @media not (forced-colors: active) { .scroll-progress { background: var(--beam); } }
 
 /* brand: the name and a small spectrum mark that echoes the favicon */
 .site-header .brand-home { gap: 10px; }
-.brand-mark { flex: none; width: 26px; height: 26px; overflow: visible; }
-.brand-mark .axis { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; opacity: .5; }
-.brand-mark .peak { fill: none; stroke: url(#brand-beam); stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; }
-.brand-mark .area { fill: url(#brand-beam); opacity: .18; }
 
 /* labels and dates carry information, so they sit in a dark slate; grey is kept for genuine side notes */
 .eyebrow, .horizon-affiliation, .horizon-date, .cv-date, .tool-meta, .horizon-paper-meta, .cv-paper-meta,

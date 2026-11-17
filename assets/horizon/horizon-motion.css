@@ -176,3 +176,27 @@ input[type=text]:focus-visible, input[type=email]:focus-visible, input[type=sear
   .light-sweep { background: none; color: CanvasText; animation: none; }
   .scroll-progress { background: Highlight; }
 }
+
+/* Contact: the left column carries the introduction, the ways to get in touch and a few topics, and stays in
+   view beside the longer form */
+.contact-details { display: grid; gap: 26px; align-content: start; }
+.contact-details .contact-intro { margin: 0; max-width: 34ch; color: var(--ink); font-size: 21px; line-height: 1.5; letter-spacing: -.01em; }
+.contact-ways { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.contact-ways li { border-bottom: 1px solid var(--line); }
+.contact-ways a, .contact-ways li > div { display: flex; align-items: center; gap: 16px; min-height: 76px; padding: 14px 4px 14px 0; color: var(--ink); text-decoration: none; }
+.contact-icon { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; background: var(--surface); color: var(--accent); }
+.contact-icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.contact-qr { flex: none; position: relative; z-index: 1; width: 46px; height: 46px; padding: 3px; border: 1px solid var(--line); border-radius: 12px; background: #fff; transform-origin: 0 50%; transition: transform .45s var(--ease), box-shadow .45s var(--ease); }
+.contact-way { display: grid; flex: 1; min-width: 0; line-height: 1.35; }
+.contact-way strong { font-size: 17px; font-weight: 600; transition: color .2s; }
+.contact-way > span { color: var(--muted); font-size: 15px; }
+.contact-go { color: var(--accent); transition: transform .3s var(--ease); }
+.contact-ways a:hover strong { color: var(--accent); }
+.contact-ways a:hover .contact-go { transform: translate(2px, -2px); }
+/* hovering the WeChat row brings the code up to a size a phone can scan */
+@media (hover: hover) { .contact-ways a:hover .contact-qr { transform: scale(2.6); box-shadow: 0 14px 34px rgba(15, 30, 45, .16); } }
+.contact-topics h2 { margin: 0 0 12px; font: 600 15px/1.4 var(--font); letter-spacing: 0; color: var(--ink); }
+.contact-topics ul { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.contact-topics li { padding: 6px 14px; border-radius: 999px; background: var(--surface); font-size: 15px; line-height: 1.5; }
+@media (min-width: 900px) { .contact-details { position: sticky; top: 112px; } }
+@media (max-width: 720px) { .contact-details .contact-intro { font-size: 19px; } }

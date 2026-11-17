@@ -8,13 +8,18 @@ lede: For questions about my work, potential collaborations, or a shared interes
 
 
 <div class="contact-grid">
-<aside class="contact-details" aria-label="Other ways to connect">
+<aside class="contact-details" aria-label="Ways to reach me">
+<p class="contact-intro">Questions about my work, an idea for a collaboration, or a shared interest in optics and quantum materials: I’d be glad to hear from you.</p>
 <a class="contact-email" href="mailto:zhongqi_xiu@brown.edu">zhongqi_xiu@brown.edu</a>
-<div class="contact-links">
-<a class="text-link" href="https://calendar.app.google/dbp77AuJixuG6xw7A">Book a meeting <span aria-hidden="true">↗</span></a>
-<a class="text-link" href="/images/wechat.jpg">View WeChat QR code <span aria-hidden="true">↗</span></a>
+<ul class="contact-ways">
+<li><a href="https://calendar.app.google/dbp77AuJixuG6xw7A"><span class="contact-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span><span class="contact-way"><strong>Book a meeting</strong><span>Google Calendar</span></span><span class="contact-go" aria-hidden="true">↗</span></a></li>
+<li><a href="/images/wechat.jpg"><img class="contact-qr" src="/images/wechat-thumb.webp" width="88" height="88" alt="WeChat QR code" loading="lazy" decoding="async"><span class="contact-way"><strong>WeChat</strong><span>Scan the code, or open it full size</span></span><span class="contact-go" aria-hidden="true">↗</span></a></li>
+<li><div><span class="contact-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span><span class="contact-way"><strong>Brown University</strong><span>Providence, Rhode Island</span></span></div></li>
+</ul>
+<div class="contact-topics">
+<h2>Happy to talk about</h2>
+<ul><li>Exciton polarons in 2D</li><li>Single-photon emitters</li><li>Optical spectroscopy</li><li>Scientific software</li></ul>
 </div>
-<p class="form-note">Attachments can also go straight to this address.</p>
 </aside>
 
 <form class="contact-form" id="contactForm" action="https://formsubmit.co/afac8593c9c18a504deded6135c1b48f" method="POST" enctype="multipart/form-data">

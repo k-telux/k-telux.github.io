@@ -76,3 +76,5 @@
   .project-copy { padding: 20px 22px 22px; }
   .project-meta { flex-direction: column; gap: 2px; }
 }
+/* the shared gradient definition takes no room (as an inline SVG it would leave an empty line above the page) */
+.project-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
