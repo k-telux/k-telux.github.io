@@ -156,3 +156,46 @@
     });
   }
 })();
+
+/* Even line breaks: a short block whose last line would hold only a word or two is balanced instead */
+(() => {
+  if (!CSS.supports('text-wrap', 'balance')) return;
+  const SEL = 'main :is(p, li, dd, figcaption, blockquote)';
+  const lineEnds = (el) => {
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const lines = [];
+    for (const rc of range.getClientRects()) {
+      if (!rc.width || !rc.height) continue;
+      // an inline element and its own text both report a box per line, so match against every line seen
+      const mid = rc.top + rc.height / 2, line = lines.find(l => Math.abs(l.mid - mid) < rc.height / 2);
+      if (line) line.right = Math.max(line.right, rc.right);
+      else lines.push({ mid, right: rc.right });
+    }
+    return lines.sort((a, b) => a.mid - b.mid);
+  };
+  const settle = () => {
+    const els = [...document.querySelectorAll(SEL)];
+    els.forEach(el => { if (el.dataset.even) { el.style.textWrap = ''; delete el.dataset.even; } });
+    const short = els.filter(el => {
+      if (!el.offsetParent || el.querySelector(':scope > :is(p, ul, ol, div, figure)')) return false;
+      const cs = getComputedStyle(el);
+      if (!/^(block|list-item)$/.test(cs.display) || cs.whiteSpace === 'nowrap') return false;
+      const lines = lineEnds(el);
+      if (lines.length < 2 || lines.length > 6) return false;
+      const box = el.getBoundingClientRect(), left = box.left + parseFloat(cs.paddingLeft) + parseFloat(cs.borderLeftWidth);
+      const width = el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      return (lines[lines.length - 1].right - left) < width * .4;
+    });
+    short.forEach(el => { el.style.textWrap = 'balance'; el.dataset.even = ''; });
+  };
+  let width = innerWidth, timer;
+  const run = () => document.fonts.ready.then(() => requestAnimationFrame(settle));
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run, { once: true }); else run();
+  // a closed <details> lays its text out only once it opens
+  document.addEventListener('toggle', event => { if (event.target.open) settle(); }, true);
+  addEventListener('resize', () => {
+    if (innerWidth === width) return;
+    width = innerWidth; clearTimeout(timer); timer = setTimeout(settle, 150);
+  });
+})();

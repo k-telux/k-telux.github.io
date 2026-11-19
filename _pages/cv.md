@@ -13,7 +13,7 @@ redirect_from:
     <div class="cv-focus-copy">
       <p class="cv-kicker">Brown University · 2025 — Present</p>
       <h2 id="cv-current-heading">Light, matter,<br> and what comes next</h2>
-      <p>Graduate researcher in the chemistry PhD program, studying excitonic physics, quantum states, and two-dimensional materials in <a href="https://www.yusongbai.org/">Yusong Bai’s Group</a>.</p>
+      <p>PhD student in chemistry, studying excitonic physics, quantum states, and two-dimensional materials in <a href="https://www.yusongbai.org/">Yusong Bai’s Group</a>.</p>
     </div>
     <div class="cv-download">
       <h3>Prefer a printable copy?</h3>

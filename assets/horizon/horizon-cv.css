@@ -8,7 +8,7 @@
 .horizon-cv [id] { scroll-margin-top: 0; }
 .cv-focus { display: grid; grid-template-columns: 1.4fr 1fr; gap: 70px; align-items: center; background: #edf3f7; padding: 48px; border-radius: var(--radius); }
 .cv-focus h2 { font-size: 46px; margin: 0 0 24px; }
-.cv-focus-copy > p:last-child { margin: 0; max-width: 570px; color: var(--muted); }
+.cv-focus-copy > p:last-child { margin: 0; max-width: 600px; color: var(--muted); }
 .cv-focus-copy a { color: var(--accent); }
 .horizon-cv .cv-kicker { font-size: 16px; font-weight: 600; margin: 0 0 18px; color: var(--accent); }
 .cv-download { padding-left: 36px; border-left: 1px solid #cbd9e4; }
@@ -90,6 +90,7 @@
   .cv-download .button { padding-inline: 16px; }
   .cv-recognition, .cv-toolkit { gap: 36px; }
 }
+@media (max-width: 900px) { .cv-focus h2 br { display: none; } }
 @media (max-width: 760px) {
   .horizon-cv { --cv-gap: 48px; }
   .horizon-cv h2 { font-size: 32px; }
